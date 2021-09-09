@@ -1,0 +1,49 @@
+.ingredient_item {
+    position: relative;
+    width: 272px;
+    height: 208px;
+}
+
+.counter {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.content {
+    width: 272px;
+    height: 208px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+    order: 1;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.price svg {
+    margin-left: 9px;
+}
+
+.illustration {
+    width: 240px;
+    height: 120px;
+    margin-bottom: 4px;
+    order: 0;
+}
+
+.ingredient_item_text {
+    display: flex;
+    align-items: start;
+    order: 2;
+    text-align: center;
+    margin: 0;
+}
