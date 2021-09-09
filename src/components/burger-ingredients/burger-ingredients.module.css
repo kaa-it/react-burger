@@ -1,11 +1,10 @@
 .burger_ingredients {
     height: 912px;
     width: 600px;
-    box-sizing: border-box;
 }
 
 .group_list {
-    height: 700px;
+    height: 630px;
     margin: 0;
     padding: 0;
     list-style: none;
