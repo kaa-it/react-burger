@@ -1,4 +1,5 @@
 .burger_constructor {
-    min-height: 912px;
+    height: 912px;
     width: 600px;
+    box-sizing: border-box;
 }

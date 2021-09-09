@@ -1,12 +1,15 @@
 .burger_ingredients {
-    min-height: 912px;
+    height: 912px;
     width: 600px;
+    box-sizing: border-box;
 }
 
 .group_list {
+    height: 700px;
     margin: 0;
     padding: 0;
     list-style: none;
+    overflow: auto;
 }
 
 .group_list li:not(:last-child) {
