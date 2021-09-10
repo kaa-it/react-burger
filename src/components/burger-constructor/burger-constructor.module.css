@@ -4,13 +4,55 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 16px 0;
+    align-items: flex-start;
+    gap: 48px 0;
 }
 
 .constructor_area {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 16px 0;
-    flex-grow: 0;
+}
+
+.scroll_area {
+    height: 464px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px 0;
+    overflow: auto;
+    overflow-x: hidden;
+    padding-right: 16px;
+}
+
+.constructor_item {
+    width: 568px;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Iceland';
+    font-size: 48px;
+}
+
+.price svg {
+    margin-left: 9px;
+}
+
+.info {
+    width: 568px;
+    height: 64px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 0 48px;
 }

@@ -9,14 +9,14 @@ const IngredientItem = ({item}) => {
     return (
         <div className={styles.ingredient_item}>
             <div className={styles.content}>
-                <p className={styles.ingredient_item_text}>
-                    {item.name}
-                </p>
+                <img alt="Нет фото" src={item.image} className={styles.illustration}/>
                 <p className={styles.price}>
                     {item.price}
                     <CurrencyIcon type="primary"/>
                 </p>
-                <img alt="Нет фото" src={item.image} className={styles.illustration}/>
+                <p className={styles.ingredient_item_text}>
+                    {item.name}
+                </p>
            </div>
             <Counter size="default" count={1}/>
         </div>
