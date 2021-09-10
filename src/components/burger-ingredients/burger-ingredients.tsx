@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
-import {ingredients, ingredientPropTypes} from '../../utils/data';
+import {ingredientPropTypes} from '../../utils/data';
 import IngredientsGroup from './ingredients-group/ingredients-group';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ingredients} : any) => {
     let buns = ingredients.filter((item: any) => item.type === 'bun');
     let sauces = ingredients.filter((item: any) => item.type === 'sauce');
     let mains = ingredients.filter((item: any) => item.type === 'main');
@@ -45,8 +45,8 @@ const BurgerIngredients = () => {
     );
 };
 
-// BurgerIngredients.propTypes = {
-//     ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
-// };
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
+};
 
 export default BurgerIngredients;

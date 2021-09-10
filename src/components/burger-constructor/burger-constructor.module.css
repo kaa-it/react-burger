@@ -1,5 +1,16 @@
 .burger_constructor {
     height: 912px;
     width: 612px;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px 0;
+}
+
+.constructor_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px 0;
+    flex-grow: 0;
 }
