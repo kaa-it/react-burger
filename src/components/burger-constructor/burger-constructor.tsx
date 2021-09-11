@@ -6,7 +6,7 @@ import {Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-u
 import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 
-const ConstructorItem = ({item, type} : any) => {
+const ConstructorItem = ({item, type}: any) => {
     const isLocked = type !== undefined;
     let suffix = "";
 
@@ -40,12 +40,12 @@ const BurgerConstructor = ({ingredients} : any) => {
     console.log("total: " + total);
 
     return (
-        <div className={styles.burger_constructor + " pt-25 pl-4 pr-4"}>
+        <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
             <div className={styles.constructor_area}>
                 <div className="pr-4">
                     <ConstructorItem type="top" item={ingredients[0]}/>
                 </div>
-                <div className={styles.scroll_area}>
+                <div className={`${styles.scroll_area} custom-scroll`}>
                     {ingredients.slice(1, -1).map((item: any) => (
                         <ConstructorItem item={item} />
                     ))}

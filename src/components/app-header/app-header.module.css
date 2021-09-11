@@ -7,8 +7,7 @@
 }
 
 .header_content {
-    width: 70%;
-    height: 56px;
+    width: 1280px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr
 }
@@ -25,14 +24,15 @@
     flex-direction: row;
     align-items: center;
     font-family: 'Jet Brains Mono';
+    color: var(--text-primary-color);
 }
 
 .menu_item:active {
-    color: var(--text-primary-color)
+    color: var(--text-primary-color);
 }
 
 .menu_item:visited {
-    color: var(--text-primary-color)
+    color: var(--text-primary-color);
 }
 
 .right_menu {

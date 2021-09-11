@@ -12,13 +12,13 @@ const AppHeader = () => {
             <header className={styles.header}>
                 <div className={styles.header_content}>
                     <nav className={styles.left_menu}>
-                        <a href="#" className={styles.menu_item + " pt-4 pb-4 pl-5 pr-5"}>
+                        <a href="#" className={`${styles.menu_item} pt-4 pb-4 pl-5 pr-5`}>
                             <BurgerIcon type="primary"/>
                             <p className="text text_type_main-default pl-2">
                                 Конструктор
                             </p>
                         </a>
-                        <a href="#" className={styles.menu_item + " pt-4 pb-4 pl-5 pr-5"}>
+                        <a href="#" className={`${styles.menu_item} pt-4 pb-4 pl-5 pr-5`}>
                             <ListIcon type="secondary"/>
                             <p className="text text_type_main-default text_color_inactive pl-2">
                                 Лента заказов
@@ -29,7 +29,7 @@ const AppHeader = () => {
                         <Logo />
                     </div>
                     <nav className={styles.right_menu}>
-                    <a href="#" className={styles.menu_item + " pt-4 pb-4 pl-5 pr-5"}>
+                    <a href="#" className={`${styles.menu_item} pt-4 pb-4 pl-5 pr-5`}>
                         <ProfileIcon type="secondary"/>
                         <p className="text text_type_main-default text_color_inactive pl-2">
                             Личный кабинет

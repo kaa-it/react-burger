@@ -1,10 +1,10 @@
 .burger_constructor {
     height: 912px;
-    width: 612px;
+    width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 48px 0;
 }
 
@@ -52,6 +52,7 @@
     width: 568px;
     height: 64px;
     display: flex;
+    padding-right: 24px;
     justify-content: end;
     align-items: center;
     gap: 0 48px;
