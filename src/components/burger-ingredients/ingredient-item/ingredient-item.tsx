@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ingredient-item.module.css';
-import {ingredientPropTypes} from "../../../utils/data";
+import {ingredientPropTypes} from "../../../utils/types";
 import {Counter} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon';
 

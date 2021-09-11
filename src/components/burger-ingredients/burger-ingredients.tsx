@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
-import {ingredientPropTypes} from '../../utils/data';
+import {ingredientPropTypes} from '../../utils/types';
 import IngredientsGroup from './ingredients-group/ingredients-group';
 
 const BurgerIngredients = ({ingredients} : any) => {

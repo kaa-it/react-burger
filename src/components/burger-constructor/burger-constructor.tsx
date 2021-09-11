@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
-import {ingredientPropTypes} from "../../utils/data";
+import {ingredientPropTypes} from "../../utils/types";
 import PropTypes from "prop-types";
 import {Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon';
@@ -33,11 +33,7 @@ const ConstructorItem = ({item, type}: any) => {
 }
 
 const BurgerConstructor = ({ingredients} : any) => {
-    const count = ingredients.length;
     const total = ingredients.reduce((acc: number, item: any) => item.price + acc, 0);
-
-    console.log("ingredients: " + ingredients[0].price);
-    console.log("total: " + total);
 
     return (
         <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
@@ -47,11 +43,11 @@ const BurgerConstructor = ({ingredients} : any) => {
                 </div>
                 <div className={`${styles.scroll_area} custom-scroll`}>
                     {ingredients.slice(1, -1).map((item: any) => (
-                        <ConstructorItem item={item} />
+                        <ConstructorItem key={item._id} item={item}/>
                     ))}
                 </div>
                 <div className="pr-4">
-                    <ConstructorItem type="bottom" item={ingredients[count-1]}/>
+                    <ConstructorItem type="bottom" item={ingredients[0]}/>
                 </div>
             </div>
             <div className={styles.info}>

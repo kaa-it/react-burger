@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import styles from './ingredients-group.module.css';
-import {ingredientPropTypes} from "../../../utils/data";
+import {ingredientPropTypes} from "../../../utils/types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 
 // @ts-ignore
@@ -12,7 +12,7 @@ const IngredientsGroup = ({name, ingredients}) => {
                 {name}
             </p>
             <div className={styles.content}>
-                {ingredients.map((item: any) => <IngredientItem item={item}/>)}
+                {ingredients.map((item: any) => <IngredientItem key={item._id} item={item}/>)}
             </div>
         </>
     );

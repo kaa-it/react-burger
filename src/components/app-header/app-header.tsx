@@ -8,8 +8,7 @@ import {ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components/di
 
 const AppHeader = () => {
     return (
-        <>
-            <header className={styles.header}>
+        <header className={styles.header}>
                 <div className={styles.header_content}>
                     <nav className={styles.left_menu}>
                         <a href="#" className={`${styles.menu_item} pt-4 pb-4 pl-5 pr-5`}>
@@ -38,7 +37,6 @@ const AppHeader = () => {
                     </nav>
                 </div>
             </header>
-        </>
     );
 };
 

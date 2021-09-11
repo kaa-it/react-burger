@@ -43,7 +43,7 @@
 
 .ingredient_item_text {
     display: flex;
-    align-items: start;
+    align-items:flex-start;
     text-align: center;
     margin: 0;
     font-family: 'Jet Brains Mono';
