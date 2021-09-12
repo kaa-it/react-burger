@@ -1,0 +1,52 @@
+.header {
+    grid-row: 1/span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--background);
+}
+
+.header_content {
+    width: 1280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr
+}
+
+.left_menu {
+    grid-column: 1/span 1;
+    display: flex;
+    align-items: center;
+}
+
+.menu_item {
+    text-decoration: none;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'Jet Brains Mono';
+    color: var(--text-primary-color);
+}
+
+.menu_item:active {
+    color: var(--text-primary-color);
+}
+
+.menu_item:visited {
+    color: var(--text-primary-color);
+}
+
+.right_menu {
+    grid-column: 3/span 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.logo {
+    grid-column: 2/span 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+

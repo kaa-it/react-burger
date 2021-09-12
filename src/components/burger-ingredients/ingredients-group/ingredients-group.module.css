@@ -1,0 +1,9 @@
+.content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 16px;
+    padding-right: 8px;
+    align-content: space-between;
+    gap: 32px 0;
+}
