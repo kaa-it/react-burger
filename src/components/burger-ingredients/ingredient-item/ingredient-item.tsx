@@ -4,6 +4,7 @@ import { ingredientPropTypes } from "../../../utils/types";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import Modal from "../../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const IngredientItem = ({ item }: any) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
@@ -29,7 +30,7 @@ const IngredientItem = ({ item }: any) => {
       <Counter size="default" count={1} />
       {detailsVisible && (
         <Modal onClose={closeDetails}>
-          <p className="text text_type_main-medium">Детали</p>
+          <IngredientDetails ingredient={item} onClose={closeDetails} />
         </Modal>
       )}
     </div>
