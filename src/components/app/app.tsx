@@ -5,7 +5,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-const INGREDIENTS_URL = "https://norma.nomoreparties.space/api/ingredients";
+const baseUrl = "https://norma.nomoreparties.space/api";
 
 function App() {
   const [state, setState] = useState({
@@ -21,8 +21,6 @@ function App() {
         const json = await res.json();
 
         setState({ ingredients: json.data, hasError: false, isLoading: false });
-
-        console.log(state);
       } catch (err) {
         setState({ ...state, hasError: true, isLoading: false });
       }
@@ -30,7 +28,7 @@ function App() {
 
     setState({ ...state, hasError: false, isLoading: true });
 
-    getData(INGREDIENTS_URL);
+    getData(`${baseUrl}/ingredients`);
   }, []);
 
   return (
