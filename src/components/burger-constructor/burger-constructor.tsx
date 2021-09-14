@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./burger-constructor.module.css";
 import { ingredientPropTypes } from "../../utils/types";
 import PropTypes from "prop-types";
@@ -8,6 +8,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
+import Modal from "../modal/modal";
+import OrderDetails from "./order-details/order-details";
 
 const ConstructorItem = ({ item, type }: any) => {
   const isLocked = type !== undefined;
@@ -36,12 +38,22 @@ const ConstructorItem = ({ item, type }: any) => {
 };
 
 const BurgerConstructor = ({ ingredients }: any) => {
+  const [orderDetailsVisible, setOrderDetailsVisible] = useState(false);
+
   const bun = ingredients.find((item: any) => item.type === "bun");
   const notBuns = ingredients.filter((item: any) => item.type !== "bun");
 
   const total =
     notBuns.reduce((acc: number, item: any) => item.price + acc, 0) +
     bun.price * 2;
+
+  const createOrder = (e: any) => {
+    setOrderDetailsVisible(true);
+  };
+
+  const closeOrderDetails = (e: any) => {
+    setOrderDetailsVisible(false);
+  };
 
   return (
     <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
@@ -63,10 +75,15 @@ const BurgerConstructor = ({ ingredients }: any) => {
           {total}
           <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="large">
+        <Button type="primary" onClick={createOrder} size="large">
           Оформить заказ
         </Button>
       </div>
+      {orderDetailsVisible && (
+        <Modal onClose={closeOrderDetails}>
+          <OrderDetails onClose={closeOrderDetails} />
+        </Modal>
+      )}
     </div>
   );
 };

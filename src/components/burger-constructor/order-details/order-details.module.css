@@ -1,0 +1,23 @@
+.order_details {
+    width: 720px;
+    height: 718px;
+    border-radius: 40px;
+    background-color: var(--background);
+    box-sizing: border-box;
+    padding: 60px 40px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 60px;
+}
+
+.close_icon {
+    height: 24px;
+    align-self: flex-end;
+    margin-bottom: 36px;
+}

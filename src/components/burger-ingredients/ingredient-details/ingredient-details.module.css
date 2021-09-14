@@ -1,8 +1,8 @@
 .ingredient_details {
     width: 720px;
-    height: 513px;
+    height: 539px;
     border-radius: 40px;
-    background-color: #1C1C21;
+    background-color: var(--background);
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -11,6 +11,7 @@
 }
 
 .header {
+    height: 64px;
     display: flex;
     justify-content: space-between;
     align-items: center;
