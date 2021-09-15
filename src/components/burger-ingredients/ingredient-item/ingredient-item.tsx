@@ -29,8 +29,8 @@ const IngredientItem = ({ item }: any) => {
       </div>
       <Counter size="default" count={1} />
       {detailsVisible && (
-        <Modal onClose={closeDetails}>
-          <IngredientDetails ingredient={item} onClose={closeDetails} />
+        <Modal onClose={closeDetails} title="Детали ингредиента">
+          <IngredientDetails ingredient={item} />
         </Modal>
       )}
     </div>

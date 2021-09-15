@@ -15,7 +15,7 @@ function App() {
   });
 
   useEffect(() => {
-    const getData = async (url: string) => {
+    const getIngredients = async (url: string) => {
       try {
         const res = await fetch(url);
         const json = await res.json();
@@ -28,7 +28,7 @@ function App() {
 
     setState({ ...state, hasError: false, isLoading: true });
 
-    getData(`${baseUrl}/ingredients`);
+    getIngredients(`${baseUrl}/ingredients`);
   }, []);
 
   return (

@@ -81,7 +81,7 @@ const BurgerConstructor = ({ ingredients }: any) => {
       </div>
       {orderDetailsVisible && (
         <Modal onClose={closeOrderDetails}>
-          <OrderDetails onClose={closeOrderDetails} />
+          <OrderDetails />
         </Modal>
       )}
     </div>

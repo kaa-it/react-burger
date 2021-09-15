@@ -1,20 +1,14 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import { ingredientPropTypes } from "../../../utils/types";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 
-const IngredientDetails = ({ ingredient, onClose }: any) => {
-  const onClick = (e: any) => {
+const IngredientDetails = ({ ingredient }: any) => {
+  const blockClickBubble = (e: any) => {
     e.stopPropagation();
   };
 
   return (
-    <div className={styles.ingredient_details} onClick={onClick}>
-      <div className={styles.header}>
-        <p className="text text_type_main-large">Детали ингредиента</p>
-        <CloseIcon onClick={onClose} type="primary" />
-      </div>
+    <div className={styles.ingredient_details} onClick={blockClickBubble}>
       <img
         alt="Нет фото"
         src={ingredient.image}
@@ -47,7 +41,6 @@ const IngredientDetails = ({ ingredient, onClose }: any) => {
 
 IngredientDetails.propTypes = {
   ingredient: ingredientPropTypes,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;

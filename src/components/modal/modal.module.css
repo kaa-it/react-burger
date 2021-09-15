@@ -1,0 +1,26 @@
+.modal {
+    border-radius: 40px;
+    background-color: var(--background);
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+}
+
+.header_with_title {
+    composes: header;
+    justify-content: space-between;
+}
+
+.header_without_title {
+    composes: header;
+    justify-content: flex-end;
+}
