@@ -3,12 +3,8 @@ import styles from "./order-details.module.css";
 import done from "../../../images/done.png";
 
 const OrderDetails = () => {
-  const blockClickBubble = (e: any) => {
-    e.stopPropagation();
-  };
-
   return (
-    <div className={styles.order_details} onClick={blockClickBubble}>
+    <div className={styles.order_details}>
       <p
         className="text text_type_digits-large mb-8"
         style={{ textShadow: "0px 4px 32px #3333FF" }}

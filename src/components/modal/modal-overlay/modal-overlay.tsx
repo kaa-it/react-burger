@@ -1,26 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./modal-overlay.module.css";
 
 const ModalOverlay = ({ onClose, children }: any) => {
-  const selfRef = useRef(null);
-
-  useEffect(() => {
-    const handleEscape = (e: any) => {
-      if (e.keyCode === 27) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, []);
+  const handleOverlay = (e: any) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   return (
-    <div ref={selfRef} onClick={onClose} className={styles.overlay}>
+    <div onClick={handleOverlay} className={styles.overlay}>
       {children}
     </div>
   );

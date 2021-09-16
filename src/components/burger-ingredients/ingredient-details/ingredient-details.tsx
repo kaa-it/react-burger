@@ -3,12 +3,8 @@ import styles from "./ingredient-details.module.css";
 import { ingredientPropTypes } from "../../../utils/types";
 
 const IngredientDetails = ({ ingredient }: any) => {
-  const blockClickBubble = (e: any) => {
-    e.stopPropagation();
-  };
-
   return (
-    <div className={styles.ingredient_details} onClick={blockClickBubble}>
+    <div className={styles.ingredient_details}>
       <img
         alt="Нет фото"
         src={ingredient.image}
