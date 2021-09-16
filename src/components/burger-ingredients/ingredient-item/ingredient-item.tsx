@@ -1,25 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./ingredient-item.module.css";
 import { ingredientPropTypes } from "../../../utils/types";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
-import Modal from "../../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import PropTypes from "prop-types";
 
-const IngredientItem = ({ item }: any) => {
-  const [detailsVisible, setDetailsVisible] = useState(false);
-
-  const showDetails = () => {
-    setDetailsVisible(true);
-  };
-
-  const closeDetails = () => {
-    setDetailsVisible(false);
+const IngredientItem = ({ item, showDetails }: any) => {
+  const handleClick = () => {
+    showDetails(item);
   };
 
   return (
     <div className={styles.ingredient_item}>
-      <div className={styles.content} onClick={showDetails}>
+      <div className={styles.content} onClick={handleClick}>
         <img alt="Нет фото" src={item.image} className={styles.illustration} />
         <p className={styles.price}>
           {item.price}
@@ -28,17 +21,13 @@ const IngredientItem = ({ item }: any) => {
         <p className={styles.ingredient_item_text}>{item.name}</p>
       </div>
       <Counter size="default" count={1} />
-      {detailsVisible && (
-        <Modal onClose={closeDetails} title="Детали ингредиента">
-          <IngredientDetails ingredient={item} />
-        </Modal>
-      )}
     </div>
   );
 };
 
 IngredientItem.propTypes = {
   item: ingredientPropTypes.isRequired,
+  showDetails: PropTypes.func.isRequired,
 };
 
 export default IngredientItem;
