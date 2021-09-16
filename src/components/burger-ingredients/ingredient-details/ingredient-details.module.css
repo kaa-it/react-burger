@@ -1,0 +1,30 @@
+.ingredient_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    padding-bottom: 20px;
+}
+
+.illustration {
+    width: 480px;
+    height: 240px;
+}
+
+.data_item {
+    color: var(--text-inactive-color);
+    width: 120px;
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+
+
