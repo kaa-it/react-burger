@@ -1,13 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import styles from "./app.module.css";
+
+import {
+  BunContext,
+  ConstructorIngredientsContext,
+  TotalPriceContext,
+} from "../../services/constructorContext";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { baseUrl } from "../../utils/constants";
 
-const baseUrl = "https://norma.nomoreparties.space/api";
+const totalPriceInitialState = { totalPrice: 0 };
+
+const totalPriceReducer = (state: any, action: any) => {
+  switch (action.type) {
+    case "add":
+      return { totalPrice: state.totalPrice + action.payload };
+    case "remove":
+      return { totalPrice: state.totalPrice - action.payload };
+    default:
+      throw new Error(`Wrong type of totalPrice action: ${action.type}`);
+  }
+};
 
 function App() {
+  const [bun, setBun] = useState(null);
+  const [constructorIngredients, setConstructorIngredients] = useState([]);
+  const [totalPriceState, totalPriceDispatcher] = useReducer(
+    totalPriceReducer,
+    totalPriceInitialState
+  );
+
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
@@ -45,8 +70,18 @@ function App() {
         )}
         {!state.isLoading && !state.hasError && state.ingredients.length && (
           <>
-            <BurgerIngredients ingredients={state.ingredients} />
-            <BurgerConstructor ingredients={state.ingredients} />
+            <BunContext.Provider value={{ bun, setBun }}>
+              <ConstructorIngredientsContext.Provider
+                value={{ constructorIngredients, setConstructorIngredients }}
+              >
+                <TotalPriceContext.Provider
+                  value={{ totalPriceState, totalPriceDispatcher }}
+                >
+                  <BurgerIngredients ingredients={state.ingredients} />
+                  <BurgerConstructor />
+                </TotalPriceContext.Provider>
+              </ConstructorIngredientsContext.Provider>
+            </BunContext.Provider>
           </>
         )}
       </main>

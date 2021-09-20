@@ -1,78 +1,77 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./burger-constructor.module.css";
-import { ingredientPropTypes } from "../../utils/types";
-import PropTypes from "prop-types";
-import {
-  Button,
-  ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
-const ConstructorItem = ({ item, type }: any) => {
-  const isLocked = type !== undefined;
-  let suffix = "";
+import {
+  BunContext,
+  ConstructorIngredientsContext,
+  TotalPriceContext,
+} from "../../services/constructorContext";
+import ConstructorItem from "./constructor-item";
 
-  if (type === "top") {
-    suffix = " (верх)";
-  } else if (type === "bottom") {
-    suffix = " (низ)";
-  }
-
-  return (
-    <div className={styles.constructor_item}>
-      <div style={{ visibility: isLocked ? "hidden" : "visible" }}>
-        <DragIcon type="primary" />
-      </div>
-      <ConstructorElement
-        type={type}
-        isLocked={isLocked}
-        text={item.name + suffix}
-        price={item.price}
-        thumbnail={item.image}
-      />
-    </div>
-  );
-};
-
-const BurgerConstructor = ({ ingredients }: any) => {
+const BurgerConstructor = () => {
   const [orderDetailsVisible, setOrderDetailsVisible] = useState(false);
 
-  const bun = ingredients.find((item: any) => item.type === "bun");
-  const notBuns = ingredients.filter((item: any) => item.type !== "bun");
+  // @ts-ignore
+  const { bun } = useContext(BunContext);
+  // @ts-ignore
+  const { constructorIngredients, setConstructorIngredients } = useContext(
+    ConstructorIngredientsContext
+  );
+  // @ts-ignore
+  const { totalPriceState, totalPriceDispatcher } =
+    useContext(TotalPriceContext);
 
-  const total =
-    notBuns.reduce((acc: number, item: any) => item.price + acc, 0) +
-    bun.price * 2;
-
-  const createOrder = (e: any) => {
-    setOrderDetailsVisible(true);
+  const createOrder = () => {
+    if (bun !== null) {
+      setOrderDetailsVisible(true);
+    } else {
+      console.log("Unable to create order without buns");
+    }
   };
 
-  const closeOrderDetails = (e: any) => {
+  const closeOrderDetails = () => {
     setOrderDetailsVisible(false);
+  };
+
+  const removeItem = (item: any) => {
+    let rest = constructorIngredients.filter((el: any) => el.key !== item.key);
+    setConstructorIngredients(rest);
+    totalPriceDispatcher({ type: "remove", payload: item.price });
   };
 
   return (
     <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
       <div className={styles.constructor_area}>
+        {bun === null && constructorIngredients.length === 0 && (
+          <p
+            className="text text_type_main-medium"
+            style={{ alignSelf: "center" }}
+          >
+            Пусто
+          </p>
+        )}
+
         <div className="pr-4">
-          <ConstructorItem type="top" item={bun} />
+          {bun !== null && <ConstructorItem type="top" item={bun} />}
         </div>
+
         <div className={`${styles.scroll_area} custom-scroll`}>
-          {notBuns.map((item: any) => (
-            <ConstructorItem key={item._id} item={item} />
+          {constructorIngredients.map((item: any) => (
+            <ConstructorItem key={item.key} item={item} onRemove={removeItem} />
           ))}
         </div>
+
         <div className="pr-4">
-          <ConstructorItem type="bottom" item={bun} />
+          {bun !== null && <ConstructorItem type="bottom" item={bun} />}
         </div>
       </div>
       <div className={styles.info}>
         <p className={styles.price}>
-          {total}
+          {totalPriceState.totalPrice}
           <CurrencyIcon type="primary" />
         </p>
         <Button type="primary" onClick={createOrder} size="large">
@@ -86,10 +85,6 @@ const BurgerConstructor = ({ ingredients }: any) => {
       )}
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
 
 export default BurgerConstructor;
