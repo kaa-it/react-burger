@@ -1,9 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
-import { ingredientPropTypes } from "../../utils/types";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
@@ -15,11 +13,9 @@ import {
   TotalPriceContext,
 } from "../../services/constructorContext";
 
-const BurgerIngredients = ({ ingredients }: any) => {
-  let buns = ingredients.filter((item: any) => item.type === "bun");
-  let sauces = ingredients.filter((item: any) => item.type === "sauce");
-  let mains = ingredients.filter((item: any) => item.type === "main");
+import { BurgerContext } from "../../services/burgerContext";
 
+const BurgerIngredients = () => {
   const bunsRef = useRef(null);
   const saucesRef = useRef(null);
   const mainsRef = useRef(null);
@@ -36,6 +32,9 @@ const BurgerIngredients = ({ ingredients }: any) => {
   );
   // @ts-ignore
   const { totalPriceDispatcher } = useContext(TotalPriceContext);
+
+  // @ts-ignore
+  const { ingredients } = useContext(BurgerContext);
 
   const selectGroup = (name: string) => {
     setCurrent(name);
@@ -113,21 +112,25 @@ const BurgerIngredients = ({ ingredients }: any) => {
         <li ref={bunsRef}>
           <IngredientsGroup
             name="Булки"
-            ingredients={buns}
+            ingredients={ingredients.filter((item: any) => item.type === "bun")}
             showDetails={showDetails}
           />
         </li>
         <li ref={saucesRef}>
           <IngredientsGroup
             name="Соусы"
-            ingredients={sauces}
+            ingredients={ingredients.filter(
+              (item: any) => item.type === "sauce"
+            )}
             showDetails={showDetails}
           />
         </li>
         <li ref={mainsRef}>
           <IngredientsGroup
             name="Начинка"
-            ingredients={mains}
+            ingredients={ingredients.filter(
+              (item: any) => item.type === "main"
+            )}
             showDetails={showDetails}
           />
         </li>
@@ -139,10 +142,6 @@ const BurgerIngredients = ({ ingredients }: any) => {
       )}
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
 
 export default BurgerIngredients;

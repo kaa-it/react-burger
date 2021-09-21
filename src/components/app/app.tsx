@@ -7,6 +7,8 @@ import {
   TotalPriceContext,
 } from "../../services/constructorContext";
 
+import { BurgerContext } from "../../services/burgerContext";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -32,11 +34,11 @@ function App() {
     totalPriceReducer,
     totalPriceInitialState
   );
+  const [ingredients, setIngredients] = useState([]);
 
-  const [state, setState] = useState({
+  const [requestState, setRequestState] = useState({
     isLoading: false,
     hasError: false,
-    ingredients: [],
   });
 
   useEffect(() => {
@@ -45,13 +47,14 @@ function App() {
         const res = await fetch(url);
         const json = await res.json();
 
-        setState({ ingredients: json.data, hasError: false, isLoading: false });
+        setIngredients(json.data);
+        setRequestState({ hasError: false, isLoading: false });
       } catch (err) {
-        setState({ ...state, hasError: true, isLoading: false });
+        setRequestState({ hasError: true, isLoading: false });
       }
     };
 
-    setState({ ...state, hasError: false, isLoading: true });
+    setRequestState({ hasError: false, isLoading: true });
 
     getIngredients(`${baseUrl}/ingredients`);
   }, []);
@@ -60,30 +63,37 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
-        {state.isLoading && (
+        {requestState.isLoading && (
           <p className="text text_type_main-medium">Загрузка...</p>
         )}
-        {state.hasError && (
+        {requestState.hasError && (
           <p className="text text_type_main-medium">
             Не удалось загрузить данные
           </p>
         )}
-        {!state.isLoading && !state.hasError && state.ingredients.length && (
-          <>
-            <BunContext.Provider value={{ bun, setBun }}>
-              <ConstructorIngredientsContext.Provider
-                value={{ constructorIngredients, setConstructorIngredients }}
-              >
-                <TotalPriceContext.Provider
-                  value={{ totalPriceState, totalPriceDispatcher }}
-                >
-                  <BurgerIngredients ingredients={state.ingredients} />
-                  <BurgerConstructor />
-                </TotalPriceContext.Provider>
-              </ConstructorIngredientsContext.Provider>
-            </BunContext.Provider>
-          </>
-        )}
+        {!requestState.isLoading &&
+          !requestState.hasError &&
+          ingredients.length && (
+            <>
+              <BurgerContext.Provider value={{ ingredients, setIngredients }}>
+                <BunContext.Provider value={{ bun, setBun }}>
+                  <ConstructorIngredientsContext.Provider
+                    value={{
+                      constructorIngredients,
+                      setConstructorIngredients,
+                    }}
+                  >
+                    <TotalPriceContext.Provider
+                      value={{ totalPriceState, totalPriceDispatcher }}
+                    >
+                      <BurgerIngredients />
+                      <BurgerConstructor />
+                    </TotalPriceContext.Provider>
+                  </ConstructorIngredientsContext.Provider>
+                </BunContext.Provider>
+              </BurgerContext.Provider>
+            </>
+          )}
       </main>
     </div>
   );
