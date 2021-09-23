@@ -5,7 +5,7 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import PropTypes from "prop-types";
 
-const IngredientItem = ({ item, showDetails }: any) => {
+const IngredientItem = ({ item, showDetails, count }: any) => {
   const handleClick = () => {
     showDetails(item);
   };
@@ -20,7 +20,7 @@ const IngredientItem = ({ item, showDetails }: any) => {
         </p>
         <p className={styles.ingredient_item_text}>{item.name}</p>
       </div>
-      <Counter size="default" count={1} />
+      {count > 0 && <Counter size="default" count={count} />}
     </div>
   );
 };
@@ -28,6 +28,7 @@ const IngredientItem = ({ item, showDetails }: any) => {
 IngredientItem.propTypes = {
   item: ingredientPropTypes.isRequired,
   showDetails: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default IngredientItem;
