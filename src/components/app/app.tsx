@@ -7,12 +7,11 @@ import {
   TotalPriceContext,
 } from "../../services/constructorContext";
 
-import { BurgerContext } from "../../services/burgerContext";
-
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { baseUrl } from "../../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIngredients } from "../../services/ingredientsSlice";
 
 const totalPriceInitialState = { totalPrice: 0 };
 
@@ -34,66 +33,50 @@ function App() {
     totalPriceReducer,
     totalPriceInitialState
   );
-  const [ingredients, setIngredients] = useState([]);
 
-  const [requestState, setRequestState] = useState({
-    isLoading: false,
-    hasError: false,
-  });
+  const { ingredients, isLoading, hasError } = useSelector(
+    (state: any) => state.ingredients
+  );
+  const dispatch = useDispatch();
+
+  // const [requestState, setRequestState] = useState({
+  //   isLoading: false,
+  //   hasError: false,
+  // });
 
   useEffect(() => {
-    const getIngredients = async (url: string) => {
-      try {
-        const res = await fetch(url);
-        const json = await res.json();
-
-        setIngredients(json.data);
-        setRequestState({ hasError: false, isLoading: false });
-      } catch (err) {
-        setRequestState({ hasError: true, isLoading: false });
-      }
-    };
-
-    setRequestState({ hasError: false, isLoading: true });
-
-    getIngredients(`${baseUrl}/ingredients`);
+    dispatch(fetchIngredients());
   }, []);
 
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
-        {requestState.isLoading && (
-          <p className="text text_type_main-medium">Загрузка...</p>
-        )}
-        {requestState.hasError && (
+        {isLoading && <p className="text text_type_main-medium">Загрузка...</p>}
+        {hasError && (
           <p className="text text_type_main-medium">
             Не удалось загрузить данные
           </p>
         )}
-        {!requestState.isLoading &&
-          !requestState.hasError &&
-          ingredients.length && (
-            <>
-              <BurgerContext.Provider value={{ ingredients, setIngredients }}>
-                <BunContext.Provider value={{ bun, setBun }}>
-                  <ConstructorIngredientsContext.Provider
-                    value={{
-                      constructorIngredients,
-                      setConstructorIngredients,
-                    }}
-                  >
-                    <TotalPriceContext.Provider
-                      value={{ totalPriceState, totalPriceDispatcher }}
-                    >
-                      <BurgerIngredients />
-                      <BurgerConstructor />
-                    </TotalPriceContext.Provider>
-                  </ConstructorIngredientsContext.Provider>
-                </BunContext.Provider>
-              </BurgerContext.Provider>
-            </>
-          )}
+        {!isLoading && !hasError && ingredients.length && (
+          <>
+            <BunContext.Provider value={{ bun, setBun }}>
+              <ConstructorIngredientsContext.Provider
+                value={{
+                  constructorIngredients,
+                  setConstructorIngredients,
+                }}
+              >
+                <TotalPriceContext.Provider
+                  value={{ totalPriceState, totalPriceDispatcher }}
+                >
+                  <BurgerIngredients />
+                  <BurgerConstructor />
+                </TotalPriceContext.Provider>
+              </ConstructorIngredientsContext.Provider>
+            </BunContext.Provider>
+          </>
+        )}
       </main>
     </div>
   );

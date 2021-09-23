@@ -6,14 +6,13 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
 import { v4 as uuid } from "uuid";
+import { useSelector } from "react-redux";
 
 import {
   BunContext,
   ConstructorIngredientsContext,
   TotalPriceContext,
 } from "../../services/constructorContext";
-
-import { BurgerContext } from "../../services/burgerContext";
 
 const BurgerIngredients = () => {
   const bunsRef = useRef(null);
@@ -34,7 +33,7 @@ const BurgerIngredients = () => {
   const { totalPriceDispatcher } = useContext(TotalPriceContext);
 
   // @ts-ignore
-  const { ingredients } = useContext(BurgerContext);
+  const { ingredients } = useSelector((state) => state.ingredients);
 
   const selectGroup = (name: string) => {
     setCurrent(name);
