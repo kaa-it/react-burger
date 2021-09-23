@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./burger-constructor.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
-import { TotalPriceContext } from "../../services/constructorContext";
 import ConstructorItem from "./constructor-item";
 import { useSelector, useDispatch } from "react-redux";
 import { removeIngredient } from "../../services/constructorSlice";
@@ -20,9 +19,18 @@ const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
 
-  // @ts-ignore
-  const { totalPriceState, totalPriceDispatcher } =
-    useContext(TotalPriceContext);
+  const totalPrice = useMemo(() => {
+    let totalPrice = constructorIngredients.reduce(
+      (acc: number, item: any) => item.price + acc,
+      0
+    );
+
+    if (bun !== null) {
+      totalPrice += bun.price * 2;
+    }
+
+    return totalPrice;
+  }, [bun, constructorIngredients]);
 
   const createOrder = () => {
     if (bun !== null) {
@@ -38,7 +46,6 @@ const BurgerConstructor = () => {
 
   const removeItem = (item: any) => {
     dispatch(removeIngredient(item));
-    totalPriceDispatcher({ type: "remove", payload: item.price });
   };
 
   return (
@@ -69,7 +76,7 @@ const BurgerConstructor = () => {
       </div>
       <div className={styles.info}>
         <p className={styles.price}>
-          {totalPriceState.totalPrice}
+          {totalPrice}
           <CurrencyIcon type="primary" />
         </p>
         <Button type="primary" onClick={createOrder} size="large">

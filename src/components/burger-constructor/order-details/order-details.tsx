@@ -1,18 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./order-details.module.css";
 import done from "../../../images/done.png";
 
-import {
-  BunContext,
-  ConstructorIngredientsContext,
-} from "../../../services/constructorContext";
 import { baseUrl } from "../../../utils/constants";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  // @ts-ignore
-  const { constructorIngredients } = useContext(ConstructorIngredientsContext);
-  // @ts-ignore
-  const { bun } = useContext(BunContext);
+  const { bun, ingredients: constructorIngredients } = useSelector(
+    // @ts-ignore
+    (state) => state.burgerConstructor
+  );
 
   const [state, setState] = useState({
     isLoading: false,

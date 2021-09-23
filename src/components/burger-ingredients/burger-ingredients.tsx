@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
@@ -8,8 +8,6 @@ import IngredientDetails from "./ingredient-details/ingredient-details";
 import { v4 as uuid } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
 import { setBun, addIngredient } from "../../services/constructorSlice";
-
-import { TotalPriceContext } from "../../services/constructorContext";
 
 const BurgerIngredients = () => {
   const bunsRef = useRef(null);
@@ -21,9 +19,6 @@ const BurgerIngredients = () => {
   const [currentItem, setCurrentItem] = useState(null);
 
   const dispatch = useDispatch();
-
-  // @ts-ignore
-  const { totalPriceDispatcher } = useContext(TotalPriceContext);
 
   // @ts-ignore
   const { ingredients } = useSelector((state) => state.ingredients);
@@ -64,24 +59,16 @@ const BurgerIngredients = () => {
     }
   };
 
-  const showDetails = useCallback(
-    (item: any) => {
-      setCurrentItem(item);
-      setDetailsVisible(true);
+  const showDetails = useCallback((item: any) => {
+    setCurrentItem(item);
+    setDetailsVisible(true);
 
-      if (item.type === "bun") {
-        if (bun !== null) {
-          totalPriceDispatcher({ type: "remove", payload: bun.price * 2 });
-        }
-        dispatch(setBun(item));
-        totalPriceDispatcher({ type: "add", payload: item.price * 2 });
-      } else {
-        dispatch(addIngredient({ ...item, key: uuid() }));
-        totalPriceDispatcher({ type: "add", payload: item.price });
-      }
-    },
-    [constructorIngredients, bun]
-  );
+    if (item.type === "bun") {
+      dispatch(setBun(item));
+    } else {
+      dispatch(addIngredient({ ...item, key: uuid() }));
+    }
+  }, []);
 
   const closeDetails = () => {
     setDetailsVisible(false);
