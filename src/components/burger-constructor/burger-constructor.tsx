@@ -5,22 +5,21 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
-import {
-  BunContext,
-  ConstructorIngredientsContext,
-  TotalPriceContext,
-} from "../../services/constructorContext";
+import { TotalPriceContext } from "../../services/constructorContext";
 import ConstructorItem from "./constructor-item";
+import { useSelector, useDispatch } from "react-redux";
+import { removeIngredient } from "../../services/constructorSlice";
 
 const BurgerConstructor = () => {
   const [orderDetailsVisible, setOrderDetailsVisible] = useState(false);
 
-  // @ts-ignore
-  const { bun } = useContext(BunContext);
-  // @ts-ignore
-  const { constructorIngredients, setConstructorIngredients } = useContext(
-    ConstructorIngredientsContext
+  const { bun, ingredients: constructorIngredients } = useSelector(
+    // @ts-ignore
+    (state) => state.burgerConstructor
   );
+
+  const dispatch = useDispatch();
+
   // @ts-ignore
   const { totalPriceState, totalPriceDispatcher } =
     useContext(TotalPriceContext);
@@ -38,8 +37,7 @@ const BurgerConstructor = () => {
   };
 
   const removeItem = (item: any) => {
-    let rest = constructorIngredients.filter((el: any) => el.key !== item.key);
-    setConstructorIngredients(rest);
+    dispatch(removeIngredient(item));
     totalPriceDispatcher({ type: "remove", payload: item.price });
   };
 

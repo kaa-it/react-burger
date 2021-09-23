@@ -6,13 +6,10 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
 import { v4 as uuid } from "uuid";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setBun, addIngredient } from "../../services/constructorSlice";
 
-import {
-  BunContext,
-  ConstructorIngredientsContext,
-  TotalPriceContext,
-} from "../../services/constructorContext";
+import { TotalPriceContext } from "../../services/constructorContext";
 
 const BurgerIngredients = () => {
   const bunsRef = useRef(null);
@@ -23,17 +20,18 @@ const BurgerIngredients = () => {
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
 
-  // @ts-ignore
-  const { bun, setBun } = useContext(BunContext);
-  // @ts-ignore
-  const { constructorIngredients, setConstructorIngredients } = useContext(
-    ConstructorIngredientsContext
-  );
+  const dispatch = useDispatch();
+
   // @ts-ignore
   const { totalPriceDispatcher } = useContext(TotalPriceContext);
 
   // @ts-ignore
   const { ingredients } = useSelector((state) => state.ingredients);
+
+  const { bun, ingredients: constructorIngredients } = useSelector(
+    // @ts-ignore
+    (state) => state.burgerConstructor
+  );
 
   const selectGroup = (name: string) => {
     setCurrent(name);
@@ -75,13 +73,10 @@ const BurgerIngredients = () => {
         if (bun !== null) {
           totalPriceDispatcher({ type: "remove", payload: bun.price * 2 });
         }
-        setBun(item);
+        dispatch(setBun(item));
         totalPriceDispatcher({ type: "add", payload: item.price * 2 });
       } else {
-        setConstructorIngredients([
-          ...constructorIngredients,
-          { ...item, key: uuid() },
-        ]);
+        dispatch(addIngredient({ ...item, key: uuid() }));
         totalPriceDispatcher({ type: "add", payload: item.price });
       }
     },
