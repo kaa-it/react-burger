@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
@@ -8,6 +8,10 @@ import IngredientDetails from "./ingredient-details/ingredient-details";
 import { v4 as uuid } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
 import { setBun, addIngredient } from "../../services/constructorSlice";
+import {
+  showDetails,
+  closeDetails,
+} from "../../services/ingredientDetailsSlice";
 
 const BurgerIngredients = () => {
   const bunsRef = useRef(null);
@@ -15,8 +19,6 @@ const BurgerIngredients = () => {
   const mainsRef = useRef(null);
 
   const [current, setCurrent] = React.useState("bun");
-  const [detailsVisible, setDetailsVisible] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -27,6 +29,9 @@ const BurgerIngredients = () => {
     // @ts-ignore
     (state) => state.burgerConstructor
   );
+
+  // @ts-ignore
+  const { isShown } = useSelector((state) => state.ingredientDetails);
 
   const selectGroup = (name: string) => {
     setCurrent(name);
@@ -59,9 +64,8 @@ const BurgerIngredients = () => {
     }
   };
 
-  const showDetails = useCallback((item: any) => {
-    setCurrentItem(item);
-    setDetailsVisible(true);
+  const showIngredientDetails = useCallback((item: any) => {
+    dispatch(showDetails(item));
 
     if (item.type === "bun") {
       dispatch(setBun(item));
@@ -70,8 +74,8 @@ const BurgerIngredients = () => {
     }
   }, []);
 
-  const closeDetails = () => {
-    setDetailsVisible(false);
+  const closeIngredientDetails = () => {
+    dispatch(closeDetails());
   };
 
   return (
@@ -94,7 +98,7 @@ const BurgerIngredients = () => {
           <IngredientsGroup
             name="Булки"
             ingredients={ingredients.filter((item: any) => item.type === "bun")}
-            showDetails={showDetails}
+            showDetails={showIngredientDetails}
           />
         </li>
         <li ref={saucesRef}>
@@ -103,7 +107,7 @@ const BurgerIngredients = () => {
             ingredients={ingredients.filter(
               (item: any) => item.type === "sauce"
             )}
-            showDetails={showDetails}
+            showDetails={showIngredientDetails}
           />
         </li>
         <li ref={mainsRef}>
@@ -112,13 +116,13 @@ const BurgerIngredients = () => {
             ingredients={ingredients.filter(
               (item: any) => item.type === "main"
             )}
-            showDetails={showDetails}
+            showDetails={showIngredientDetails}
           />
         </li>
       </ul>
-      {detailsVisible && (
-        <Modal onClose={closeDetails} title="Детали ингредиента">
-          <IngredientDetails ingredient={currentItem} />
+      {isShown && (
+        <Modal onClose={closeIngredientDetails} title="Детали ингредиента">
+          <IngredientDetails />
         </Modal>
       )}
     </div>

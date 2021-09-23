@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import { ingredientPropTypes } from "../../../utils/types";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }: any) => {
+const IngredientDetails = () => {
+  // @ts-ignore
+  const { ingredient } = useSelector((state) => state.ingredientDetails);
+
   return (
     <div className={styles.ingredient_details}>
       <img
@@ -33,10 +36,6 @@ const IngredientDetails = ({ ingredient }: any) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropTypes,
 };
 
 export default IngredientDetails;
