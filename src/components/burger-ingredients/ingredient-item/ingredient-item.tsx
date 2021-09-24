@@ -15,12 +15,16 @@ const IngredientItem = ({ item, showDetails, count }: any) => {
     type: item.type,
     item: item,
     collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.1 : 1,
+      opacity: monitor.isDragging() ? 0.4 : 1,
     }),
   });
 
   return (
-    <div className={styles.ingredient_item} ref={ref} style={{ opacity }}>
+    <div
+      className={styles.ingredient_item}
+      ref={ref}
+      style={{ opacity: opacity }}
+    >
       <div className={styles.content} onClick={handleClick}>
         <img alt="Нет фото" src={item.image} className={styles.illustration} />
         <p className={styles.price}>

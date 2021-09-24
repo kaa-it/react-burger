@@ -5,11 +5,9 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
-import ConstructorItem from "./constructor-item";
-import PlaceholderItem from "./placeholder-item/placeholder-item";
 import { useSelector, useDispatch } from "react-redux";
-import { removeIngredient } from "../../services/constructorSlice";
 import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
+import ConstructorArea from "./constructor-area";
 
 const BurgerConstructor = () => {
   const { bun, ingredients: constructorIngredients } = useSelector(
@@ -47,43 +45,9 @@ const BurgerConstructor = () => {
     dispatch(closeOrderDetails());
   };
 
-  const removeItem = (item: any) => {
-    dispatch(removeIngredient(item));
-  };
-
   return (
     <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
-      <div className={styles.constructor_area}>
-        <div className="pr-4">
-          {bun ? (
-            <ConstructorItem type="top" item={bun} />
-          ) : (
-            <PlaceholderItem type="top" />
-          )}
-        </div>
-
-        <div className={`${styles.scroll_area} custom-scroll`}>
-          {constructorIngredients.length ? (
-            constructorIngredients.map((item: any) => (
-              <ConstructorItem
-                key={item.key}
-                item={item}
-                onRemove={removeItem}
-              />
-            ))
-          ) : (
-            <PlaceholderItem />
-          )}
-        </div>
-
-        <div className="pr-4">
-          {bun ? (
-            <ConstructorItem type="bottom" item={bun} />
-          ) : (
-            <PlaceholderItem type="bottom" />
-          )}
-        </div>
-      </div>
+      <ConstructorArea />
       <div className={styles.info}>
         <p className={styles.price}>
           {totalPrice}
