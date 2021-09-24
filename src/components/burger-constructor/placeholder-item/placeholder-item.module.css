@@ -15,6 +15,10 @@
     flex-grow: 1;
 }
 
+.placeholder_item_highlighted {
+    border: 2px dashed blue;
+}
+
 .placeholder_item_top {
     border-radius: var(--top-constructor-item-border-radius);
 }

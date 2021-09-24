@@ -1,13 +1,17 @@
 import PropTypes from "prop-types";
 import styles from "./placeholder-item.module.css";
 
-const PlaceholderItem = ({ type }: any) => {
+const PlaceholderItem = ({ type, highlighted }: any) => {
   let className = `${styles.placeholder_item}`;
 
   if (type === "top") {
     className += ` ${styles.placeholder_item_top}`;
   } else if (type === "bottom") {
     className += ` ${styles.placeholder_item_bottom}`;
+  }
+
+  if (highlighted) {
+    className += ` ${styles.placeholder_item_highlighted}`;
   }
 
   const text =
@@ -22,6 +26,7 @@ const PlaceholderItem = ({ type }: any) => {
 
 PlaceholderItem.propTypes = {
   type: PropTypes.string,
+  highlighted: PropTypes.bool,
 };
 
 export default PlaceholderItem;

@@ -5,10 +5,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
-import { v4 as uuid } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
 import { switchTab } from "../../services/ingredientsSlice";
-import { setBun, addIngredient } from "../../services/constructorSlice";
 import {
   showDetails,
   closeDetails,
@@ -24,11 +22,6 @@ const BurgerIngredients = () => {
 
   // @ts-ignore
   const { ingredients, currentTab } = useSelector((state) => state.ingredients);
-
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    // @ts-ignore
-    (state) => state.burgerConstructor
-  );
 
   // @ts-ignore
   const { isShown } = useSelector((state) => state.ingredientDetails);
@@ -92,12 +85,6 @@ const BurgerIngredients = () => {
 
   const showIngredientDetails = useCallback((item: any) => {
     dispatch(showDetails(item));
-
-    if (item.type === "bun") {
-      dispatch(setBun(item));
-    } else {
-      dispatch(addIngredient({ ...item, key: uuid() }));
-    }
   }, []);
 
   const closeIngredientDetails = () => {
