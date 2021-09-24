@@ -33,6 +33,9 @@ const BurgerIngredients = () => {
   // @ts-ignore
   const { isShown } = useSelector((state) => state.ingredientDetails);
 
+  // @ts-ignore
+  const { ingredient } = useSelector((state) => state.ingredientDetails);
+
   const selectGroup = (name: string) => {
     dispatch(switchTab(name));
 
@@ -152,7 +155,7 @@ const BurgerIngredients = () => {
       </ul>
       {isShown && (
         <Modal onClose={closeIngredientDetails} title="Детали ингредиента">
-          <IngredientDetails />
+          <IngredientDetails ingredient={ingredient} />
         </Modal>
       )}
     </div>
