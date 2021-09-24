@@ -58,6 +58,10 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+        // @ts-ignore
+        state.name = action.payload.name;
+        // @ts-ignore
+        state.number = action.payload.number;
       });
   },
 });
