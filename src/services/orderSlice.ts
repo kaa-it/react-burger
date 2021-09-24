@@ -46,6 +46,8 @@ const orderSlice = createSlice({
       .addCase(createOrder.pending, (state) => {
         state.isLoading = true;
         state.hasError = false;
+        state.name = "";
+        state.number = 0;
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -58,10 +60,8 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
-        // @ts-ignore
-        state.name = action.payload.name;
-        // @ts-ignore
-        state.number = action.payload.number;
+        state.name = "";
+        state.number = 0;
       });
   },
 });

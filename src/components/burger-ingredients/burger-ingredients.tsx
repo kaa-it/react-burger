@@ -17,6 +17,7 @@ const BurgerIngredients = () => {
   const bunsRef = useRef(null);
   const saucesRef = useRef(null);
   const mainsRef = useRef(null);
+  const tabsRef = useRef(null);
 
   const [current, setCurrent] = React.useState("bun");
 
@@ -64,6 +65,32 @@ const BurgerIngredients = () => {
     }
   };
 
+  const handleScrollGroups = () => {
+    // @ts-ignore
+    const tabsBottom = tabsRef.current.getBoundingClientRect().bottom;
+
+    // @ts-ignore
+    const bunsTop = bunsRef.current.getBoundingClientRect().top;
+    // @ts-ignore
+    const saucesTop = saucesRef.current.getBoundingClientRect().top;
+    // @ts-ignore
+    const mainsTop = mainsRef.current.getBoundingClientRect().top;
+
+    const bunsDelta = Math.abs(bunsTop - tabsBottom);
+    const saucesDelta = Math.abs(saucesTop - tabsBottom);
+    const mainsDelta = Math.abs(mainsTop - tabsBottom);
+
+    const min = Math.min(bunsDelta, saucesDelta, mainsDelta);
+
+    if (min === bunsDelta) {
+      setCurrent("bun");
+    } else if (min === saucesDelta) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
+
   const showIngredientDetails = useCallback((item: any) => {
     dispatch(showDetails(item));
 
@@ -81,7 +108,7 @@ const BurgerIngredients = () => {
   return (
     <div className={`${styles.burger_ingredients} pt-10`}>
       <p className="text text_type_main-large mb-5">Соберите бургер</p>
-      <div className="mb-10" style={{ display: "flex" }}>
+      <div className="mb-10" style={{ display: "flex" }} ref={tabsRef}>
         <Tab value="bun" active={current === "bun"} onClick={selectGroup}>
           Булки
         </Tab>
@@ -93,7 +120,10 @@ const BurgerIngredients = () => {
         </Tab>
       </div>
 
-      <ul className={`${styles.group_list} custom-scroll`}>
+      <ul
+        className={`${styles.group_list} custom-scroll`}
+        onScroll={handleScrollGroups}
+      >
         <li ref={bunsRef}>
           <IngredientsGroup
             name="Булки"
