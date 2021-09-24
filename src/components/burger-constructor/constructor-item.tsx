@@ -6,14 +6,22 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const ConstructorItem = ({ item, type, onRemove }: any) => {
-  const isLocked = type !== undefined;
+  const isLocked = type !== undefined || !item;
   let suffix = "";
 
-  if (type === "top") {
-    suffix = " (верх)";
-  } else if (type === "bottom") {
-    suffix = " (низ)";
+  if (item) {
+    if (type === "top") {
+      suffix = " (верх)";
+    } else if (type === "bottom") {
+      suffix = " (низ)";
+    }
   }
+
+  const text = item
+    ? item.name + suffix
+    : type === "top" || type === "bottom"
+    ? "Выберите булки"
+    : "Выберите начинку";
 
   const onClose = () => {
     if (onRemove) {
@@ -29,10 +37,13 @@ const ConstructorItem = ({ item, type, onRemove }: any) => {
       <ConstructorElement
         type={type}
         isLocked={isLocked}
-        text={item.name + suffix}
-        price={item.price}
-        thumbnail={item.image}
-        handleClose={onClose}
+        text={text}
+        thumbnail={""}
+        {...(item && {
+          price: item.price,
+          thumbnail: item.image,
+          handleClose: onClose,
+        })}
       />
     </div>
   );

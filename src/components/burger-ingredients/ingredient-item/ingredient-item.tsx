@@ -4,14 +4,23 @@ import { ingredientPropTypes } from "../../../utils/types";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import PropTypes from "prop-types";
+import { useDrag } from "react-dnd";
 
 const IngredientItem = ({ item, showDetails, count }: any) => {
   const handleClick = () => {
     showDetails(item);
   };
 
+  const [{ opacity }, ref] = useDrag({
+    type: item.type,
+    item: item,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.1 : 1,
+    }),
+  });
+
   return (
-    <div className={styles.ingredient_item}>
+    <div className={styles.ingredient_item} ref={ref} style={{ opacity }}>
       <div className={styles.content} onClick={handleClick}>
         <img alt="Нет фото" src={item.image} className={styles.illustration} />
         <p className={styles.price}>

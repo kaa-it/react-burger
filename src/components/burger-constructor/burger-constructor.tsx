@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
 import ConstructorItem from "./constructor-item";
+import PlaceholderItem from "./placeholder-item/placeholder-item";
 import { useSelector, useDispatch } from "react-redux";
 import { removeIngredient } from "../../services/constructorSlice";
 import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
@@ -53,27 +54,34 @@ const BurgerConstructor = () => {
   return (
     <div className={`${styles.burger_constructor} pt-25 pl-4 pr-4`}>
       <div className={styles.constructor_area}>
-        {bun === null && constructorIngredients.length === 0 && (
-          <p
-            className="text text_type_main-medium"
-            style={{ alignSelf: "center" }}
-          >
-            Пусто
-          </p>
-        )}
-
         <div className="pr-4">
-          {bun !== null && <ConstructorItem type="top" item={bun} />}
+          {bun ? (
+            <ConstructorItem type="top" item={bun} />
+          ) : (
+            <PlaceholderItem type="top" />
+          )}
         </div>
 
         <div className={`${styles.scroll_area} custom-scroll`}>
-          {constructorIngredients.map((item: any) => (
-            <ConstructorItem key={item.key} item={item} onRemove={removeItem} />
-          ))}
+          {constructorIngredients.length ? (
+            constructorIngredients.map((item: any) => (
+              <ConstructorItem
+                key={item.key}
+                item={item}
+                onRemove={removeItem}
+              />
+            ))
+          ) : (
+            <PlaceholderItem />
+          )}
         </div>
 
         <div className="pr-4">
-          {bun !== null && <ConstructorItem type="bottom" item={bun} />}
+          {bun ? (
+            <ConstructorItem type="bottom" item={bun} />
+          ) : (
+            <PlaceholderItem type="bottom" />
+          )}
         </div>
       </div>
       <div className={styles.info}>
