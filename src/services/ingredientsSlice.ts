@@ -12,8 +12,17 @@ export const fetchIngredients = createAsyncThunk(
 
 const ingredientsSlice = createSlice({
   name: "ingredients",
-  initialState: { ingredients: [], isLoading: false, hasError: false },
-  reducers: {},
+  initialState: {
+    ingredients: [],
+    isLoading: false,
+    hasError: false,
+    currentTab: "bun",
+  },
+  reducers: {
+    switchTab: (state, action) => {
+      state.currentTab = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
@@ -33,5 +42,7 @@ const ingredientsSlice = createSlice({
       });
   },
 });
+
+export const { switchTab } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

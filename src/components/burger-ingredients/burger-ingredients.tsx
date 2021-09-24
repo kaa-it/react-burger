@@ -7,6 +7,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
 import { v4 as uuid } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
+import { switchTab } from "../../services/ingredientsSlice";
 import { setBun, addIngredient } from "../../services/constructorSlice";
 import {
   showDetails,
@@ -19,12 +20,10 @@ const BurgerIngredients = () => {
   const mainsRef = useRef(null);
   const tabsRef = useRef(null);
 
-  const [current, setCurrent] = React.useState("bun");
-
   const dispatch = useDispatch();
 
   // @ts-ignore
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients, currentTab } = useSelector((state) => state.ingredients);
 
   const { bun, ingredients: constructorIngredients } = useSelector(
     // @ts-ignore
@@ -35,7 +34,7 @@ const BurgerIngredients = () => {
   const { isShown } = useSelector((state) => state.ingredientDetails);
 
   const selectGroup = (name: string) => {
-    setCurrent(name);
+    dispatch(switchTab(name));
 
     switch (name) {
       case "bun":
@@ -82,13 +81,10 @@ const BurgerIngredients = () => {
 
     const min = Math.min(bunsDelta, saucesDelta, mainsDelta);
 
-    if (min === bunsDelta) {
-      setCurrent("bun");
-    } else if (min === saucesDelta) {
-      setCurrent("sauce");
-    } else {
-      setCurrent("main");
-    }
+    const newTab =
+      min === bunsDelta ? "bun" : min === saucesDelta ? "sauce" : "main";
+
+    dispatch(switchTab(newTab));
   };
 
   const showIngredientDetails = useCallback((item: any) => {
@@ -109,13 +105,17 @@ const BurgerIngredients = () => {
     <div className={`${styles.burger_ingredients} pt-10`}>
       <p className="text text_type_main-large mb-5">Соберите бургер</p>
       <div className="mb-10" style={{ display: "flex" }} ref={tabsRef}>
-        <Tab value="bun" active={current === "bun"} onClick={selectGroup}>
+        <Tab value="bun" active={currentTab === "bun"} onClick={selectGroup}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={selectGroup}>
+        <Tab
+          value="sauce"
+          active={currentTab === "sauce"}
+          onClick={selectGroup}
+        >
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={selectGroup}>
+        <Tab value="main" active={currentTab === "main"} onClick={selectGroup}>
           Начинки
         </Tab>
       </div>
