@@ -16,7 +16,7 @@ const ingredientsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchIngredients.pending, (state, action) => {
+      .addCase(fetchIngredients.pending, (state) => {
         state.isLoading = true;
         state.hasError = false;
       })
@@ -25,7 +25,7 @@ const ingredientsSlice = createSlice({
         state.hasError = false;
         state.ingredients = action.payload;
       })
-      .addCase(fetchIngredients.rejected, (state, action) => {
+      .addCase(fetchIngredients.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
       });

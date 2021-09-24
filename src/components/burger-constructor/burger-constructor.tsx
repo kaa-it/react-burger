@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
@@ -8,14 +8,16 @@ import OrderDetails from "./order-details/order-details";
 import ConstructorItem from "./constructor-item";
 import { useSelector, useDispatch } from "react-redux";
 import { removeIngredient } from "../../services/constructorSlice";
+import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
 
 const BurgerConstructor = () => {
-  const [orderDetailsVisible, setOrderDetailsVisible] = useState(false);
-
   const { bun, ingredients: constructorIngredients } = useSelector(
     // @ts-ignore
     (state) => state.burgerConstructor
   );
+
+  // @ts-ignore
+  const { isShown } = useSelector((state) => state.orderDetails);
 
   const dispatch = useDispatch();
 
@@ -34,14 +36,14 @@ const BurgerConstructor = () => {
 
   const createOrder = () => {
     if (bun !== null) {
-      setOrderDetailsVisible(true);
+      dispatch(showOrderDetails());
     } else {
       console.log("Unable to create order without buns");
     }
   };
 
-  const closeOrderDetails = () => {
-    setOrderDetailsVisible(false);
+  const closeOrder = () => {
+    dispatch(closeOrderDetails());
   };
 
   const removeItem = (item: any) => {
@@ -83,8 +85,8 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
-      {orderDetailsVisible && (
-        <Modal onClose={closeOrderDetails}>
+      {isShown && (
+        <Modal onClose={closeOrder}>
           <OrderDetails />
         </Modal>
       )}
