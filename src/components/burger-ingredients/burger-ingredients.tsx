@@ -80,7 +80,9 @@ const BurgerIngredients = () => {
     const newTab =
       min === bunsDelta ? "bun" : min === saucesDelta ? "sauce" : "main";
 
-    dispatch(switchTab(newTab));
+    if (newTab !== currentTab) {
+      dispatch(switchTab(newTab));
+    }
   };
 
   const showIngredientDetails = useCallback((item: any) => {
