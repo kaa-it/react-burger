@@ -1,18 +1,21 @@
-import React, { useCallback, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
-import { ingredientPropTypes } from "../../utils/types";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
+import { v4 as uuid } from "uuid";
 
-const BurgerIngredients = ({ ingredients }: any) => {
-  let buns = ingredients.filter((item: any) => item.type === "bun");
-  let sauces = ingredients.filter((item: any) => item.type === "sauce");
-  let mains = ingredients.filter((item: any) => item.type === "main");
+import {
+  BunContext,
+  ConstructorIngredientsContext,
+  TotalPriceContext,
+} from "../../services/constructorContext";
 
+import { BurgerContext } from "../../services/burgerContext";
+
+const BurgerIngredients = () => {
   const bunsRef = useRef(null);
   const saucesRef = useRef(null);
   const mainsRef = useRef(null);
@@ -20,6 +23,18 @@ const BurgerIngredients = ({ ingredients }: any) => {
   const [current, setCurrent] = React.useState("bun");
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+
+  // @ts-ignore
+  const { bun, setBun } = useContext(BunContext);
+  // @ts-ignore
+  const { constructorIngredients, setConstructorIngredients } = useContext(
+    ConstructorIngredientsContext
+  );
+  // @ts-ignore
+  const { totalPriceDispatcher } = useContext(TotalPriceContext);
+
+  // @ts-ignore
+  const { ingredients } = useContext(BurgerContext);
 
   const selectGroup = (name: string) => {
     setCurrent(name);
@@ -52,10 +67,27 @@ const BurgerIngredients = ({ ingredients }: any) => {
     }
   };
 
-  const showDetails = useCallback((item: any) => {
-    setCurrentItem(item);
-    setDetailsVisible(true);
-  }, []);
+  const showDetails = useCallback(
+    (item: any) => {
+      setCurrentItem(item);
+      setDetailsVisible(true);
+
+      if (item.type === "bun") {
+        if (bun !== null) {
+          totalPriceDispatcher({ type: "remove", payload: bun.price * 2 });
+        }
+        setBun(item);
+        totalPriceDispatcher({ type: "add", payload: item.price * 2 });
+      } else {
+        setConstructorIngredients([
+          ...constructorIngredients,
+          { ...item, key: uuid() },
+        ]);
+        totalPriceDispatcher({ type: "add", payload: item.price });
+      }
+    },
+    [constructorIngredients, bun]
+  );
 
   const closeDetails = () => {
     setDetailsVisible(false);
@@ -80,21 +112,25 @@ const BurgerIngredients = ({ ingredients }: any) => {
         <li ref={bunsRef}>
           <IngredientsGroup
             name="Булки"
-            ingredients={buns}
+            ingredients={ingredients.filter((item: any) => item.type === "bun")}
             showDetails={showDetails}
           />
         </li>
         <li ref={saucesRef}>
           <IngredientsGroup
             name="Соусы"
-            ingredients={sauces}
+            ingredients={ingredients.filter(
+              (item: any) => item.type === "sauce"
+            )}
             showDetails={showDetails}
           />
         </li>
         <li ref={mainsRef}>
           <IngredientsGroup
             name="Начинка"
-            ingredients={mains}
+            ingredients={ingredients.filter(
+              (item: any) => item.type === "main"
+            )}
             showDetails={showDetails}
           />
         </li>
@@ -106,10 +142,6 @@ const BurgerIngredients = ({ ingredients }: any) => {
       )}
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
 
 export default BurgerIngredients;
