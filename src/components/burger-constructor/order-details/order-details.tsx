@@ -1,81 +1,48 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./order-details.module.css";
 import done from "../../../images/done.png";
 
-import {
-  BunContext,
-  ConstructorIngredientsContext,
-} from "../../../services/constructorContext";
-import { baseUrl } from "../../../utils/constants";
+import { useSelector, useDispatch } from "react-redux";
+import { createOrder } from "../../../services/orderSlice";
 
 const OrderDetails = () => {
-  // @ts-ignore
-  const { constructorIngredients } = useContext(ConstructorIngredientsContext);
-  // @ts-ignore
-  const { bun } = useContext(BunContext);
+  const { bun, ingredients: constructorIngredients } = useSelector(
+    // @ts-ignore
+    (state) => state.burgerConstructor
+  );
 
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    number: 0,
-    name: "",
-  });
+  const { name, number, isLoading, hasError } = useSelector(
+    // @ts-ignore
+    (state) => state.orderDetails
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const createOrder = async (url: string, order: any) => {
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(order),
-        });
-        const json = await res.json();
-
-        console.log(json);
-
-        if (json.success) {
-          setState({
-            name: json.name,
-            number: json.order.number,
-            hasError: false,
-            isLoading: false,
-          });
-        } else {
-          setState({ ...state, hasError: true, isLoading: false });
-        }
-      } catch (err) {
-        setState({ ...state, hasError: true, isLoading: false });
-      }
-    };
-
-    setState({ ...state, hasError: false, isLoading: true });
-
     let ingredients = constructorIngredients.map((el: any) => el._id);
     let order = { ingredients: [bun._id, ...ingredients, bun._id] };
-    //let order = [bun._id, ...ingredients];
 
-    createOrder(`${baseUrl}/orders`, order);
+    // @ts-ignore
+    dispatch(createOrder(order));
   }, []);
 
   return (
     <div className={styles.order_details}>
-      {state.isLoading && (
+      {isLoading && (
         <p className="text text_type_main-medium">Создание заказа...</p>
       )}
-      {state.hasError && (
+      {hasError && (
         <p className="text text_type_main-medium">Не удалось создать заказ</p>
       )}
-      {!state.isLoading && !state.hasError && (
+      {!isLoading && !hasError && (
         <>
           <p
             className="text text_type_digits-large mb-8"
             style={{ textShadow: "0px 4px 32px #3333FF" }}
           >
-            {state.number}
+            {number}
           </p>
-          <p className="text text_type_main-medium mb-15">{state.name}</p>
+          <p className="text text_type_main-medium mb-15">{name}</p>
           <img className={styles.image} alt="Принят" src={done} />
           <p className="text text_type_main-default mb-2">
             Ваш заказ начали готовить

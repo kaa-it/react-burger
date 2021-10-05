@@ -1,0 +1,28 @@
+.placeholder_item {
+    width: 488px;
+    padding: 16px 24px;
+    border-radius: var(--common-border-radius-s);
+    background: var(--background-element);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 32px;
+    min-height: 48px;
+    font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 24px;
+    color: #F2F2F3;
+    flex-grow: 1;
+}
+
+.placeholder_item_highlighted {
+    border: 2px dashed blue;
+}
+
+.placeholder_item_top {
+    border-radius: var(--top-constructor-item-border-radius);
+}
+
+.placeholder_item_bottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
+}
