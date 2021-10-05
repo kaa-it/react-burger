@@ -95,8 +95,8 @@ const BurgerIngredients = () => {
 
   return (
     <div className={`${styles.burger_ingredients} pt-10`}>
-      <p className="text text_type_main-large mb-5">Соберите бургер</p>
-      <div className="mb-10" style={{ display: "flex" }} ref={tabsRef}>
+      <p className={styles.title}>Соберите бургер</p>
+      <div className={styles.tabs} ref={tabsRef}>
         <Tab value="bun" active={currentTab === "bun"} onClick={selectGroup}>
           Булки
         </Tab>
@@ -111,37 +111,40 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
-
-      <ul
-        className={`${styles.group_list} custom-scroll`}
-        onScroll={handleScrollGroups}
-      >
-        <li ref={bunsRef}>
-          <IngredientsGroup
-            name="Булки"
-            ingredients={ingredients.filter((item: any) => item.type === "bun")}
-            showDetails={showIngredientDetails}
-          />
-        </li>
-        <li ref={saucesRef}>
-          <IngredientsGroup
-            name="Соусы"
-            ingredients={ingredients.filter(
-              (item: any) => item.type === "sauce"
-            )}
-            showDetails={showIngredientDetails}
-          />
-        </li>
-        <li ref={mainsRef}>
-          <IngredientsGroup
-            name="Начинка"
-            ingredients={ingredients.filter(
-              (item: any) => item.type === "main"
-            )}
-            showDetails={showIngredientDetails}
-          />
-        </li>
-      </ul>
+      <div className={styles.ingredients}>
+        <ul
+          className={`${styles.group_list} custom-scroll`}
+          onScroll={handleScrollGroups}
+        >
+          <li ref={bunsRef}>
+            <IngredientsGroup
+              name="Булки"
+              ingredients={ingredients.filter(
+                (item: any) => item.type === "bun"
+              )}
+              showDetails={showIngredientDetails}
+            />
+          </li>
+          <li ref={saucesRef}>
+            <IngredientsGroup
+              name="Соусы"
+              ingredients={ingredients.filter(
+                (item: any) => item.type === "sauce"
+              )}
+              showDetails={showIngredientDetails}
+            />
+          </li>
+          <li ref={mainsRef}>
+            <IngredientsGroup
+              name="Начинка"
+              ingredients={ingredients.filter(
+                (item: any) => item.type === "main"
+              )}
+              showDetails={showIngredientDetails}
+            />
+          </li>
+        </ul>
+      </div>
       {isShown && (
         <Modal onClose={closeIngredientDetails} title="Детали ингредиента">
           <IngredientDetails ingredient={ingredient} />

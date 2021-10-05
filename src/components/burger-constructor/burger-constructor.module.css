@@ -1,5 +1,6 @@
 .burger_constructor {
-    height: 912px;
+    box-sizing: border-box;
+    height: 100%;
     width: 600px;
     display: flex;
     flex-direction: column;

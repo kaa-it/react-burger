@@ -1,11 +1,35 @@
 .burger_ingredients {
-    height: 912px;
-    width: 600px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 624px;
     padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    composes: text, text_type_main-large mb-5 from global;
+    flex-grow: 0;
+}
+
+.tabs {
+    composes: mb-10 from global;
+    display:flex;
+    flex-grow: 0;
+}
+
+.ingredients {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
 }
 
 .group_list {
-    height: 630px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     margin: 0;
     padding: 0;
     list-style: none;
