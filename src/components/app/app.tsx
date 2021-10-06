@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
-import { HomePage, NotFound404 } from "../../pages";
+import { HomePage, LoginPage, NotFound404 } from "../../pages";
 
 function App() {
   return (
@@ -14,6 +14,9 @@ function App() {
           <Switch>
             <Route path="/" exact={true}>
               <HomePage />
+            </Route>
+            <Route path="/login" exact={true}>
+              <LoginPage />
             </Route>
             <Route>
               <NotFound404 />
