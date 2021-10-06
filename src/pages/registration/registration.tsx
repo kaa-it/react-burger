@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import styles from "./login.module.css";
+import styles from "./registration.module.css";
 import {
   Button,
   EmailInput,
+  Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const RegistrationPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleNameChange = (e: any) => {
+    setName(e.target.value);
+  };
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -20,33 +26,31 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.login}>
-      <span className="text_type_main-medium">Вход</span>
+    <div className={styles.registration}>
+      <span className="text_type_main-medium">Регистрация</span>
+      <Input
+        type="text"
+        onChange={handleNameChange}
+        value={name}
+        placeholder={"Имя"}
+      />
       <EmailInput onChange={handleEmailChange} value={email} name="email" />
       <PasswordInput
         onChange={handlePasswordChange}
         value={password}
         name="Пароль"
       />
-      <Button type="primary">Войти</Button>
+      <Button type="primary">Зарегистрироваться</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
-          Вы - новый пользователь?
+          Уже зарегистрированы?
         </span>
-        <Link to="/register" className={styles.link}>
-          Зарегистрироваться
-        </Link>
-      </div>
-      <div className={styles.line}>
-        <span className="text_type_main-default text_color_inactive mr-2">
-          Забыли пароль?
-        </span>
-        <Link to="/" className={styles.link}>
-          Восстановить пароль
+        <Link to="/login" className={styles.link}>
+          Войти
         </Link>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegistrationPage;

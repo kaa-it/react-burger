@@ -3,7 +3,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
-import { HomePage, LoginPage, NotFound404 } from "../../pages";
+import {
+  HomePage,
+  LoginPage,
+  NotFound404,
+  RegistrationPage,
+} from "../../pages";
 
 function App() {
   return (
@@ -17,6 +22,9 @@ function App() {
             </Route>
             <Route path="/login" exact={true}>
               <LoginPage />
+            </Route>
+            <Route path="/register" exact={true}>
+              <RegistrationPage />
             </Route>
             <Route>
               <NotFound404 />
