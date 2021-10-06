@@ -11,6 +11,7 @@
 
 .constructor_area {
     width: 584px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -18,7 +19,19 @@
     gap: 16px 0;
 }
 
+.ingredients {
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+}
+
 .scroll_area {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

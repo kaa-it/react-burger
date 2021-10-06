@@ -62,20 +62,22 @@ const ConstructorArea = () => {
         )}
       </div>
 
-      <div className={`${styles.scroll_area} custom-scroll`}>
-        {constructorIngredients.length ? (
-          constructorIngredients.map((item: any, index: number) => (
-            <ConstructorItem
-              key={item.key}
-              item={item}
-              index={index}
-              onRemove={removeItem}
-              moveItem={moveItem}
-            />
-          ))
-        ) : (
-          <PlaceholderItem highlighted={isIngredientOver} />
-        )}
+      <div className={styles.ingredients}>
+        <div className={`${styles.scroll_area} custom-scroll`}>
+          {constructorIngredients.length ? (
+            constructorIngredients.map((item: any, index: number) => (
+              <ConstructorItem
+                key={item.key}
+                item={item}
+                index={index}
+                onRemove={removeItem}
+                moveItem={moveItem}
+              />
+            ))
+          ) : (
+            <PlaceholderItem highlighted={isIngredientOver} />
+          )}
+        </div>
       </div>
 
       <div className="pr-4">
