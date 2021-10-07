@@ -41,7 +41,7 @@ const LoginPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Забыли пароль?
         </span>
-        <Link to="/" className={styles.link}>
+        <Link to="/forgot-password" className={styles.link}>
           Восстановить пароль
         </Link>
       </div>

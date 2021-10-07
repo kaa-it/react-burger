@@ -4,10 +4,12 @@ import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
 import {
+  ForgotPasswordPage,
   HomePage,
   LoginPage,
   NotFound404,
   RegistrationPage,
+  ResetPasswordPage,
 } from "../../pages";
 
 function App() {
@@ -25,6 +27,12 @@ function App() {
             </Route>
             <Route path="/register" exact={true}>
               <RegistrationPage />
+            </Route>
+            <Route path="/forgot-password" exact={true}>
+              <ForgotPasswordPage />
+            </Route>
+            <Route path="/reset-password" exact={true}>
+              <ResetPasswordPage />
             </Route>
             <Route>
               <NotFound404 />
