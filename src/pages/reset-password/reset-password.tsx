@@ -1,40 +1,65 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./reset-password.module.css";
 import {
   Button,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearPasswordReset, resetPassword } from "../../services/authSlice";
 
 const ResetPasswordPage = () => {
-  const [code, setCode] = useState("");
-  const [password, setPassword] = useState("");
+  const { accessToken, isResetPassword, isPasswordWasReset } = useSelector(
+    // @ts-ignore
+    (state) => state.auth
+  );
 
-  const handleCodeChange = (e: any) => {
-    setCode(e.target.value);
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const [form, setValue] = useState({ token: "", password: "" });
+
+  const handleChange = (e: any) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
-  };
+  const handleResetPassword = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(resetPassword(form));
+    },
+    [form]
+  );
+
+  if (isPasswordWasReset) {
+    history.push("/login");
+    return null;
+  }
+
+  if (accessToken || !isResetPassword) {
+    return <Redirect to="/" />;
+  }
 
   return (
-    <div className={styles.reset_password}>
+    <form className={styles.reset_password}>
       <span className="text_type_main-medium">Восстановление пароля</span>
       <PasswordInput
-        onChange={handlePasswordChange}
-        value={password}
-        name="Введите новый пароль"
+        onChange={handleChange}
+        value={form.password}
+        name="password"
       />
       <Input
         type="text"
-        onChange={handleCodeChange}
-        value={code}
+        onChange={handleChange}
+        value={form.token}
         placeholder="Введите код из письма"
+        name="token"
       />
-
-      <Button type="primary">Сохранить</Button>
+      <Button type="primary" onClick={handleResetPassword}>
+        Сохранить
+      </Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?
@@ -43,7 +68,7 @@ const ResetPasswordPage = () => {
           Войти
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 

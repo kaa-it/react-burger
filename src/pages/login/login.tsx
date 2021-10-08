@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./login.module.css";
 import {
   Button,
@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../services/authSlice";
+import { clearPasswordReset, login } from "../../services/authSlice";
 
 const LoginPage = () => {
   // @ts-ignore
@@ -22,6 +22,10 @@ const LoginPage = () => {
   const handleChange = (e: any) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    dispatch(clearPasswordReset());
+  }, []);
 
   const handleLogin = useCallback(
     (e) => {

@@ -19,7 +19,7 @@ export const login = createAsyncThunk(
       localStorage.setItem("refreshToken", json.refreshToken);
       return { user: json.user, cb: cb };
     } else {
-      thunkAPI.rejectWithValue("");
+      return thunkAPI.rejectWithValue("");
     }
   }
 );
@@ -42,7 +42,49 @@ export const register = createAsyncThunk(
       localStorage.setItem("refreshToken", json.refreshToken);
       return { user: json.user };
     } else {
-      thunkAPI.rejectWithValue("");
+      return thunkAPI.rejectWithValue("");
+    }
+  }
+);
+
+export const checkResetPassword = createAsyncThunk(
+  "auth/forgot-password",
+  async (email: any, thunkAPI) => {
+    const res = await fetch(`${baseUrl}/password-reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const json = await res.json();
+
+    if (json.success) {
+      return {};
+    } else {
+      return thunkAPI.rejectWithValue("");
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/reset-password",
+  async (form: any, thunkAPI) => {
+    const res = await fetch(`${baseUrl}/password-reset/reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(form),
+    });
+
+    const json = await res.json();
+
+    if (json.success) {
+      return {};
+    } else {
+      return thunkAPI.rejectWithValue("");
     }
   }
 );
@@ -53,11 +95,21 @@ const authSlice = createSlice({
     accessToken: localStorage.getItem("accessToken"),
     refreshToken: localStorage.getItem("refreshToken"),
     user: null,
+    isResetPassword: false,
+    isPasswordWasReset: false,
     isLoading: false,
     hasError: false,
     isShown: false,
+    isLoginSuccessful: false,
   },
-  reducers: {},
+  reducers: {
+    clearPasswordReset: (state) => {
+      state.isPasswordWasReset = false;
+    },
+    clearLoginSuccessful: (state) => {
+      state.isLoginSuccessful = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -93,8 +145,43 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.hasError = true;
         state.user = null;
+      })
+      .addCase(checkResetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+        state.isResetPassword = false;
+      })
+      .addCase(checkResetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.isResetPassword = true;
+      })
+      .addCase(checkResetPassword.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+        state.isResetPassword = false;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+        state.isResetPassword = true;
+        state.isPasswordWasReset = false;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.isResetPassword = false;
+        state.isPasswordWasReset = true;
+      })
+      .addCase(resetPassword.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+        state.isResetPassword = true;
+        state.isPasswordWasReset = false;
       });
   },
 });
+
+export const { clearPasswordReset } = authSlice.actions;
 
 export default authSlice.reducer;
