@@ -1,34 +1,52 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./login.module.css";
 import {
   Button,
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../services/authSlice";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // @ts-ignore
+  const { accessToken } = useSelector((state) => state.auth);
 
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
+  const dispatch = useDispatch();
+
+  const [form, setValue] = useState({ email: "", password: "" });
+
+  const handleChange = (e: any) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
-  };
+  const handleLogin = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(login(form));
+    },
+    [form]
+  );
+
+  if (accessToken) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={styles.login}>
       <span className="text_type_main-medium">Вход</span>
-      <EmailInput onChange={handleEmailChange} value={email} name="email" />
-      <PasswordInput
-        onChange={handlePasswordChange}
-        value={password}
-        name="Пароль"
-      />
-      <Button type="primary">Войти</Button>
+      <form>
+        <EmailInput onChange={handleChange} value={form.email} name="email" />
+        <PasswordInput
+          onChange={handleChange}
+          value={form.password}
+          name="password"
+        />
+        <Button type="primary" onClick={handleLogin}>
+          Войти
+        </Button>
+      </form>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вы - новый пользователь?

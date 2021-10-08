@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./registration.module.css";
 import {
   Button,
@@ -6,41 +6,53 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../services/authSlice";
 
 const RegistrationPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // @ts-ignore
+  const { accessToken } = useSelector((state) => state.auth);
 
-  const handleNameChange = (e: any) => {
-    setName(e.target.value);
+  const dispatch = useDispatch();
+
+  const [form, setValue] = useState({ email: "", password: "", name: "" });
+
+  const handleChange = (e: any) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
-  };
+  const handleRegister = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(register(form));
+    },
+    [form]
+  );
 
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
-  };
+  if (accessToken) {
+    return <Redirect to="/" />;
+  }
 
   return (
-    <div className={styles.registration}>
+    <form className={styles.registration}>
       <span className="text_type_main-medium">Регистрация</span>
       <Input
         type="text"
-        onChange={handleNameChange}
-        value={name}
+        onChange={handleChange}
+        value={form.name}
         placeholder={"Имя"}
+        name="name"
       />
-      <EmailInput onChange={handleEmailChange} value={email} name="email" />
+      <EmailInput onChange={handleChange} value={form.email} name="email" />
       <PasswordInput
-        onChange={handlePasswordChange}
-        value={password}
-        name="Пароль"
+        onChange={handleChange}
+        value={form.password}
+        name="password"
       />
-      <Button type="primary">Зарегистрироваться</Button>
+      <Button type="primary" onClick={handleRegister}>
+        Зарегистрироваться
+      </Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Уже зарегистрированы?
@@ -49,7 +61,7 @@ const RegistrationPage = () => {
           Войти
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
