@@ -3,7 +3,7 @@ import { baseUrl } from "../utils/constants";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (credentials: any, thunkAPI) => {
+  async ({ credentials, cb }: any, thunkAPI) => {
     const res = await fetch(`${baseUrl}/auth/login`, {
       method: "POST",
       headers: {
@@ -17,7 +17,7 @@ export const login = createAsyncThunk(
     if (json.success) {
       localStorage.setItem("accessToken", json.accessToken);
       localStorage.setItem("refreshToken", json.refreshToken);
-      return { user: json.user };
+      return { user: json.user, cb: cb };
     } else {
       thunkAPI.rejectWithValue("");
     }
@@ -70,6 +70,8 @@ const authSlice = createSlice({
         state.hasError = false;
         // @ts-ignore
         state.user = action.payload.user;
+        // @ts-ignore
+        action.payload.cb();
       })
       .addCase(login.rejected, (state) => {
         state.isLoading = false;

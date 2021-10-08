@@ -5,7 +5,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/authSlice";
 
@@ -14,6 +14,8 @@ const LoginPage = () => {
   const { accessToken } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const [form, setValue] = useState({ email: "", password: "" });
 
@@ -24,7 +26,14 @@ const LoginPage = () => {
   const handleLogin = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(login(form));
+      dispatch(
+        login({
+          credentials: form,
+          cb: () => {
+            history.goBack();
+          },
+        })
+      );
     },
     [form]
   );
@@ -34,19 +43,17 @@ const LoginPage = () => {
   }
 
   return (
-    <div className={styles.login}>
+    <form className={styles.login}>
       <span className="text_type_main-medium">Вход</span>
-      <form>
-        <EmailInput onChange={handleChange} value={form.email} name="email" />
-        <PasswordInput
-          onChange={handleChange}
-          value={form.password}
-          name="password"
-        />
-        <Button type="primary" onClick={handleLogin}>
-          Войти
-        </Button>
-      </form>
+      <EmailInput onChange={handleChange} value={form.email} name="email" />
+      <PasswordInput
+        onChange={handleChange}
+        value={form.password}
+        name="password"
+      />
+      <Button type="primary" onClick={handleLogin}>
+        Войти
+      </Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вы - новый пользователь?
@@ -63,7 +70,7 @@ const LoginPage = () => {
           Восстановить пароль
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
