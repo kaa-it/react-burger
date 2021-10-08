@@ -10,8 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearPasswordReset, login } from "../../services/authSlice";
 
 const LoginPage = () => {
-  // @ts-ignore
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, isLoggedIn, isPasswordWasReset } = useSelector(
+    // @ts-ignore
+    (state) => state.auth
+  );
 
   const dispatch = useDispatch();
 
@@ -24,20 +26,19 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
+    if (isLoggedIn) {
+      history.goBack();
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     dispatch(clearPasswordReset());
-  }, []);
+  }, [isPasswordWasReset]);
 
   const handleLogin = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(
-        login({
-          credentials: form,
-          cb: () => {
-            history.goBack();
-          },
-        })
-      );
+      dispatch(login(form));
     },
     [form]
   );

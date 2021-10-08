@@ -3,7 +3,7 @@ import { baseUrl } from "../utils/constants";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ credentials, cb }: any, thunkAPI) => {
+  async (credentials: any, thunkAPI) => {
     const res = await fetch(`${baseUrl}/auth/login`, {
       method: "POST",
       headers: {
@@ -17,7 +17,11 @@ export const login = createAsyncThunk(
     if (json.success) {
       localStorage.setItem("accessToken", json.accessToken);
       localStorage.setItem("refreshToken", json.refreshToken);
-      return { user: json.user, cb: cb };
+      return {
+        user: json.user,
+        accessToken: json.accessToken,
+        refreshToken: json.refreshToken,
+      };
     } else {
       return thunkAPI.rejectWithValue("");
     }
@@ -40,7 +44,11 @@ export const register = createAsyncThunk(
     if (json.success) {
       localStorage.setItem("accessToken", json.accessToken);
       localStorage.setItem("refreshToken", json.refreshToken);
-      return { user: json.user };
+      return {
+        user: json.user,
+        accessToken: json.accessToken,
+        refreshToken: json.refreshToken,
+      };
     } else {
       return thunkAPI.rejectWithValue("");
     }
@@ -100,14 +108,11 @@ const authSlice = createSlice({
     isLoading: false,
     hasError: false,
     isShown: false,
-    isLoginSuccessful: false,
+    isLoggedIn: false,
   },
   reducers: {
     clearPasswordReset: (state) => {
       state.isPasswordWasReset = false;
-    },
-    clearLoginSuccessful: (state) => {
-      state.isLoginSuccessful = false;
     },
   },
   extraReducers: (builder) => {
@@ -115,6 +120,7 @@ const authSlice = createSlice({
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.hasError = false;
+        state.isLoggedIn = false;
         state.user = null;
       })
       .addCase(login.fulfilled, (state, action) => {
@@ -122,13 +128,15 @@ const authSlice = createSlice({
         state.hasError = false;
         // @ts-ignore
         state.user = action.payload.user;
-        // @ts-ignore
-        action.payload.cb();
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isLoggedIn = true;
       })
       .addCase(login.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
         state.user = null;
+        state.isLoggedIn = false;
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -140,6 +148,8 @@ const authSlice = createSlice({
         state.hasError = false;
         // @ts-ignore
         state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
       })
       .addCase(register.rejected, (state) => {
         state.isLoading = false;
