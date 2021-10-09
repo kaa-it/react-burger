@@ -14,6 +14,7 @@ const AppHeader = () => {
         <nav className={styles.left_menu}>
           <NavLink
             to="/"
+            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >
@@ -22,6 +23,7 @@ const AppHeader = () => {
           </NavLink>
           <NavLink
             to="/order-feed"
+            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >
@@ -35,6 +37,7 @@ const AppHeader = () => {
         <nav className={styles.right_menu}>
           <NavLink
             to="/profile"
+            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >

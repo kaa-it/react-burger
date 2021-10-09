@@ -2,19 +2,40 @@
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    row-gap: 24px;
+    column-gap: 60px;
 }
 
-.line {
+.left {
+    width: 320px;
+    composes: pt-30 from global;
+    display: flex;
+    flex-direction: column;
+    row-gap: 80px
+}
+
+.menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu_item {
+    composes: text_type_main-medium from global;
+    width: 320px;
+    height: 64px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    text-decoration: none;
+    color: var(--text-inactive-color);
 }
 
-.link {
-    composes: text_type_main-default text_color_accent from global;
-    text-decoration: none;
+.active_menu_item {
+    composes: menu_item;
+    color: var(--text-primary-color);
+}
+
+.right {
+    width: 870px;
+    height: 100%;
 }

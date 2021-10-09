@@ -8,7 +8,7 @@ const NotFound404 = () => {
     <div className={styles.not_found}>
       <img alt="404 Not Found" src={not_found} height="300px" />
       <span className="text_type_main-default">Страница не найдена</span>
-      <Link className="text_type_main-default" to="/">
+      <Link className={styles.link} to="/">
         Вернуться на главную
       </Link>
     </div>
