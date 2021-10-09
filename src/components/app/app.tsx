@@ -8,16 +8,18 @@ import {
   HomePage,
   LoginPage,
   NotFound404,
+  OrderFeedPage,
+  ProfilePage,
   RegistrationPage,
   ResetPasswordPage,
 } from "../../pages";
 
 function App() {
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        <Router>
+    <Router>
+      <div className={styles.app}>
+        <AppHeader />
+        <main className={styles.main}>
           <Switch>
             <Route path="/" exact={true}>
               <HomePage />
@@ -34,13 +36,19 @@ function App() {
             <Route path="/reset-password" exact={true}>
               <ResetPasswordPage />
             </Route>
+            <Route path="/profile" exact={true}>
+              <ProfilePage />
+            </Route>
+            <Route path="/order-feed" exact={true}>
+              <OrderFeedPage />
+            </Route>
             <Route>
               <NotFound404 />
             </Route>
           </Switch>
-        </Router>
-      </main>
-    </div>
+        </main>
+      </div>
+    </Router>
   );
 }
 
