@@ -6,6 +6,7 @@ import ProtectedRoute from "../../components/protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authSlice";
 import NotFound404 from "../not-found/not-found";
+import Orders from "../../components/orders/orders";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
@@ -29,6 +30,7 @@ const ProfilePage = () => {
         <ul className={styles.menu}>
           <NavLink
             to={url}
+            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >
@@ -36,6 +38,7 @@ const ProfilePage = () => {
           </NavLink>
           <NavLink
             to={`${url}/orders`}
+            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >
@@ -59,7 +62,7 @@ const ProfilePage = () => {
             <Profile />
           </ProtectedRoute>
           <ProtectedRoute path={`${url}/orders`} exact={true}>
-            <NotFound404 />
+            <Orders />
           </ProtectedRoute>
         </Switch>
       </div>

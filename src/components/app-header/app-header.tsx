@@ -37,7 +37,6 @@ const AppHeader = () => {
         <nav className={styles.right_menu}>
           <NavLink
             to="/profile"
-            exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}
           >
