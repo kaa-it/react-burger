@@ -5,6 +5,7 @@ import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authSlice";
+import NotFound404 from "../not-found/not-found";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
@@ -56,6 +57,9 @@ const ProfilePage = () => {
         <Switch>
           <ProtectedRoute path={url} exact={true}>
             <Profile />
+          </ProtectedRoute>
+          <ProtectedRoute path={`${url}/orders`} exact={true}>
+            <NotFound404 />
           </ProtectedRoute>
         </Switch>
       </div>

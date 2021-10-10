@@ -26,7 +26,9 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    dispatch(clearPasswordReset());
+    if (isPasswordWasReset) {
+      dispatch(clearPasswordReset());
+    }
   }, [isPasswordWasReset]);
 
   const handleLogin = useCallback(

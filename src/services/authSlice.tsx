@@ -293,6 +293,9 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
         state.isLoggedOut = true;
+        state.accessToken = "";
+        state.refreshToken = "";
+        state.user = null;
       })
       .addCase(logout.rejected, (state) => {
         state.isLoading = false;
