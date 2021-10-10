@@ -139,6 +139,29 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (empty: void, thunkAPI) => {
+    const json = await fetchWithRefresh(`${baseUrl}/auth/logout`, {
+      method: "POST",
+      // @ts-ignore
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("refreshToken"),
+      }),
+    });
+
+    if (json.success) {
+      return {};
+    } else {
+      return thunkAPI.rejectWithValue("");
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -152,6 +175,7 @@ const authSlice = createSlice({
     isShown: false,
     isLoggedIn: false,
     isFetchedUser: false,
+    isLoggedOut: false,
   },
   reducers: {
     clearPasswordReset: (state) => {
@@ -259,6 +283,21 @@ const authSlice = createSlice({
       .addCase(updateUser.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+      })
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+        state.isLoggedOut = false;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        state.isLoggedOut = true;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+        state.isLoggedOut = false;
       });
   },
 });

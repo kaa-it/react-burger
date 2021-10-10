@@ -1,13 +1,26 @@
 import React from "react";
 import styles from "./profile.module.css";
-import { NavLink, Switch, useRouteMatch } from "react-router-dom";
+import { NavLink, Redirect, Switch, useRouteMatch } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../services/authSlice";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
 
-  const handleLogout = () => {};
+  const dispatch = useDispatch();
+
+  // @ts-ignore
+  const { isLoggedOut } = useSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  if (isLoggedOut) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div className={styles.profile}>
