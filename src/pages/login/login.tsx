@@ -5,7 +5,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPasswordReset, login } from "../../services/authSlice";
 
@@ -15,21 +15,15 @@ const LoginPage = () => {
     (state) => state.auth
   );
 
-  const dispatch = useDispatch();
+  const { state } = useLocation();
 
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: "", password: "" });
 
   const handleChange = (e: any) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      history.goBack();
-    }
-  }, [isLoggedIn]);
 
   useEffect(() => {
     dispatch(clearPasswordReset());
@@ -43,10 +37,16 @@ const LoginPage = () => {
     [form]
   );
 
+  if (isLoggedIn) {
+    // @ts-ignore
+    return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
+  }
+
   if (accessToken) {
     return <Redirect to="/" />;
   }
 
+  // @ts-ignore
   return (
     <form className={styles.login}>
       <span className="text_type_main-medium">Вход</span>
@@ -63,7 +63,15 @@ const LoginPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Вы - новый пользователь?
         </span>
-        <Link to="/register" className={styles.link}>
+
+        <Link
+          to={{
+            pathname: "/register",
+            //@ts-ignore
+            state: state ? { from: state.from } : {},
+          }}
+          className={styles.link}
+        >
           Зарегистрироваться
         </Link>
       </div>
@@ -71,7 +79,14 @@ const LoginPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Забыли пароль?
         </span>
-        <Link to="/forgot-password" className={styles.link}>
+        <Link
+          to={{
+            pathname: "/forgot-password",
+            //@ts-ignore
+            state: state ? { from: state.from } : {},
+          }}
+          className={styles.link}
+        >
           Восстановить пароль
         </Link>
       </div>

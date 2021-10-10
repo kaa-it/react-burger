@@ -4,7 +4,7 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { checkResetPassword } from "../../services/authSlice";
 
@@ -14,7 +14,7 @@ const ForgotPasswordPage = () => {
 
   const dispatch = useDispatch();
 
-  const history = useHistory();
+  const { state } = useLocation();
 
   const [form, setValue] = useState({ email: "" });
 
@@ -36,8 +36,15 @@ const ForgotPasswordPage = () => {
   }
 
   if (isResetPassword) {
-    history.push("/reset-password");
-    return null;
+    return (
+      <Redirect
+        to={{
+          pathname: "/reset-password",
+          // @ts-ignore
+          state: state ? { from: state.from } : {},
+        }}
+      />
+    );
   }
 
   return (
@@ -51,7 +58,14 @@ const ForgotPasswordPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?
         </span>
-        <Link to="/login" className={styles.link}>
+        <Link
+          to={{
+            pathname: "/login",
+            //@ts-ignore
+            state: state ? { from: state.from } : {},
+          }}
+          className={styles.link}
+        >
           Войти
         </Link>
       </div>

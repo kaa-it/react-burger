@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./profile.module.css";
-import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
+import { NavLink, Switch, useRouteMatch } from "react-router-dom";
 import Profile from "../../components/profile/profile";
+import ProtectedRoute from "../../components/protected-route/protected-route";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
@@ -40,9 +41,9 @@ const ProfilePage = () => {
       </div>
       <div className={styles.right}>
         <Switch>
-          <Route path={url} exact={true}>
+          <ProtectedRoute path={url} exact={true}>
             <Profile />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </div>
     </div>

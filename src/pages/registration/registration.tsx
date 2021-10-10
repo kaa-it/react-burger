@@ -6,7 +6,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../services/authSlice";
 
@@ -15,6 +15,8 @@ const RegistrationPage = () => {
   const { accessToken } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  const { state } = useLocation();
 
   const [form, setValue] = useState({ email: "", password: "", name: "" });
 
@@ -31,7 +33,8 @@ const RegistrationPage = () => {
   );
 
   if (accessToken) {
-    return <Redirect to="/" />;
+    // @ts-ignore
+    return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
   }
 
   return (
@@ -57,7 +60,14 @@ const RegistrationPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Уже зарегистрированы?
         </span>
-        <Link to="/login" className={styles.link}>
+        <Link
+          to={{
+            pathname: "/login",
+            //@ts-ignore
+            state: state ? { from: state.from } : {},
+          }}
+          className={styles.link}
+        >
           Войти
         </Link>
       </div>

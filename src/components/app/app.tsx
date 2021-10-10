@@ -13,6 +13,7 @@ import {
   RegistrationPage,
   ResetPasswordPage,
 } from "../../pages";
+import ProtectedRoute from "../protected-route/protected-route";
 
 function App() {
   return (
@@ -36,12 +37,12 @@ function App() {
             <Route path="/reset-password" exact={true}>
               <ResetPasswordPage />
             </Route>
-            <Route path="/profile" exact={true}>
+            <ProtectedRoute path="/profile" exact={true}>
               <ProfilePage />
-            </Route>
-            <Route path="/order-feed" exact={true}>
+            </ProtectedRoute>
+            <ProtectedRoute path="/order-feed" exact={true}>
               <OrderFeedPage />
-            </Route>
+            </ProtectedRoute>
             <Route>
               <NotFound404 />
             </Route>

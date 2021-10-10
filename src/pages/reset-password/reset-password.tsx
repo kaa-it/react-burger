@@ -5,9 +5,9 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearPasswordReset, resetPassword } from "../../services/authSlice";
+import { resetPassword } from "../../services/authSlice";
 
 const ResetPasswordPage = () => {
   const { accessToken, isResetPassword, isPasswordWasReset } = useSelector(
@@ -17,7 +17,7 @@ const ResetPasswordPage = () => {
 
   const dispatch = useDispatch();
 
-  const history = useHistory();
+  const { state } = useLocation();
 
   const [form, setValue] = useState({ token: "", password: "" });
 
@@ -34,8 +34,15 @@ const ResetPasswordPage = () => {
   );
 
   if (isPasswordWasReset) {
-    history.push("/login");
-    return null;
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+          // @ts-ignore
+          state: state ? { from: state.from } : {},
+        }}
+      />
+    );
   }
 
   if (accessToken || !isResetPassword) {
@@ -64,7 +71,14 @@ const ResetPasswordPage = () => {
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?
         </span>
-        <Link to="/login" className={styles.link}>
+        <Link
+          to={{
+            pathname: "/login",
+            //@ts-ignore
+            state: state ? { from: state.from } : {},
+          }}
+          className={styles.link}
+        >
           Войти
         </Link>
       </div>
