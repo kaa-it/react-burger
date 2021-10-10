@@ -42,12 +42,12 @@ const OrderDetails = () => {
           >
             {number}
           </p>
-          <p className="text text_type_main-medium mb-15">{name}</p>
+          <p className="text_type_main-medium mb-15">{name}</p>
           <img className={styles.image} alt="Принят" src={done} />
-          <p className="text text_type_main-default mb-2">
+          <p className="text_type_main-default mb-2">
             Ваш заказ начали готовить
           </p>
-          <p className="text text_type_main-default text_color_inactive">
+          <p className="text_type_main-default text_color_inactive">
             Дождитесь готовности на орбитальной станции
           </p>
         </>

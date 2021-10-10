@@ -8,6 +8,7 @@ import OrderDetails from "./order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
 import ConstructorArea from "./constructor-area";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const { bun, ingredients: constructorIngredients } = useSelector(
@@ -17,6 +18,11 @@ const BurgerConstructor = () => {
 
   // @ts-ignore
   const { isShown } = useSelector((state) => state.orderDetails);
+
+  // @ts-ignore
+  const { accessToken } = useSelector((state) => state.auth);
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -34,11 +40,17 @@ const BurgerConstructor = () => {
   }, [bun, constructorIngredients]);
 
   const createOrder = () => {
-    if (bun !== null) {
-      dispatch(showOrderDetails());
-    } else {
+    if (bun === null) {
       console.log("Unable to create order without buns");
+      return;
     }
+
+    if (!accessToken) {
+      history.push({ pathname: "/login", state: { from: "/" } });
+      return;
+    }
+
+    dispatch(showOrderDetails());
   };
 
   const closeOrder = () => {
