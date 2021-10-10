@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { baseUrl } from "../utils/constants";
+import { fetchWithRefresh } from "../utils/auth";
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -97,6 +98,47 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "auth/get-user",
+  async (empty, thunkAPI) => {
+    const json = await fetchWithRefresh(`${baseUrl}/auth/user`, {
+      method: "GET",
+      // @ts-ignore
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: localStorage.getItem("accessToken"),
+      },
+    });
+
+    if (json.success) {
+      return { user: json.user };
+    } else {
+      return thunkAPI.rejectWithValue("");
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "auth/update-user",
+  async (userInfo: any, thunkAPI) => {
+    const json = await fetchWithRefresh(`${baseUrl}/auth/user`, {
+      method: "PATCH",
+      // @ts-ignore
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    if (json.success) {
+      return { user: json.user };
+    } else {
+      return thunkAPI.rejectWithValue("");
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -109,6 +151,7 @@ const authSlice = createSlice({
     hasError: false,
     isShown: false,
     isLoggedIn: false,
+    isFetchedUser: false,
   },
   reducers: {
     clearPasswordReset: (state) => {
@@ -188,6 +231,34 @@ const authSlice = createSlice({
         state.hasError = true;
         state.isResetPassword = true;
         state.isPasswordWasReset = false;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        // @ts-ignore
+        state.user = action.payload.user;
+      })
+      .addCase(getUser.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasError = false;
+        // @ts-ignore
+        state.user = action.payload.user;
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
       });
   },
 });

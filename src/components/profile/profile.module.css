@@ -9,6 +9,7 @@
 .link {
     composes: text_type_main-default text_color_accent from global;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .actions {

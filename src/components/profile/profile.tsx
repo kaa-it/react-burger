@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import {
   Button,
@@ -6,12 +6,24 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, updateUser } from "../../services/authSlice";
 
 const Profile = () => {
-  const [form, setValue] = useState({ name: "", email: "", password: "" });
+  // @ts-ignore
+  const { user } = useSelector((state) => state.auth);
+
+  const [form, setValue] = useState({
+    name: user ? user.name : "",
+    email: user ? user.email : "",
+    password: "",
+  });
 
   const { url } = useRouteMatch();
+  const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const handleChange = (e: any) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -19,7 +31,26 @@ const Profile = () => {
 
   const handleSave = (e: any) => {
     e.preventDefault();
+    dispatch(updateUser(form));
+    setValue({ ...form, password: "" });
   };
+
+  const handleReset = () => {
+    history.push("/");
+    setTimeout(() => history.push(`${url}`), 10);
+  };
+
+  useEffect(() => {
+    //if (user === null) {
+    dispatch(getUser());
+    //}
+  }, [user?.name, user?.email]);
+
+  useEffect(() => {
+    if (user) {
+      setValue({ ...form, name: user.name, email: user.email });
+    }
+  }, [user?.name, user?.email]);
 
   return (
     <form className={styles.profile}>
@@ -37,9 +68,9 @@ const Profile = () => {
         name="password"
       />
       <div className={styles.actions}>
-        <Link to={url} className={styles.link}>
+        <span className={styles.link} onClick={handleReset}>
           Отменить
-        </Link>
+        </span>
         <Button type="primary" onClick={handleSave}>
           Сохранить
         </Button>
