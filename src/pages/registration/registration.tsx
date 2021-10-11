@@ -38,7 +38,7 @@ const RegistrationPage = () => {
   }
 
   return (
-    <form className={styles.registration}>
+    <form className={styles.registration} onSubmit={handleRegister}>
       <span className="text_type_main-medium">Регистрация</span>
       <Input
         type="text"
@@ -53,9 +53,7 @@ const RegistrationPage = () => {
         value={form.password}
         name="password"
       />
-      <Button type="primary" onClick={handleRegister}>
-        Зарегистрироваться
-      </Button>
+      <Button>Зарегистрироваться</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Уже зарегистрированы?

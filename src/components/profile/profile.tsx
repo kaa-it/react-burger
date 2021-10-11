@@ -53,7 +53,7 @@ const Profile = () => {
   }, [user?.name, user?.email]);
 
   return (
-    <form className={styles.profile}>
+    <form className={styles.profile} onSubmit={handleSave}>
       <Input
         type="text"
         onChange={handleChange}
@@ -71,9 +71,7 @@ const Profile = () => {
         <span className={styles.link} onClick={handleReset}>
           Отменить
         </span>
-        <Button type="primary" onClick={handleSave}>
-          Сохранить
-        </Button>
+        <Button>Сохранить</Button>
       </div>
     </form>
   );

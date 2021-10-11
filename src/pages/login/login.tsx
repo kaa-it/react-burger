@@ -50,7 +50,7 @@ const LoginPage = () => {
 
   // @ts-ignore
   return (
-    <form className={styles.login}>
+    <form className={styles.login} onSubmit={handleLogin}>
       <span className="text_type_main-medium">Вход</span>
       <EmailInput onChange={handleChange} value={form.email} name="email" />
       <PasswordInput
@@ -58,9 +58,7 @@ const LoginPage = () => {
         value={form.password}
         name="password"
       />
-      <Button type="primary" onClick={handleLogin}>
-        Войти
-      </Button>
+      <Button>Войти</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вы - новый пользователь?

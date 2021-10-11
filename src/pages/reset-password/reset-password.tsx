@@ -50,7 +50,7 @@ const ResetPasswordPage = () => {
   }
 
   return (
-    <form className={styles.reset_password}>
+    <form className={styles.reset_password} onSubmit={handleResetPassword}>
       <span className="text_type_main-medium">Восстановление пароля</span>
       <PasswordInput
         onChange={handleChange}
@@ -64,9 +64,7 @@ const ResetPasswordPage = () => {
         placeholder="Введите код из письма"
         name="token"
       />
-      <Button type="primary" onClick={handleResetPassword}>
-        Сохранить
-      </Button>
+      <Button>Сохранить</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?

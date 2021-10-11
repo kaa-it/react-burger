@@ -16,7 +16,6 @@ const ProfilePage = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    //setTimeout(() => history.replace("/login"), 500);
   };
 
   if (isLoggedOut) {
