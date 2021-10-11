@@ -22,7 +22,7 @@ const IngredientDetails = () => {
 
   const content = (
     <div className={styles.ingredient_details}>
-      {!modal && (
+      {(!modal || history.action !== "PUSH") && (
         <p className="text_type_main-large mt-30">Детали ингредиента</p>
       )}
       <img
@@ -56,7 +56,7 @@ const IngredientDetails = () => {
 
   return (
     <>
-      {modal ? (
+      {modal && history.action === "PUSH" ? (
         <Modal onClose={() => history.goBack()} title="Детали ингредиента">
           {content}
         </Modal>
