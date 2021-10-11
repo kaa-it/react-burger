@@ -1,11 +1,9 @@
-import React from "react";
 import styles from "./profile.module.css";
 import { NavLink, Redirect, Switch, useRouteMatch } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authSlice";
-import NotFound404 from "../not-found/not-found";
 import Orders from "../../components/orders/orders";
 
 const ProfilePage = () => {
@@ -18,6 +16,7 @@ const ProfilePage = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    //setTimeout(() => history.replace("/login"), 500);
   };
 
   if (isLoggedOut) {

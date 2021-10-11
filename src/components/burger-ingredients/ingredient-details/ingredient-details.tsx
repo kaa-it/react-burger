@@ -20,10 +20,11 @@ const IngredientDetails = () => {
   // @ts-ignore
   const ingredient = ingredients.find((el: any) => el._id === id);
 
-  console.log(ingredient);
-
   const content = (
     <div className={styles.ingredient_details}>
+      {!modal && (
+        <p className="text_type_main-large mt-30">Детали ингредиента</p>
+      )}
       <img
         alt="Нет фото"
         src={ingredient.image}

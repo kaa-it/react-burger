@@ -198,6 +198,7 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.isLoggedIn = true;
+        state.isLoggedOut = false;
       })
       .addCase(login.rejected, (state) => {
         state.isLoading = false;
@@ -215,6 +216,8 @@ const authSlice = createSlice({
         state.hasError = false;
         // @ts-ignore
         state.user = action.payload.user;
+        state.isLoggedIn = true;
+        state.isLoggedOut = false;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
       })
@@ -293,9 +296,12 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
         state.isLoggedOut = true;
+        state.isLoggedIn = false;
         state.accessToken = "";
         state.refreshToken = "";
         state.user = null;
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       })
       .addCase(logout.rejected, (state) => {
         state.isLoading = false;
