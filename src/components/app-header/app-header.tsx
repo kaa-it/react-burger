@@ -5,7 +5,7 @@ import styles from "./app-header.module.css";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/burger-icon";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/list-icon";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/profile-icon";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const AppHeader = () => {
   return (
@@ -31,9 +31,9 @@ const AppHeader = () => {
             <p className="pl-2">Лента заказов</p>
           </NavLink>
         </nav>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <Logo />
-        </div>
+        </Link>
         <nav className={styles.right_menu}>
           <NavLink
             to="/profile"

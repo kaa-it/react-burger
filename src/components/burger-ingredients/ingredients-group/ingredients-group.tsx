@@ -22,7 +22,7 @@ const IngredientsGroup = ({ name, showDetails, ingredients }) => {
 
     if (groupType === "bun") {
       ingredients.map((el: any) =>
-        res.set(el._id, bun && bun._id === el._id ? 1 : 0)
+        res.set(el._id, bun && bun._id === el._id ? 2 : 0)
       );
       return res;
     }

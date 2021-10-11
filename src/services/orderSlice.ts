@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { baseUrl } from "../utils/constants";
+import { clearConstructor } from "./constructorSlice";
 
 export const createOrder = createAsyncThunk(
   "order/postCreate",
@@ -15,6 +16,8 @@ export const createOrder = createAsyncThunk(
     const json = await res.json();
 
     if (json.success) {
+      // @ts-ignore
+      thunkAPI.dispatch(clearConstructor());
       return { name: json.name, number: json.order.number };
     } else {
       thunkAPI.rejectWithValue("");
