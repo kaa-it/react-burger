@@ -1,16 +1,35 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import { ingredientPropTypes } from "../../../utils/types";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import Modal from "../../modal/modal";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }: any) => {
-  return (
+const IngredientDetails = () => {
+  const { state = {} } = useLocation();
+  // @ts-ignore
+  const { modal } = state;
+
+  const history = useHistory();
+
+  // @ts-ignore
+  const { id } = useParams();
+
+  // @ts-ignore
+  const { ingredients } = useSelector((state) => state.ingredients);
+
+  // @ts-ignore
+  const ingredient = ingredients.find((el: any) => el._id === id);
+
+  console.log(ingredient);
+
+  const content = (
     <div className={styles.ingredient_details}>
       <img
         alt="Нет фото"
         src={ingredient.image}
         className={`${styles.illustration} mb-4`}
       />
-      <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
+      <p className="text_type_main-medium mb-8">{ingredient.name}</p>
       <div className={styles.data}>
         <div className={styles.data_item}>
           <p className="text text_type_main-default mb-2">Калории,ккал</p>
@@ -33,10 +52,18 @@ const IngredientDetails = ({ ingredient }: any) => {
       </div>
     </div>
   );
-};
 
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropTypes,
+  return (
+    <>
+      {modal ? (
+        <Modal onClose={() => history.goBack()} title="Детали ингредиента">
+          {content}
+        </Modal>
+      ) : (
+        content
+      )}
+    </>
+  );
 };
 
 export default IngredientDetails;

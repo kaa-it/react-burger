@@ -3,14 +3,9 @@ import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
-import Modal from "../modal/modal";
-import IngredientDetails from "./ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
 import { switchTab } from "../../services/ingredientsSlice";
-import {
-  showDetails,
-  closeDetails,
-} from "../../services/ingredientDetailsSlice";
+import { useHistory } from "react-router-dom";
 
 const BurgerIngredients = () => {
   const bunsRef = useRef(null);
@@ -20,14 +15,10 @@ const BurgerIngredients = () => {
 
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
   // @ts-ignore
   const { ingredients, currentTab } = useSelector((state) => state.ingredients);
-
-  // @ts-ignore
-  const { isShown } = useSelector((state) => state.ingredientDetails);
-
-  // @ts-ignore
-  const { ingredient } = useSelector((state) => state.ingredientDetails);
 
   const selectGroup = (name: string) => {
     dispatch(switchTab(name));
@@ -86,12 +77,11 @@ const BurgerIngredients = () => {
   };
 
   const showIngredientDetails = useCallback((item: any) => {
-    dispatch(showDetails(item));
+    history.push({
+      pathname: `/ingredients/${item._id}`,
+      state: { modal: true },
+    });
   }, []);
-
-  const closeIngredientDetails = () => {
-    dispatch(closeDetails());
-  };
 
   return (
     <div className={`${styles.burger_ingredients} pt-10`}>
@@ -145,11 +135,6 @@ const BurgerIngredients = () => {
           </li>
         </ul>
       </div>
-      {isShown && (
-        <Modal onClose={closeIngredientDetails} title="Детали ингредиента">
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
     </div>
   );
 };
