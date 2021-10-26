@@ -1,7 +1,14 @@
-import PropTypes from "prop-types";
 import styles from "./placeholder-item.module.css";
 
-const PlaceholderItem = ({ type, highlighted }: any) => {
+interface IPlaceholderItemProps {
+  type?: "top" | "bottom";
+  highlighted: boolean;
+}
+
+const PlaceholderItem: React.FC<IPlaceholderItemProps> = ({
+  type,
+  highlighted,
+}) => {
   let className = `${styles.placeholder_item}`;
 
   if (type === "top") {
@@ -22,11 +29,6 @@ const PlaceholderItem = ({ type, highlighted }: any) => {
       <span>{text}</span>
     </div>
   );
-};
-
-PlaceholderItem.propTypes = {
-  type: PropTypes.string,
-  highlighted: PropTypes.bool,
 };
 
 export default PlaceholderItem;

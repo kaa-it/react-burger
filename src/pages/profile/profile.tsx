@@ -2,17 +2,16 @@ import styles from "./profile.module.css";
 import { NavLink, Redirect, Switch, useRouteMatch } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
-import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/authSlice";
 import Orders from "../../components/orders/orders";
+import { useAppDispatch, useAppSelector } from "../../services";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  // @ts-ignore
-  const { isLoggedOut } = useSelector((state) => state.auth);
+  const { isLoggedOut } = useAppSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());

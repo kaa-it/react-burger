@@ -3,46 +3,46 @@ import styles from "./burger-ingredients.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
-import { useSelector, useDispatch } from "react-redux";
 import { switchTab } from "../../services/ingredientsSlice";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { TIngredient } from "../../utils/types";
+import { IModalLocationState } from "./ingredient-details/ingredient-details";
 
-const BurgerIngredients = () => {
-  const bunsRef = useRef(null);
-  const saucesRef = useRef(null);
-  const mainsRef = useRef(null);
-  const tabsRef = useRef(null);
+const BurgerIngredients: React.FC = () => {
+  const bunsRef = useRef<HTMLLIElement>(null);
+  const saucesRef = useRef<HTMLLIElement>(null);
+  const mainsRef = useRef<HTMLLIElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const history = useHistory();
+  const history = useHistory<IModalLocationState>();
 
-  // @ts-ignore
-  const { ingredients, currentTab } = useSelector((state) => state.ingredients);
+  const { ingredients, currentTab } = useAppSelector(
+    (state) => state.ingredients
+  );
 
   const selectGroup = (name: string) => {
     dispatch(switchTab(name));
 
     switch (name) {
       case "bun":
-        // @ts-ignore
-        bunsRef.current.scrollIntoView({
+        bunsRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "start",
           inline: "nearest",
         });
         break;
       case "sauce":
-        // @ts-ignore
-        saucesRef.current.scrollIntoView({
+        saucesRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "start",
           inline: "nearest",
         });
         break;
       case "main":
-        // @ts-ignore
-        mainsRef.current.scrollIntoView({
+        mainsRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "start",
           inline: "nearest",
@@ -52,15 +52,14 @@ const BurgerIngredients = () => {
   };
 
   const handleScrollGroups = () => {
-    // @ts-ignore
-    const tabsBottom = tabsRef.current.getBoundingClientRect().bottom;
+    const tabsBottom = tabsRef.current?.getBoundingClientRect().bottom;
+    const bunsTop = bunsRef.current?.getBoundingClientRect().top;
+    const saucesTop = saucesRef.current?.getBoundingClientRect().top;
+    const mainsTop = mainsRef.current?.getBoundingClientRect().top;
 
-    // @ts-ignore
-    const bunsTop = bunsRef.current.getBoundingClientRect().top;
-    // @ts-ignore
-    const saucesTop = saucesRef.current.getBoundingClientRect().top;
-    // @ts-ignore
-    const mainsTop = mainsRef.current.getBoundingClientRect().top;
+    if (!tabsBottom || !bunsTop || !saucesTop || !mainsTop) {
+      return;
+    }
 
     const bunsDelta = Math.abs(bunsTop - tabsBottom);
     const saucesDelta = Math.abs(saucesTop - tabsBottom);
@@ -76,7 +75,7 @@ const BurgerIngredients = () => {
     }
   };
 
-  const showIngredientDetails = useCallback((item: any) => {
+  const showIngredientDetails = useCallback((item: TIngredient) => {
     history.push({
       pathname: `/ingredients/${item._id}`,
       state: { modal: true },
@@ -109,27 +108,21 @@ const BurgerIngredients = () => {
           <li ref={bunsRef}>
             <IngredientsGroup
               name="Булки"
-              ingredients={ingredients.filter(
-                (item: any) => item.type === "bun"
-              )}
+              ingredients={ingredients.filter((item) => item.type === "bun")}
               showDetails={showIngredientDetails}
             />
           </li>
           <li ref={saucesRef}>
             <IngredientsGroup
               name="Соусы"
-              ingredients={ingredients.filter(
-                (item: any) => item.type === "sauce"
-              )}
+              ingredients={ingredients.filter((item) => item.type === "sauce")}
               showDetails={showIngredientDetails}
             />
           </li>
           <li ref={mainsRef}>
             <IngredientsGroup
               name="Начинка"
-              ingredients={ingredients.filter(
-                (item: any) => item.type === "main"
-              )}
+              ingredients={ingredients.filter((item) => item.type === "main")}
               showDetails={showIngredientDetails}
             />
           </li>

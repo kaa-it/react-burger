@@ -5,30 +5,27 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 
-import { useSelector, useDispatch } from "react-redux";
 import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
 import ConstructorArea from "./constructor-area";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services";
 
-const BurgerConstructor = () => {
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    // @ts-ignore
+const BurgerConstructor: React.FC = () => {
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state) => state.burgerConstructor
   );
 
-  // @ts-ignore
-  const { isShown } = useSelector((state) => state.orderDetails);
+  const { isShown } = useAppSelector((state) => state.orderDetails);
 
-  // @ts-ignore
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken } = useAppSelector((state) => state.auth);
 
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const totalPrice = useMemo(() => {
     let totalPrice = constructorIngredients.reduce(
-      (acc: number, item: any) => item.price + acc,
+      (acc: number, item) => item.price + acc,
       0
     );
 

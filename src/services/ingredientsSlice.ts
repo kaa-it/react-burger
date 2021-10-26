@@ -1,25 +1,35 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { baseUrl } from "../utils/constants";
+import { TIngredient } from "../utils/types";
 
-export const fetchIngredients = createAsyncThunk(
+export const fetchIngredients = createAsyncThunk<Array<TIngredient>>(
   "ingredients/fetchAll",
   async () => {
     const res = await fetch(`${baseUrl}/ingredients`);
     const json = await res.json();
-    return json.data;
+    return json.data as Array<TIngredient>;
   }
 );
 
+type TIngredientsSliceState = {
+  ingredients: Array<TIngredient>;
+  isLoading: boolean;
+  hasError: boolean;
+  currentTab: string;
+};
+
+const initialState: TIngredientsSliceState = {
+  ingredients: [],
+  isLoading: false,
+  hasError: false,
+  currentTab: "bun",
+};
+
 const ingredientsSlice = createSlice({
   name: "ingredients",
-  initialState: {
-    ingredients: [],
-    isLoading: false,
-    hasError: false,
-    currentTab: "bun",
-  },
+  initialState,
   reducers: {
-    switchTab: (state, action) => {
+    switchTab: (state, action: PayloadAction<string>) => {
       state.currentTab = action.payload;
     },
   },
@@ -30,11 +40,14 @@ const ingredientsSlice = createSlice({
         state.hasError = false;
         state.ingredients = [];
       })
-      .addCase(fetchIngredients.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.hasError = false;
-        state.ingredients = action.payload;
-      })
+      .addCase(
+        fetchIngredients.fulfilled,
+        (state, action: PayloadAction<Array<TIngredient>>) => {
+          state.isLoading = false;
+          state.hasError = false;
+          state.ingredients = action.payload;
+        }
+      )
       .addCase(fetchIngredients.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;

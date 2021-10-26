@@ -1,28 +1,35 @@
 import styles from "./burger-constructor.module.css";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../utils/types";
-import PropTypes from "prop-types";
+import { TIngredient } from "../../utils/types";
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
-  const isLocked = type !== undefined || !item;
-  let suffix = "";
+interface IConstructorItem {
+  item: TIngredient;
+  type?: "top" | "bottom";
+  onRemove?: (item: TIngredient) => void;
+  index?: number;
+  moveItem?: (fromIndex: number, toIndex: number) => void;
+}
 
-  if (item) {
-    if (type === "top") {
-      suffix = " (верх)";
-    } else if (type === "bottom") {
-      suffix = " (низ)";
-    }
+const ConstructorItem: React.FC<IConstructorItem> = ({
+  item,
+  type,
+  index,
+  onRemove,
+  moveItem,
+}) => {
+  const isLocked = type !== undefined;
+
+  let suffix = "";
+  if (type === "top") {
+    suffix = " (верх)";
+  } else if (type === "bottom") {
+    suffix = " (низ)";
   }
 
-  const text = item
-    ? item.name + suffix
-    : type === "top" || type === "bottom"
-    ? "Выберите булки"
-    : "Выберите начинку";
+  const text = item.name + suffix;
 
   const onClose = () => {
     if (onRemove) {
@@ -30,7 +37,7 @@ const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
     }
   };
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ opacity }, drag] = useDrag({
     type: item.type,
@@ -45,15 +52,14 @@ const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
     }),
-    canDrop: (item, monitor) => {
+    canDrop: (_item: TIngredient) => {
       return type === undefined;
     },
-    hover: (item, monitor) => {
+    hover: (item: TIngredient, monitor) => {
       if (!ref.current) {
         return;
       }
 
-      // @ts-ignore
       if (item.index === undefined) {
         return;
       }
@@ -62,20 +68,17 @@ const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
         return;
       }
 
-      // @ts-ignore
       const dragIndex = item.index;
-      const hoverIndex = index;
+      const hoverIndex = index!; // ref for buns not assigned
 
       if (dragIndex === hoverIndex) {
         return;
       }
 
-      // @ts-ignore
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current!.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      // @ts-ignore
+      const clientOffset = monitor.getClientOffset()!;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -88,19 +91,18 @@ const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
 
       moveItem(dragIndex, hoverIndex);
 
-      // @ts-ignore
       item.index = hoverIndex;
     },
   });
 
-  if (type !== "bun") {
+  if (type == undefined) {
     drag(drop(ref));
   }
 
   return (
     <div
       className={styles.constructor_item}
-      {...(type !== "bun" && {
+      {...(type == undefined && {
         ref: ref,
         style: { opacity: opacity },
         "data-handler-id": handlerId,
@@ -113,23 +115,12 @@ const ConstructorItem = ({ item, type, index, onRemove, moveItem }: any) => {
         type={type}
         isLocked={isLocked}
         text={text}
-        thumbnail={""}
-        {...(item && {
-          price: item.price,
-          thumbnail: item.image,
-          handleClose: onClose,
-        })}
+        price={item.price}
+        thumbnail={item.image}
+        handleClose={!isLocked ? onClose : undefined}
       />
     </div>
   );
-};
-
-ConstructorItem.propTypes = {
-  item: ingredientPropTypes.isRequired,
-  type: PropTypes.string,
-  onRemove: PropTypes.func,
-  index: PropTypes.number,
-  moveItem: PropTypes.func,
 };
 
 export default ConstructorItem;

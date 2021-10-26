@@ -1,38 +1,45 @@
 import React, { useMemo } from "react";
-import PropTypes from "prop-types";
 import styles from "./ingredients-group.module.css";
-import { ingredientPropTypes } from "../../../utils/types";
+import { TIngredient } from "../../../utils/types";
 import IngredientItem from "../ingredient-item/ingredient-item";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../services";
 
-// @ts-ignore
-const IngredientsGroup = ({ name, showDetails, ingredients }) => {
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    // @ts-ignore
+interface IIngredientsGroupProps {
+  name: string;
+  showDetails: (item: TIngredient) => void;
+  ingredients: Array<TIngredient>;
+}
+
+const IngredientsGroup: React.FC<IIngredientsGroupProps> = ({
+  name,
+  showDetails,
+  ingredients,
+}) => {
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state) => state.burgerConstructor
   );
 
   const statistics = useMemo(() => {
+    let res = new Map<string, number>();
+
     if (ingredients.length === 0) {
-      return {};
+      return res;
     }
 
     const groupType = ingredients[0].type;
-    let res = new Map();
 
     if (groupType === "bun") {
-      ingredients.map((el: any) =>
+      ingredients.map((el) =>
         res.set(el._id, bun && bun._id === el._id ? 2 : 0)
       );
       return res;
     }
 
-    const items = constructorIngredients.filter(
-      (el: any) => el.type === groupType
-    );
+    const items = constructorIngredients.filter((el) => el.type === groupType);
 
     return items.reduce(
-      (acc: any, e: any) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
+      (acc: Map<string, number>, e) =>
+        acc.set(e._id, (acc.get(e._id) || 0) + 1),
       res
     );
   }, [ingredients, constructorIngredients, bun]);
@@ -41,7 +48,7 @@ const IngredientsGroup = ({ name, showDetails, ingredients }) => {
     <>
       <p className="text text_type_main-medium mb-6">{name}</p>
       <div className={styles.content}>
-        {ingredients.map((item: any) => (
+        {ingredients.map((item) => (
           <IngredientItem
             key={item._id}
             item={item}
@@ -52,12 +59,6 @@ const IngredientsGroup = ({ name, showDetails, ingredients }) => {
       </div>
     </>
   );
-};
-
-IngredientsGroup.propTypes = {
-  name: PropTypes.string.isRequired,
-  showDetails: PropTypes.func.isRequired,
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
 
 export default IngredientsGroup;

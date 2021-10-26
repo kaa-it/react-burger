@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./login.module.css";
 import {
   Button,
@@ -6,22 +12,23 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { clearPasswordReset, login } from "../../services/authSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { TCredentials } from "../../utils/types";
+import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
 
-const LoginPage = () => {
-  const { accessToken, isLoggedIn, isPasswordWasReset } = useSelector(
-    // @ts-ignore
+const LoginPage: React.FC = () => {
+  const { accessToken, isLoggedIn, isPasswordWasReset } = useAppSelector(
     (state) => state.auth
   );
 
-  const { state } = useLocation();
+  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [form, setValue] = useState({ email: "", password: "" });
+  const [form, setValue] = useState<TCredentials>({ email: "", password: "" });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -32,7 +39,7 @@ const LoginPage = () => {
   }, [isPasswordWasReset]);
 
   const handleLogin = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       dispatch(login(form));
     },
@@ -40,7 +47,6 @@ const LoginPage = () => {
   );
 
   if (isLoggedIn) {
-    // @ts-ignore
     return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
   }
 
@@ -48,7 +54,6 @@ const LoginPage = () => {
     return <Redirect to="/" />;
   }
 
-  // @ts-ignore
   return (
     <form className={styles.login} onSubmit={handleLogin}>
       <span className="text_type_main-medium">Вход</span>
@@ -67,7 +72,6 @@ const LoginPage = () => {
         <Link
           to={{
             pathname: "/register",
-            //@ts-ignore
             state: state ? { from: state.from } : {},
           }}
           className={styles.link}
@@ -82,7 +86,6 @@ const LoginPage = () => {
         <Link
           to={{
             pathname: "/forgot-password",
-            //@ts-ignore
             state: state ? { from: state.from } : {},
           }}
           className={styles.link}

@@ -18,7 +18,7 @@ import IngredientDetails from "../burger-ingredients/ingredient-details/ingredie
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/ingredientsSlice";
 
-function App() {
+const App: React.FC = () => {
   const { ingredients, isLoading, hasError } = useSelector(
     (state: any) => state.ingredients
   );
@@ -76,6 +76,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
