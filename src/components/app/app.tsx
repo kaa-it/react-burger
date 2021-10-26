@@ -15,14 +15,14 @@ import {
 } from "../../pages";
 import ProtectedRoute from "../protected-route/protected-route";
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/ingredientsSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
 
 const App: React.FC = () => {
-  const { ingredients, isLoading, hasError } = useSelector(
-    (state: any) => state.ingredients
+  const { ingredients, isLoading, hasError } = useAppSelector(
+    (state) => state.ingredients
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchIngredients());
