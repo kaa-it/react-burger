@@ -1,10 +1,23 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services";
+import History from "history";
 
-const ProtectedRoute = ({ children, ...rest }: any) => {
-  // @ts-ignore
-  const { accessToken } = useSelector((state) => state.auth);
+interface IProtectedRouteProps {
+  children: ReactNode;
+  path: string;
+  exact?: boolean;
+}
+
+export interface IProtectedRouteLocationProps {
+  from: History.Location;
+}
+
+const ProtectedRoute: React.FC<IProtectedRouteProps> = ({
+  children,
+  ...rest
+}) => {
+  const { accessToken } = useAppSelector((state) => state.auth);
 
   return (
     <Route

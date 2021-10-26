@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import styles from "./registration.module.css";
 import {
   Button,
@@ -7,25 +7,30 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../services/authSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
+import { TUser } from "../../utils/types";
 
-const RegistrationPage = () => {
-  // @ts-ignore
-  const { accessToken } = useSelector((state) => state.auth);
+const RegistrationPage: React.FC = () => {
+  const { accessToken } = useAppSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { state } = useLocation();
+  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
 
-  const [form, setValue] = useState({ email: "", password: "", name: "" });
+  const [form, setValue] = useState<TUser>({
+    email: "",
+    password: "",
+    name: "",
+  });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleRegister = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       dispatch(register(form));
     },
@@ -33,7 +38,6 @@ const RegistrationPage = () => {
   );
 
   if (accessToken) {
-    // @ts-ignore
     return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
   }
 
@@ -50,7 +54,7 @@ const RegistrationPage = () => {
       <EmailInput onChange={handleChange} value={form.email} name="email" />
       <PasswordInput
         onChange={handleChange}
-        value={form.password}
+        value={form.password || ""}
         name="password"
       />
       <Button>Зарегистрироваться</Button>
@@ -61,7 +65,6 @@ const RegistrationPage = () => {
         <Link
           to={{
             pathname: "/login",
-            //@ts-ignore
             state: state ? { from: state.from } : {},
           }}
           className={styles.link}

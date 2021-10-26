@@ -1,29 +1,35 @@
-import React, { useCallback, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import styles from "./forgot-password.module.css";
 import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { checkResetPassword } from "../../services/authSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
 
-const ForgotPasswordPage = () => {
-  // @ts-ignore
-  const { accessToken, isResetPassword } = useSelector((state) => state.auth);
+interface IForgotPasswordState {
+  email: string;
+}
 
-  const dispatch = useDispatch();
+const ForgotPasswordPage: React.FC = () => {
+  const { accessToken, isResetPassword } = useAppSelector(
+    (state) => state.auth
+  );
 
-  const { state } = useLocation();
+  const dispatch = useAppDispatch();
 
-  const [form, setValue] = useState({ email: "" });
+  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
 
-  const handleChange = (e: any) => {
+  const [form, setValue] = useState<IForgotPasswordState>({ email: "" });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleResetPassword = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       dispatch(checkResetPassword(form.email));
     },
@@ -40,7 +46,6 @@ const ForgotPasswordPage = () => {
       <Redirect
         to={{
           pathname: "/reset-password",
-          // @ts-ignore
           state: state ? { from: state.from } : {},
         }}
       />
@@ -59,7 +64,6 @@ const ForgotPasswordPage = () => {
         <Link
           to={{
             pathname: "/login",
-            //@ts-ignore
             state: state ? { from: state.from } : {},
           }}
           className={styles.link}

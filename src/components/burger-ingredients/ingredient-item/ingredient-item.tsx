@@ -1,12 +1,21 @@
 import React from "react";
 import styles from "./ingredient-item.module.css";
-import { ingredientPropTypes } from "../../../utils/types";
+import { TIngredient } from "../../../utils/types";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 
-const IngredientItem = ({ item, showDetails, count }: any) => {
+interface IngredientItemProps {
+  item: TIngredient;
+  showDetails: (item: TIngredient) => void;
+  count: number;
+}
+
+const IngredientItem: React.FC<IngredientItemProps> = ({
+  item,
+  showDetails,
+  count,
+}) => {
   const handleClick = () => {
     showDetails(item);
   };
@@ -36,12 +45,6 @@ const IngredientItem = ({ item, showDetails, count }: any) => {
       {count > 0 && <Counter size="default" count={count} />}
     </div>
   );
-};
-
-IngredientItem.propTypes = {
-  item: ingredientPropTypes.isRequired,
-  showDetails: PropTypes.func.isRequired,
-  count: PropTypes.number.isRequired,
 };
 
 export default IngredientItem;

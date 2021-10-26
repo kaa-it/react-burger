@@ -2,25 +2,30 @@ import React from "react";
 import styles from "./ingredient-details.module.css";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import Modal from "../../modal/modal";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../services";
 
-const IngredientDetails = () => {
-  const { state = {} } = useLocation();
-  // @ts-ignore
+export interface IModalLocationState {
+  modal?: boolean;
+}
+
+interface IIngredientDetailsParams {
+  id: string;
+}
+
+const IngredientDetails: React.FC = () => {
+  const { state } = useLocation<IModalLocationState>();
+
   const { modal } = state;
 
   const history = useHistory();
 
-  // @ts-ignore
-  const { id } = useParams();
+  const { id } = useParams<IIngredientDetailsParams>();
 
-  // @ts-ignore
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useAppSelector((state) => state.ingredients);
 
-  // @ts-ignore
-  const ingredient = ingredients.find((el: any) => el._id === id);
+  const ingredient = ingredients.find((el) => el._id === id);
 
-  const content = (
+  const content = ingredient ? (
     <div className={styles.ingredient_details}>
       {(!modal || history.action !== "PUSH") && (
         <p className="text_type_main-large mt-30">Детали ингредиента</p>
@@ -52,6 +57,8 @@ const IngredientDetails = () => {
         </div>
       </div>
     </div>
+  ) : (
+    "Нет такого ингредиента"
   );
 
   return (

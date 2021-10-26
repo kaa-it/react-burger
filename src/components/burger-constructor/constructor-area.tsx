@@ -2,7 +2,6 @@ import styles from "./burger-constructor.module.css";
 import ConstructorItem from "./constructor-item";
 import PlaceholderItem from "./placeholder-item/placeholder-item";
 import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   removeIngredient,
   setBun,
@@ -11,27 +10,25 @@ import {
 } from "../../services/constructorSlice";
 import { useDrop } from "react-dnd";
 import { v4 as uuid } from "uuid";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { TIngredient } from "../../utils/types";
 
-const ConstructorArea = () => {
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    // @ts-ignore
+const ConstructorArea: React.FC = () => {
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state) => state.burgerConstructor
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [{ isBunOver, isIngredientOver }, dropTarget] = useDrop({
     accept: ["bun", "sauce", "main"],
-    canDrop: (item, monitor) => {
-      // @ts-ignore
+    canDrop: (item: TIngredient) => {
       return item.index === undefined;
     },
-    drop: (item) => {
-      // @ts-ignore
+    drop: (item: TIngredient) => {
       if (item.type === "bun") {
         dispatch(setBun(item));
       } else {
-        // @ts-ignore
         dispatch(addIngredient({ ...item, key: uuid() }));
       }
     },
@@ -41,7 +38,7 @@ const ConstructorArea = () => {
     }),
   });
 
-  const removeItem = (item: any) => {
+  const removeItem = (item: TIngredient) => {
     dispatch(removeIngredient(item));
   };
 
@@ -65,7 +62,7 @@ const ConstructorArea = () => {
       <div className={styles.ingredients}>
         <div className={`${styles.scroll_area} custom-scroll`}>
           {constructorIngredients.length ? (
-            constructorIngredients.map((item: any, index: number) => (
+            constructorIngredients.map((item, index: number) => (
               <ConstructorItem
                 key={item.key}
                 item={item}

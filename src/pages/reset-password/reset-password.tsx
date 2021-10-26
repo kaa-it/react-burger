@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import styles from "./reset-password.module.css";
 import {
   Button,
@@ -6,27 +6,31 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/authSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { TResetPasswordArgs } from "../../utils/types";
+import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
 
-const ResetPasswordPage = () => {
-  const { accessToken, isResetPassword, isPasswordWasReset } = useSelector(
-    // @ts-ignore
+const ResetPasswordPage: React.FC = () => {
+  const { accessToken, isResetPassword, isPasswordWasReset } = useAppSelector(
     (state) => state.auth
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { state } = useLocation();
+  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
 
-  const [form, setValue] = useState({ token: "", password: "" });
+  const [form, setValue] = useState<TResetPasswordArgs>({
+    token: "",
+    password: "",
+  });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleResetPassword = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       dispatch(resetPassword(form));
     },
@@ -38,7 +42,6 @@ const ResetPasswordPage = () => {
       <Redirect
         to={{
           pathname: "/login",
-          // @ts-ignore
           state: state ? { from: state.from } : {},
         }}
       />
@@ -72,7 +75,6 @@ const ResetPasswordPage = () => {
         <Link
           to={{
             pathname: "/login",
-            //@ts-ignore
             state: state ? { from: state.from } : {},
           }}
           className={styles.link}

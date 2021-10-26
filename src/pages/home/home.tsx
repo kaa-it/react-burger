@@ -6,7 +6,7 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   return (
     <div className={styles.home}>
       <DndProvider backend={HTML5Backend}>

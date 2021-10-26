@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import {
   Button,
@@ -7,14 +7,14 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { getUser, updateUser } from "../../services/authSlice";
+import { useAppDispatch, useAppSelector } from "../../services";
+import { TUser } from "../../utils/types";
 
 const Profile = () => {
-  // @ts-ignore
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
-  const [form, setValue] = useState({
+  const [form, setValue] = useState<TUser>({
     name: user ? user.name : "",
     email: user ? user.email : "",
     password: "",
@@ -23,13 +23,13 @@ const Profile = () => {
   const { url } = useRouteMatch();
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSave = (e: any) => {
+  const handleSave = (e: FormEvent) => {
     e.preventDefault();
     dispatch(updateUser(form));
     setValue({ ...form, password: "" });
@@ -41,9 +41,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    //if (user === null) {
     dispatch(getUser());
-    //}
   }, [user?.name, user?.email]);
 
   useEffect(() => {
@@ -64,7 +62,7 @@ const Profile = () => {
       <EmailInput onChange={handleChange} value={form.email} name="email" />
       <PasswordInput
         onChange={handleChange}
-        value={form.password}
+        value={form.password || ""}
         name="password"
       />
       <div className={styles.actions}>

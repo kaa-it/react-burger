@@ -2,27 +2,24 @@ import React, { useEffect } from "react";
 import styles from "./order-details.module.css";
 import done from "../../../images/done.png";
 
-import { useSelector, useDispatch } from "react-redux";
 import { createOrder } from "../../../services/orderSlice";
+import { useAppDispatch, useAppSelector } from "../../../services";
 
-const OrderDetails = () => {
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    // @ts-ignore
+const OrderDetails: React.FC = () => {
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state) => state.burgerConstructor
   );
 
-  const { name, number, isLoading, hasError } = useSelector(
-    // @ts-ignore
+  const { name, number, isLoading, hasError } = useAppSelector(
     (state) => state.orderDetails
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     let ingredients = constructorIngredients.map((el: any) => el._id);
-    let order = { ingredients: [bun._id, ...ingredients, bun._id] };
+    let order = { ingredients: [bun!._id, ...ingredients, bun!._id] };
 
-    // @ts-ignore
     dispatch(createOrder(order));
   }, []);
 

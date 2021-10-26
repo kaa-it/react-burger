@@ -12,7 +12,10 @@ const refreshToken = async () => {
   });
 };
 
-export const fetchWithRefresh = async (url: string, options: any) => {
+export const fetchWithRefresh = async (
+  url: string,
+  options: RequestInit | undefined
+) => {
   const res = await fetch(url, options);
 
   if (res.ok) {
@@ -25,20 +28,18 @@ export const fetchWithRefresh = async (url: string, options: any) => {
     const refreshRes = await refreshToken();
     const json = await refreshRes.json();
 
-    // @ts-ignore
     if (!json.success) {
       return json;
     }
 
-    // @ts-ignore
     localStorage.setItem("accessToken", json.accessToken);
-    // @ts-ignore
     localStorage.setItem("refreshToken", json.refreshToken);
 
-    // @ts-ignore
-    options.headers.Authorization = json.accessToken;
+    let opts = options || { method: "GET", headers: {} };
 
-    const res = await fetch(url, options);
+    opts.headers = { ...opts.headers, Authorization: json.accessToken };
+
+    const res = await fetch(url, opts);
     return res.json();
   } else {
     return json;

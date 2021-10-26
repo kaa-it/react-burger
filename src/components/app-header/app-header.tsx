@@ -7,7 +7,7 @@ import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components/dis
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/profile-icon";
 import { Link, NavLink } from "react-router-dom";
 
-const AppHeader = () => {
+const AppHeader: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header_content}>
