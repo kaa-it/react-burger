@@ -2,7 +2,7 @@ import ingredientsReducer from "./ingredientsSlice";
 import constructorReducer from "./constructorSlice";
 import orderSliceReducer from "./orderSlice";
 import authSliceReducer from "./authSlice";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const store = configureStore({
@@ -12,6 +12,8 @@ const store = configureStore({
     orderDetails: orderSliceReducer,
     auth: authSliceReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

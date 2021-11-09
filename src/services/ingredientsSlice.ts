@@ -13,6 +13,7 @@ export const fetchIngredients = createAsyncThunk<Array<TIngredient>>(
 
 type TIngredientsSliceState = {
   ingredients: Array<TIngredient>;
+  ingredientsMap: Map<string, TIngredient>;
   isLoading: boolean;
   hasError: boolean;
   currentTab: string;
@@ -20,6 +21,7 @@ type TIngredientsSliceState = {
 
 const initialState: TIngredientsSliceState = {
   ingredients: [],
+  ingredientsMap: new Map<string, TIngredient>(),
   isLoading: false,
   hasError: false,
   currentTab: "bun",
@@ -46,6 +48,9 @@ const ingredientsSlice = createSlice({
           state.isLoading = false;
           state.hasError = false;
           state.ingredients = action.payload;
+          state.ingredients.forEach((item: TIngredient) => {
+            state.ingredientsMap.set(item._id, item);
+          });
         }
       )
       .addCase(fetchIngredients.rejected, (state) => {
