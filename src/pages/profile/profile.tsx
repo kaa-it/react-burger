@@ -59,7 +59,9 @@ const ProfilePage = () => {
             <Profile />
           </ProtectedRoute>
           <ProtectedRoute path={`${url}/orders`} exact={true}>
-            <Orders />
+            <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
+              <Orders />
+            </div>
           </ProtectedRoute>
         </Switch>
       </div>
