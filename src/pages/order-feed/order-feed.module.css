@@ -1,20 +1,8 @@
 .order_feed {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    row-gap: 24px;
-}
-
-.id_info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.link {
-    composes: text_type_main-default text_color_accent from global;
-    text-decoration: none;
+    gap: 0 40px;
 }
