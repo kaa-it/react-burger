@@ -4,13 +4,17 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { useAppSelector } from "../../services";
 import IngredientsIllustrations from "./ingredients-illustrations/ingredients-illustrations";
 
-const OrderCard: React.FC = () => {
+interface IOrderCard {
+  showInfo: (item: any) => void;
+}
+
+const OrderCard: React.FC<IOrderCard> = ({ showInfo }) => {
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   const images = ingredients.map((item) => item.image_mobile);
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => showInfo(1)}>
       <div className={styles.id_info}>
         <span className="text_type_digits-default">#034535</span>
         <span className="text_type_main-default text_color_inactive">

@@ -6,8 +6,7 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { switchTab } from "../../services/ingredientsSlice";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
-import { TIngredient } from "../../utils/types";
-import { IModalLocationState } from "./ingredient-details/ingredient-details";
+import { IModalLocationState, TIngredient } from "../../utils/types";
 
 const BurgerIngredients: React.FC = () => {
   const bunsRef = useRef<HTMLLIElement>(null);

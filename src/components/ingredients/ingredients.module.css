@@ -1,0 +1,90 @@
+.ingredients {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 640px;
+}
+
+.list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 24px 0 0;
+    margin: 0 0 0 0;
+    list-style: none;
+    overflow: auto;
+}
+
+.list li:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.ingredient {
+    margin-top: 4px;
+    position: relative;
+    display: flex;
+    height: 56px;
+    gap: 0 16px;
+    align-items: center;
+}
+
+.illustration {
+    position: absolute;
+    top: -4px;
+    width: 112px;
+    height: 64px;
+    z-index: 2;
+    left: -16px;
+}
+
+.image {
+    position: absolute;
+    top: 8px;
+    left: -4px;
+    width: 112px;
+    height: 56px;
+}
+
+.border {
+    top: 4px;
+    left: 18px;
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 80px;
+    background-color: var(--background);
+    border: 5px solid var(--colors-interface-accent);
+    z-index: -1;
+}
+
+.title {
+    position: relative;
+    top: 16px;
+    left: 86px;
+    composes: text_type_main-default from global;
+    height: 48px;
+    width: 414px;
+}
+
+.price {
+    position: absolute;
+    top: 16px;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    margin: 0;
+    padding: 0;
+    font-family: 'Iceland';
+    font-size: 28px;
+}
+
+.price svg {
+    margin-left: 9px;
+}

@@ -5,6 +5,7 @@ import ProtectedRoute from "../../components/protected-route/protected-route";
 import { logout } from "../../services/authSlice";
 import Orders from "../../components/orders/orders";
 import { useAppDispatch, useAppSelector } from "../../services";
+import React from "react";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();

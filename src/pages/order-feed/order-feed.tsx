@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./order-feed.module.css";
 import Orders from "../../components/orders/orders";
 import OrderSummary from "../../components/orders-summary/order-summary";

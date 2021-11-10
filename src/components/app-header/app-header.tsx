@@ -22,7 +22,7 @@ const AppHeader: React.FC = () => {
             <p className="pl-2">Конструктор</p>
           </NavLink>
           <NavLink
-            to="/order-feed"
+            to="/feed"
             exact
             className={styles.menu_item}
             activeClassName={styles.active_menu_item}

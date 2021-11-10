@@ -49,3 +49,11 @@ export type TResetPasswordArgs = {
   token: string;
   password: string;
 };
+
+export interface IModalLocationState {
+  modal?: boolean;
+}
+
+export interface IIDParams {
+  id: string;
+}
