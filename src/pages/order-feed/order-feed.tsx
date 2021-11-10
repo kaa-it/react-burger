@@ -1,6 +1,7 @@
+import React from "react";
 import styles from "./order-feed.module.css";
 import Orders from "../../components/orders/orders";
-import OrderSummary from "../../components/orders-summary/order-summary";
+import OrdersSummary from "../../components/orders-summary/orders-summary";
 
 const OrderFeedPage: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const OrderFeedPage: React.FC = () => {
         <Orders />
       </div>
       <div className={styles.summary}>
-        <OrderSummary />
+        <OrdersSummary />
       </div>
     </div>
   );

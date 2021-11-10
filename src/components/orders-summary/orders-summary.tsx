@@ -28,7 +28,7 @@ const nums = [
 
 //const nums: string[] = [];
 
-const OrderSummary: React.FC = () => {
+const OrdersSummary: React.FC = () => {
   const cols = Math.floor(nums.length / 10) + 1;
   const array = Array.from(Array(cols).keys());
   const chunks = nums.reduce((all: string[][], one, i) => {
@@ -38,7 +38,7 @@ const OrderSummary: React.FC = () => {
     return all;
   }, []);
   return (
-    <div className={styles.order_summary}>
+    <div className={styles.orders_summary}>
       <div className={styles.statuses}>
         <div className={styles.status}>
           <span className="text_type_main-medium pb-6">Готовы:</span>
@@ -79,4 +79,4 @@ const OrderSummary: React.FC = () => {
   );
 };
 
-export default OrderSummary;
+export default OrdersSummary;
