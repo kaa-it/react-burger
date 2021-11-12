@@ -3,15 +3,17 @@ import { baseUrl } from "../utils/constants";
 import { clearConstructor } from "./constructorSlice";
 import { ThunkAPI } from "./index";
 import { TCreatedOrder, TOrder } from "../utils/types";
+import {fetchWithRefresh} from "../utils/auth";
 
 export const createOrder = createAsyncThunk<TCreatedOrder, TOrder, ThunkAPI>(
   "order/postCreate",
   async (order, thunkAPI) => {
-    const res = await fetch(`${baseUrl}/orders`, {
+    const res = await fetchWithRefresh(`${baseUrl}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      },
+         Authorization: localStorage.getItem("accessToken"),
+      } as HeadersInit,
       body: JSON.stringify(order),
     });
 

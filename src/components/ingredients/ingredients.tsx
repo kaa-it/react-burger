@@ -4,11 +4,16 @@ import { useAppSelector } from "../../services";
 import { TIngredient } from "../../utils/types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 
-interface IIngredientProps {
-  ingredient: TIngredient;
+function calculateCount<T>(arr: Array<T>, val: T): number {
+  return arr.reduce((a: number, v: T) => (v === val ? a + 1 : a), 0);
 }
 
-const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
+interface IIngredientProps {
+  ingredient: TIngredient;
+  count: number;
+}
+
+const Ingredient: React.FC<IIngredientProps> = ({ ingredient, count }) => {
   return (
     <div className={styles.ingredient}>
       <div className={styles.illustration}>
@@ -21,24 +26,36 @@ const Ingredient: React.FC<IIngredientProps> = ({ ingredient }) => {
       </div>
       <p className={styles.title}>{ingredient.name}</p>
       <p className={styles.price}>
-        {"1 x 480"}
+        {`${count} x ${ingredient.price}`}
         <CurrencyIcon type="primary" />
       </p>
     </div>
   );
 };
 
-const Ingredients: React.FC = () => {
-  const { ingredients } = useAppSelector((state) => state.ingredients);
+interface IIngredientsProps {
+  ingredients: Array<string>;
+}
+
+const Ingredients: React.FC<IIngredientsProps> = ({ ingredients }) => {
+  const { ingredientsMap } = useAppSelector((state) => state.ingredients);
+
+  const orderIngredients = Array.from(new Set(ingredients));
 
   return (
     <div className={styles.ingredients}>
       <ul className={`${styles.list} custom-scroll`}>
-        {ingredients.map((item, i) => (
-          <li key={i}>
-            <Ingredient ingredient={item} />
-          </li>
-        ))}
+        {orderIngredients.map((id) => {
+          const item = ingredientsMap.get(id)!;
+          return (
+            <li key={item._id}>
+              <Ingredient
+                ingredient={item}
+                count={calculateCount(ingredients, id)}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

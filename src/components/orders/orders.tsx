@@ -2,40 +2,40 @@ import React, { useCallback } from "react";
 import styles from "./orders.module.css";
 import OrderCard from "../order-card/order-card";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import { TOrderInfo } from "../../utils/types";
 
-const Orders: React.FC = () => {
+interface IOrdersProps {
+  orders?: Array<TOrderInfo>;
+}
+
+const Orders: React.FC<IOrdersProps> = ({ orders }) => {
   const history = useHistory();
 
   const { url } = useRouteMatch();
 
-  const showOrderInfo = useCallback((item: any) => {
+  const showOrderInfo = useCallback((number: number) => {
     history.push({
-      pathname: `${url}/1`,
+      pathname: `${url}/${number}`,
       state: { modal: true },
     });
   }, []);
 
+  if (!orders) {
+    return null;
+  }
+
   return (
     <div className={styles.feed}>
       <ul className={`${styles.list} custom-scroll`}>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
-        <li>
-          <OrderCard showInfo={showOrderInfo} />
-        </li>
+        {orders.map((order) => (
+          <li>
+            <OrderCard
+              key={order.number}
+              order={order}
+              showInfo={showOrderInfo}
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
