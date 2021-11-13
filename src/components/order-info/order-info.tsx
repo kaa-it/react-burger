@@ -7,6 +7,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import Ingredients from "../ingredients/ingredients";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { getOrder } from "../../services/orders/reducer";
+import { statusInfo } from "../../utils/utils";
 
 const OrderInfo: React.FC = () => {
   const location = useLocation<IModalLocationState>();
@@ -42,12 +43,13 @@ const OrderInfo: React.FC = () => {
     .map((id) => ingredientsMap.get(id)!.price)
     .reduce((a, b) => a + b);
 
-  //const ingredients = Array.from(new Set(order.ingredients));
+  const statusClassName =
+    order.status === "done" ? styles.status_success : styles.status;
 
   const content = (
     <div className={styles.order_info}>
       <p className={styles.title}>{order.name}</p>
-      <p className={styles.status}>{order.status}</p>
+      <p className={statusClassName}>{statusInfo(order.status)}</p>
       <p className={styles.ingredients_title}>Состав:</p>
       <div className={styles.ingredients}>
         <Ingredients ingredients={order.ingredients} />

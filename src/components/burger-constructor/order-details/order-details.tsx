@@ -4,6 +4,7 @@ import done from "../../../images/done.png";
 
 import { createOrder } from "../../../services/orderSlice";
 import { useAppDispatch, useAppSelector } from "../../../services";
+import { TIngredient } from "../../../utils/types";
 
 const OrderDetails: React.FC = () => {
   const { bun, ingredients: constructorIngredients } = useAppSelector(
@@ -17,7 +18,7 @@ const OrderDetails: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    let ingredients = constructorIngredients.map((el: any) => el._id);
+    let ingredients = constructorIngredients.map((el: TIngredient) => el._id);
     let order = { ingredients: [bun!._id, ...ingredients, bun!._id] };
 
     dispatch(createOrder(order));
