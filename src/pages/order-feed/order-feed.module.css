@@ -1,20 +1,28 @@
 .order_feed {
     width: 100%;
     height: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0 60px;
+}
+
+.orders {
+    box-sizing: border-box;
+    height: 100%;
+    width: 624px;
+    padding-left: 24px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 24px;
+    padding-top: 40px;
 }
 
-.line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.title {
+    composes: text text_type_main-large from global;
+    flex-grow: 0;
+    margin-bottom: 20px;
 }
 
-.link {
-    composes: text_type_main-default text_color_accent from global;
-    text-decoration: none;
+.summary {
+    margin-top: 100px;
 }

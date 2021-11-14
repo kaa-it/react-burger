@@ -49,3 +49,27 @@ export type TResetPasswordArgs = {
   token: string;
   password: string;
 };
+
+export interface IModalLocationState {
+  modal?: boolean;
+}
+
+export interface IIDParams {
+  id: string;
+}
+
+export type TOrderInfo = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TOrders = {
+  orders: Array<TOrderInfo>;
+  total: number;
+  totalToday: number;
+};

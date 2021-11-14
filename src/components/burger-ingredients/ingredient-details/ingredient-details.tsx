@@ -3,23 +3,16 @@ import styles from "./ingredient-details.module.css";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import Modal from "../../modal/modal";
 import { useAppSelector } from "../../../services";
-
-export interface IModalLocationState {
-  modal?: boolean;
-}
-
-interface IIngredientDetailsParams {
-  id: string;
-}
+import { IIDParams, IModalLocationState } from "../../../utils/types";
 
 const IngredientDetails: React.FC = () => {
-  const { state } = useLocation<IModalLocationState>();
+  const location = useLocation<IModalLocationState>();
 
-  const { modal } = state;
+  const { modal } = location.state ? location.state : { modal: undefined };
 
   const history = useHistory();
 
-  const { id } = useParams<IIngredientDetailsParams>();
+  const { id } = useParams<IIDParams>();
 
   const { ingredients } = useAppSelector((state) => state.ingredients);
 

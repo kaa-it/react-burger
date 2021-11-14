@@ -19,7 +19,7 @@ export const fetchWithRefresh = async (
   const res = await fetch(url, options);
 
   if (res.ok) {
-    return res.json();
+    return await res.json();
   }
 
   const json = await res.json();
@@ -40,7 +40,7 @@ export const fetchWithRefresh = async (
     opts.headers = { ...opts.headers, Authorization: json.accessToken };
 
     const res = await fetch(url, opts);
-    return res.json();
+    return await res.json();
   } else {
     return json;
   }

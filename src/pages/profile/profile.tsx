@@ -5,6 +5,7 @@ import ProtectedRoute from "../../components/protected-route/protected-route";
 import { logout } from "../../services/authSlice";
 import Orders from "../../components/orders/orders";
 import { useAppDispatch, useAppSelector } from "../../services";
+import React from "react";
 
 const ProfilePage = () => {
   const { url } = useRouteMatch();
@@ -59,7 +60,9 @@ const ProfilePage = () => {
             <Profile />
           </ProtectedRoute>
           <ProtectedRoute path={`${url}/orders`} exact={true}>
-            <Orders />
+            <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
+              <Orders />
+            </div>
           </ProtectedRoute>
         </Switch>
       </div>

@@ -95,14 +95,14 @@ const ConstructorItem: React.FC<IConstructorItem> = ({
     },
   });
 
-  if (type == undefined) {
+  if (type === undefined) {
     drag(drop(ref));
   }
 
   return (
     <div
       className={styles.constructor_item}
-      {...(type == undefined && {
+      {...(type === undefined && {
         ref: ref,
         style: { opacity: opacity },
         "data-handler-id": handlerId,

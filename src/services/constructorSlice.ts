@@ -23,7 +23,7 @@ const constructorSlice = createSlice({
     },
     removeIngredient: (state, action: PayloadAction<TIngredient>) => {
       state.ingredients = state.ingredients.filter(
-        (el: any) => el.key !== action.payload.key
+        (el: TIngredient) => el.key !== action.payload.key
       );
     },
     moveIngredient: (state, action: PayloadAction<TDragIngredientParams>) => {

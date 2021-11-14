@@ -17,6 +17,7 @@ import ProtectedRoute from "../protected-route/protected-route";
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details";
 import { fetchIngredients } from "../../services/ingredientsSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
+import OrderInfo from "../order-info/order-info";
 
 const App: React.FC = () => {
   const { ingredients, isLoading, hasError } = useAppSelector(
@@ -58,12 +59,18 @@ const App: React.FC = () => {
               <Route path="/reset-password" exact={true}>
                 <ResetPasswordPage />
               </Route>
+              <ProtectedRoute path="/profile/orders/:id" exact={true}>
+                <OrderInfo />
+              </ProtectedRoute>
               <ProtectedRoute path="/profile">
                 <ProfilePage />
               </ProtectedRoute>
-              <ProtectedRoute path="/order-feed" exact={true}>
+              <Route path="/feed" exact={true}>
                 <OrderFeedPage />
-              </ProtectedRoute>
+              </Route>
+              <Route path="/feed/:id" exact={true}>
+                <OrderInfo />
+              </Route>
               <Route path="/ingredients/:id" exact={true}>
                 <IngredientDetails />
               </Route>
