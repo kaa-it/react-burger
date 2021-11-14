@@ -15,9 +15,15 @@ interface IOrderCard {
 const OrderCard: React.FC<IOrderCard> = ({ order, my, showInfo }) => {
   const { ingredientsMap } = useAppSelector((state) => state.ingredients);
 
-  const images = order.ingredients.map(
-    (id) => ingredientsMap.get(id)!.image_mobile
-  );
+  const images = order.ingredients.map((id) => {
+    const ingredient = ingredientsMap.get(id);
+    return ingredient ? ingredient.image_mobile : "";
+  });
+
+  if (images.includes("")) {
+    return null;
+  }
+
   const price = order.ingredients
     .map((id) => ingredientsMap.get(id)!.price)
     .reduce((a, b) => a + b);

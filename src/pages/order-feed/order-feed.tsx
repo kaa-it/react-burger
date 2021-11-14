@@ -26,6 +26,18 @@ const OrderFeedPage: React.FC = () => {
     );
   }
 
+  if (
+    orders.orders === null ||
+    orders.orders === undefined ||
+    orders.orders.length === 0
+  ) {
+    return (
+      <div className={styles.order_feed}>
+        <p className="text_type_main-default">Заказов пока нет</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.order_feed}>
       <div className={styles.orders}>
