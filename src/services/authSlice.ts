@@ -167,7 +167,7 @@ export const logout = createAsyncThunk<void, void, ThunkAPI>(
   }
 );
 
-type TAuthSliceState = {
+export type TAuthSliceState = {
   accessToken: string | null;
   refreshToken: string | null;
   user: TUser | null;
