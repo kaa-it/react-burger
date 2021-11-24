@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  stellar_burger:
+    image: akruglov/react-burger:1.0.0
+    environment:
+      - UI_PATH=/var/ui
+      - KEY_PATH=/var/certs/certificate.key
+      - CERT_PATH=/var/certs/certificate.crt
+    volumes:
+      - /var/certs:/var/certs
+    ports:
+      - "443:4041"
+    restart: always
