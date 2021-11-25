@@ -31,6 +31,7 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
   return (
     <div
       className={styles.ingredient_item}
+      data-test={item.name}
       ref={ref}
       style={{ opacity: opacity }}
     >
