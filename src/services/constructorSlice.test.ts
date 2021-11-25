@@ -1,17 +1,14 @@
 import constructorReducer, {
+  initialState,
   addIngredient,
   clearConstructor,
   setBun,
-  TConstructorSliceState,
+  removeIngredient,
+  moveIngredient,
 } from "./constructorSlice";
-import { TIngredient } from "../utils/types";
+import { TDragIngredientParams, TIngredient } from "../utils/types";
 
 describe("constructorSlice", () => {
-  const initialState: TConstructorSliceState = {
-    bun: null,
-    ingredients: [],
-  };
-
   const ingredient: TIngredient = {
     _id: "fd12278318",
     name: "First",
@@ -24,7 +21,7 @@ describe("constructorSlice", () => {
     image: "image",
     image_mobile: "mobile",
     image_large: "large",
-    key: "hjkhjk",
+    key: "777",
   };
 
   it("should return the initial state", () => {
@@ -33,18 +30,68 @@ describe("constructorSlice", () => {
 
   it("should handle set bun", () => {
     const result = constructorReducer(initialState, setBun(ingredient));
-    expect(result.bun).toEqual(ingredient);
+    expect(result).toEqual({
+      ...initialState,
+      bun: ingredient,
+    });
   });
 
   it("should handle add ingredient", () => {
     const result = constructorReducer(initialState, addIngredient(ingredient));
 
-    expect(result.ingredients).toHaveLength(1);
-    expect(result.ingredients[0]).toEqual(ingredient);
+    expect(result).toEqual({
+      ...initialState,
+      ingredients: [ingredient],
+    });
   });
 
-  it("should handle remove ingredient", () => {
-    let state = {};
+  it("should handle remove ingredient if exists", () => {
+    let state = {
+      ...initialState,
+      ingredients: [ingredient],
+    };
+
+    const result = constructorReducer(state, removeIngredient(ingredient));
+
+    expect(result).toEqual(initialState);
+  });
+
+  it("should handle remove ingredient if doesn't exists", () => {
+    let state = {
+      ...initialState,
+      ingredients: [{ ...ingredient, key: "8888" }],
+    };
+
+    const result = constructorReducer(state, removeIngredient(ingredient));
+
+    expect(result).toEqual(state);
+  });
+
+  it("should handle move ingredient", () => {
+    let state = {
+      ...initialState,
+      ingredients: [
+        ingredient,
+        { ...ingredient, key: "888" },
+        { ...ingredient, key: "999" },
+      ],
+    };
+
+    const params: TDragIngredientParams = {
+      fromIndex: 0,
+      toIndex: 1,
+    };
+
+    const result = constructorReducer(state, moveIngredient(params));
+
+    expect(result).toEqual({
+      ...initialState,
+      ingredients: [
+        { ...ingredient, key: "888" },
+        ingredient,
+        { ...ingredient, key: "999" },
+      ],
+    });
   });
 
   it("should handle clear constructor", () => {
@@ -55,7 +102,6 @@ describe("constructorSlice", () => {
 
     const result = constructorReducer(state, clearConstructor());
 
-    expect(result.bun).toBeNull();
-    expect(result.ingredients).toEqual([]);
+    expect(result).toEqual(initialState);
   });
 });
