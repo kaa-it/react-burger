@@ -2,7 +2,6 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/static",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -28,7 +27,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "export PUBLIC_URL=/ || set PUBLIC_URL=/ && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
