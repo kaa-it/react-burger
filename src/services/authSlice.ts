@@ -167,7 +167,7 @@ export const logout = createAsyncThunk<void, void, ThunkAPI>(
   }
 );
 
-type TAuthSliceState = {
+export type TAuthSliceState = {
   accessToken: string | null;
   refreshToken: string | null;
   user: TUser | null;
@@ -181,7 +181,7 @@ type TAuthSliceState = {
   isLoggedOut: boolean;
 };
 
-const initialState: TAuthSliceState = {
+export const initialState: TAuthSliceState = {
   accessToken: localStorage.getItem("accessToken"),
   refreshToken: localStorage.getItem("refreshToken"),
   user: null,

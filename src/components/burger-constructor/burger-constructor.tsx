@@ -62,7 +62,12 @@ const BurgerConstructor: React.FC = () => {
           {totalPrice}
           <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" onClick={createOrder} size="large">
+        <Button
+          data-test="create_order"
+          type="primary"
+          onClick={createOrder}
+          size="large"
+        >
           Оформить заказ
         </Button>
       </div>

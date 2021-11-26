@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+# Учебный проект Stellar Burgers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Сайт проекта: [Stellar Burgers](https://akruglov.tech).
 
-## Available Scripts
+## Установка с помощью готового дистрибутива
 
-In the project directory, you can run:
+* Для установки дистрибутива необходима виртуальная машина или компьютер (далее ВМ) с предустановленными docker и docker-compose
+  (инструкции по установке docker и docker-compose можно найти [здесь](https://docs.docker.com/get-docker/)).
+* Необходимо загрузить на ВМ файл docker-compose.yml.
+* В папку /var/certs на ВМ необходимо положить файл SSL сертификата (certificate.crt) и
+  файл с ключом сертификата (certificate.key).
+* При необходимости пути к сертификатам можно изменить в файле docker-compose.yml:
 
-### `yarn start`
+    ```
+    environment:
+      - UI_PATH=/var/ui
+      - KEY_PATH=/var/certs/<файл ключа>
+      - CERT_PATH=/var/certs/<файл сертификата>
+    volumes:
+      - <новый путь>:/var/certs
+    ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Запустите команду `docker-compose up -d`  в папке на ВМ, в которой находится файл docker-compose.yml.
+* Установка завершена.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Сборка своего дистрибутива
 
-### `yarn test`
+Чтобы собрать свой дистрибутив необходимо:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Создать аккаунт на сайте [DockerHub](https://hub.docker.com).
+* Создать репозиторий react-burger в своем аккаунте на этом сайте.
+* В файле Makefile заменить все вхождения "akruglov" на свой логин на сайте DockerHub.
+* Установить на локальной системе docker.
+* Запустить команду `make push` или выполнить вручную команды из этого файла, если утилита
+  make не установлена на вашем компьютере.
+* Дистрибутив будет загружен в ваш репозиторий на сайте DockerHub.
+* Чтобы использовать для установки свой дистрибутив необходимо заменить в файле
+  docker-compose.yml название образа на свой:
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```
+    stellar_burger:
+      image: <ваш образ>
+    ```
+    В остальном алгоритм установки аналогичен установке с помощью готового дистрибутива.

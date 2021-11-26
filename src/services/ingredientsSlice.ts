@@ -19,7 +19,7 @@ type TIngredientsSliceState = {
   currentTab: string;
 };
 
-const initialState: TIngredientsSliceState = {
+export const initialState: TIngredientsSliceState = {
   ingredients: [],
   ingredientsMap: new Map<string, TIngredient>(),
   isLoading: false,

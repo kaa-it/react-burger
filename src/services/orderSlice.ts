@@ -34,7 +34,7 @@ type TOrderSliceState = {
   isShown: boolean;
 };
 
-const initialState: TOrderSliceState = {
+export const initialState: TOrderSliceState = {
   name: "",
   number: 0,
   isLoading: false,

@@ -31,11 +31,16 @@ const Modal: React.FC<IModalProps> = ({ title, onClose, children }) => {
     <ModalOverlay onClose={onClose}>
       <div className={styles.modal}>
         <div
+          data-test="header"
           className={
             title ? styles.header_with_title : styles.header_without_title
           }
         >
-          {title && <p className="text text_type_main-large">{title}</p>}
+          {title && (
+            <p data-test="header_title" className="text text_type_main-large">
+              {title}
+            </p>
+          )}
           <CloseIcon onClick={onClose} type="primary" />
         </div>
         {children}

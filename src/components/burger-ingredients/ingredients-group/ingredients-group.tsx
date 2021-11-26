@@ -47,7 +47,7 @@ const IngredientsGroup: React.FC<IIngredientsGroupProps> = ({
   return (
     <>
       <p className="text text_type_main-medium mb-6">{name}</p>
-      <div className={styles.content}>
+      <div data-test={name} className={styles.content}>
         {ingredients.map((item) => (
           <IngredientItem
             key={item._id}

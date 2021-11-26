@@ -6,7 +6,7 @@ import { baseUrl } from "../../utils/constants";
 
 export const getOrder = createAsyncThunk<Array<TOrderInfo>, string, ThunkAPI>(
   "orders/getOrder",
-  async (number, thunkAPI) => {
+  async (number, _thunkAPI) => {
     const res = await fetch(`${baseUrl}/orders/${number}`);
     const json = await res.json();
     return json.orders as Array<TOrderInfo>;
@@ -18,7 +18,7 @@ export type TOrdersState = {
   connectionError: string;
 };
 
-const initialState: TOrdersState = {
+export const initialState: TOrdersState = {
   orders: null,
   connectionError: "",
 };

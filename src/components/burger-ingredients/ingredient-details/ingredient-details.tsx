@@ -28,7 +28,9 @@ const IngredientDetails: React.FC = () => {
         src={ingredient.image}
         className={`${styles.illustration} mb-4`}
       />
-      <p className="text_type_main-medium mb-8">{ingredient.name}</p>
+      <p data-test="ingredient_name" className="text_type_main-medium mb-8">
+        {ingredient.name}
+      </p>
       <div className={styles.data}>
         <div className={styles.data_item}>
           <p className="text text_type_main-default mb-2">Калории,ккал</p>
