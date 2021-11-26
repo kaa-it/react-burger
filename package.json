@@ -28,10 +28,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "PUBLIC_URL=/ react-scripts start",
+    "start": "export PUBLIC_URL=/ || set PUBLIC_URL=/ && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open cache clear"
   },
   "eslintConfig": {
     "extends": [
