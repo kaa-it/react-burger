@@ -14,8 +14,8 @@
     ```
     environment:
           - UI_PATH=/var/ui
-          - KEY_PATH=<новый путь>/<файл ключа>
-          - CERT_PATH=<новый путь>/<файл сертификата>
+          - KEY_PATH=/var/certs/<файл ключа>
+          - CERT_PATH=/var/certs/<файл сертификата>
         volumes:
           - <новый путь>:/var/certs
     ```
