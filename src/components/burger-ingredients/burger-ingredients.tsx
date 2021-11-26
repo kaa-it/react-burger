@@ -83,7 +83,9 @@ const BurgerIngredients: React.FC = () => {
 
   return (
     <div className={`${styles.burger_ingredients} pt-10`}>
-      <p className={styles.title}>Соберите бургер</p>
+      <p data-test="ingredients_catalog_title" className={styles.title}>
+        Соберите бургер
+      </p>
       <div className={styles.tabs} ref={tabsRef}>
         <Tab value="bun" active={currentTab === "bun"} onClick={selectGroup}>
           Булки

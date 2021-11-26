@@ -50,8 +50,12 @@ const ConstructorArea: React.FC = () => {
   );
 
   return (
-    <div className={styles.constructor_area} ref={dropTarget}>
-      <div className="pr-4">
+    <div
+      data-test="constructor_area"
+      className={styles.constructor_area}
+      ref={dropTarget}
+    >
+      <div data-test="top_bun" className="pr-4">
         {bun ? (
           <ConstructorItem type="top" item={bun} />
         ) : (
@@ -60,7 +64,10 @@ const ConstructorArea: React.FC = () => {
       </div>
 
       <div className={styles.ingredients}>
-        <div className={`${styles.scroll_area} custom-scroll`}>
+        <div
+          data-test="constructor_ingredients"
+          className={`${styles.scroll_area} custom-scroll`}
+        >
           {constructorIngredients.length ? (
             constructorIngredients.map((item, index: number) => (
               <ConstructorItem
@@ -77,7 +84,7 @@ const ConstructorArea: React.FC = () => {
         </div>
       </div>
 
-      <div className="pr-4">
+      <div data-test="bottom_bun" className="pr-4">
         {bun ? (
           <ConstructorItem type="bottom" item={bun} />
         ) : (
