@@ -13,11 +13,11 @@
 
     ```
     environment:
-          - UI_PATH=/var/ui
-          - KEY_PATH=/var/certs/<файл ключа>
-          - CERT_PATH=/var/certs/<файл сертификата>
-        volumes:
-          - <новый путь>:/var/certs
+      - UI_PATH=/var/ui
+      - KEY_PATH=/var/certs/<файл ключа>
+      - CERT_PATH=/var/certs/<файл сертификата>
+    volumes:
+      - <новый путь>:/var/certs
     ```
 
 * Запустите команду `docker-compose up -d`  в папке на ВМ, в которой находится файл docker-compose.yml.
@@ -39,6 +39,6 @@
 
     ```
     stellar_burger:
-        image: <ваш образ>
+      image: <ваш образ>
     ```
     В остальном алгоритм установки аналогичен установке с помощью готового дистрибутива.
