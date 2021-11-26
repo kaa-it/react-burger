@@ -11,14 +11,14 @@
   файл с ключом сертификата (certificate.key).
 * При необходимости пути к сертификатам можно изменить в файле docker-compose.yml:
 
-```
-environment:
-      - UI_PATH=/var/ui
-      - KEY_PATH=<новый путь>/<файл ключа>
-      - CERT_PATH=<новый путь>/<файл сертификата>
-    volumes:
-      - <новый путь>:/var/certs
-```
+    ```
+    environment:
+          - UI_PATH=/var/ui
+          - KEY_PATH=<новый путь>/<файл ключа>
+          - CERT_PATH=<новый путь>/<файл сертификата>
+        volumes:
+          - <новый путь>:/var/certs
+    ```
 
 * Запустите команду `docker-compose up -d`  в папке на ВМ, в которой находится файл docker-compose.yml.
 * Установка завершена.
