@@ -11,18 +11,18 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { clearPasswordReset, login } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TCredentials } from "../../utils/types";
-import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
+import { IProtectedRouteLocationProps} from "../../components/protected-route/protected-route";
 
 const LoginPage: React.FC = () => {
   const { accessToken, isLoggedIn, isPasswordWasReset } = useAppSelector(
     (state) => state.auth
   );
 
-  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
+  const state  = useLocation().state as IProtectedRouteLocationProps;
 
   const dispatch = useAppDispatch();
 
@@ -47,11 +47,11 @@ const LoginPage: React.FC = () => {
   );
 
   if (isLoggedIn) {
-    return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
+    return <Navigate to={{ pathname: state?.from || "/" }} replace/>;
   }
 
   if (accessToken) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace/>;
   }
 
   return (
@@ -70,10 +70,8 @@ const LoginPage: React.FC = () => {
         </span>
 
         <Link
-          to={{
-            pathname: "/register",
-            state: state ? { from: state.from } : {},
-          }}
+          to="/register"
+          state={state ? { from: state.from } : {}}
           className={styles.link}
         >
           Зарегистрироваться
@@ -84,10 +82,8 @@ const LoginPage: React.FC = () => {
           Забыли пароль?
         </span>
         <Link
-          to={{
-            pathname: "/forgot-password",
-            state: state ? { from: state.from } : {},
-          }}
+          to="/forgot-password"
+          state={state ? { from: state.from } : {}}
           className={styles.link}
         >
           Восстановить пароль

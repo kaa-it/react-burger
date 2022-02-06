@@ -4,7 +4,7 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { switchTab } from "../../services/ingredientsSlice";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { IModalLocationState, TIngredient } from "../../utils/types";
 
@@ -16,7 +16,9 @@ const BurgerIngredients: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const history = useHistory<IModalLocationState>();
+  //const history = useHistory<IModalLocationState>();
+
+  const navigate = useNavigate();
 
   const { ingredients, currentTab } = useAppSelector(
     (state) => state.ingredients
@@ -75,10 +77,10 @@ const BurgerIngredients: React.FC = () => {
   };
 
   const showIngredientDetails = useCallback((item: TIngredient) => {
-    history.push({
-      pathname: `/ingredients/${item._id}`,
-      state: { modal: true },
-    });
+    navigate(
+      `/ingredients/${item._id}`,
+      {state: { modal: true }},
+    );
   }, []);
 
   return (

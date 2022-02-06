@@ -6,7 +6,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getUser, updateUser } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TUser } from "../../utils/types";
@@ -20,8 +20,8 @@ const Profile = () => {
     password: "",
   });
 
-  const { url } = useRouteMatch();
-  const history = useHistory();
+  const url = useLocation().pathname;
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -36,8 +36,8 @@ const Profile = () => {
   };
 
   const handleReset = () => {
-    history.push("/");
-    setTimeout(() => history.push(`${url}`), 10);
+    navigate("/");
+    setTimeout(() => navigate(`${url}`), 10);
   };
 
   useEffect(() => {

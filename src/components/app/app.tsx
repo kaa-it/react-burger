@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
@@ -43,41 +43,27 @@ const App: React.FC = () => {
             </p>
           )}
           {!isLoading && !hasError && ingredients.length && (
-            <Switch>
-              <Route path="/" exact={true}>
-                <HomePage />
-              </Route>
-              <Route path="/login" exact={true}>
-                <LoginPage />
-              </Route>
-              <Route path="/register" exact={true}>
-                <RegistrationPage />
-              </Route>
-              <Route path="/forgot-password" exact={true}>
-                <ForgotPasswordPage />
-              </Route>
-              <Route path="/reset-password" exact={true}>
-                <ResetPasswordPage />
-              </Route>
-              <ProtectedRoute path="/profile/orders/:id" exact={true}>
-                <OrderInfo />
-              </ProtectedRoute>
-              <ProtectedRoute path="/profile">
-                <ProfilePage />
-              </ProtectedRoute>
-              <Route path="/feed" exact={true}>
-                <OrderFeedPage />
-              </Route>
-              <Route path="/feed/:id" exact={true}>
-                <OrderInfo />
-              </Route>
-              <Route path="/ingredients/:id" exact={true}>
-                <IngredientDetails />
-              </Route>
-              <Route>
-                <NotFound404 />
-              </Route>
-            </Switch>
+            <Routes>
+              <Route path="/" element={<HomePage/>}/>
+              <Route path="/login" element={<LoginPage/>}/>
+              <Route path="/register" element={<RegistrationPage />}/>
+              <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+              <Route path="/reset-password" element={<ResetPasswordPage/>}/>
+              <Route path="/profile/orders/:id" element={
+                <ProtectedRoute>
+                  <OrderInfo/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/profile/*" element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }/>
+              <Route path="/feed" element={<OrderFeedPage />}/>
+              <Route path="/feed/:id" element={<OrderInfo/>}/>
+              <Route path="/ingredients/:id" element={<IngredientDetails />}/>
+              <Route element={<NotFound404/>}/>
+            </Routes>
           )}
         </main>
       </div>

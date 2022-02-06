@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./order-info.module.css";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, useNavigationType } from "react-router-dom";
 import { IIDParams, IModalLocationState } from "../../utils/types";
 import Modal from "../modal/modal";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
@@ -10,13 +10,14 @@ import { getOrder } from "../../services/orders/reducer";
 import { statusInfo } from "../../utils/utils";
 
 const OrderInfo: React.FC = () => {
-  const location = useLocation<IModalLocationState>();
+  const state = useLocation().state as IModalLocationState;
 
-  const { modal } = location.state ? location.state : { modal: undefined };
+  const { modal } = state ? state : { modal: undefined };
 
-  const history = useHistory();
+  const navigate = useNavigate();
+  const navigationType = useNavigationType();
 
-  const { id } = useParams<IIDParams>();
+  const { id } = useParams<'id'>();
 
   const { orders } = useAppSelector((state) => state.orders);
   const { ingredientsMap } = useAppSelector((state) => state.ingredients);
@@ -24,7 +25,7 @@ const OrderInfo: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!orders) {
+    if (!orders && id) {
       dispatch(getOrder(id));
     }
   }, [orders]);
@@ -68,8 +69,8 @@ const OrderInfo: React.FC = () => {
 
   return (
     <>
-      {modal && history.action === "PUSH" ? (
-        <Modal onClose={() => history.goBack()} title={`#${order.number}`}>
+      {modal && navigationType === "PUSH" ? (
+        <Modal onClose={() => navigate(-1)} title={`#${order.number}`}>
           <div className={styles.order_info}>{content}</div>
         </Modal>
       ) : (

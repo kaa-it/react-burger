@@ -14,18 +14,16 @@ const AppHeader: React.FC = () => {
         <nav className={styles.left_menu}>
           <NavLink
             to="/"
-            exact
-            className={styles.menu_item}
-            activeClassName={styles.active_menu_item}
+            end
+            className={({ isActive }) => styles.menu_item + (isActive ? ` ${styles.active_menu_item}` : "")}
           >
             <BurgerIcon type="primary" />
             <p className="pl-2">Конструктор</p>
           </NavLink>
           <NavLink
             to="/feed"
-            exact
-            className={styles.menu_item}
-            activeClassName={styles.active_menu_item}
+            end
+            className={({ isActive }) => styles.menu_item + (isActive ? ` ${styles.active_menu_item}` : "")}
           >
             <ListIcon type="secondary" />
             <p className="pl-2">Лента заказов</p>
@@ -37,8 +35,7 @@ const AppHeader: React.FC = () => {
         <nav className={styles.right_menu}>
           <NavLink
             to="/profile"
-            className={styles.menu_item}
-            activeClassName={styles.active_menu_item}
+            className={({ isActive }) => styles.menu_item + (isActive ? ` ${styles.active_menu_item}` : "")}
           >
             <ProfileIcon type="secondary" />
             <p className="pl-2">Личный кабинет</p>

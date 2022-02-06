@@ -1,18 +1,20 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, useNavigationType } from "react-router-dom";
 import Modal from "../../modal/modal";
 import { useAppSelector } from "../../../services";
 import { IIDParams, IModalLocationState } from "../../../utils/types";
 
 const IngredientDetails: React.FC = () => {
-  const location = useLocation<IModalLocationState>();
+  const state = useLocation().state as IModalLocationState;
 
-  const { modal } = location.state ? location.state : { modal: undefined };
+  const { modal } = state ? state : { modal: undefined };
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const { id } = useParams<IIDParams>();
+  const navigationType = useNavigationType();
+
+  const { id } = useParams<'id'>();
 
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
@@ -20,7 +22,7 @@ const IngredientDetails: React.FC = () => {
 
   const content = ingredient ? (
     <div className={styles.ingredient_details}>
-      {(!modal || history.action !== "PUSH") && (
+      {(!modal || navigationType !== "PUSH") && (
         <p className="text_type_main-large mt-30">Детали ингредиента</p>
       )}
       <img
@@ -58,8 +60,8 @@ const IngredientDetails: React.FC = () => {
 
   return (
     <>
-      {modal && history.action === "PUSH" ? (
-        <Modal onClose={() => history.goBack()} title="Детали ингредиента">
+      {modal && navigationType === "PUSH" ? (
+        <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
           {content}
         </Modal>
       ) : (

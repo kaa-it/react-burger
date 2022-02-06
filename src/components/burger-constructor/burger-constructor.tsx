@@ -7,7 +7,7 @@ import OrderDetails from "./order-details/order-details";
 
 import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
 import ConstructorArea from "./constructor-area";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 
 const BurgerConstructor: React.FC = () => {
@@ -19,7 +19,7 @@ const BurgerConstructor: React.FC = () => {
 
   const { accessToken } = useAppSelector((state) => state.auth);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -43,7 +43,7 @@ const BurgerConstructor: React.FC = () => {
     }
 
     if (!accessToken) {
-      history.push({ pathname: "/login", state: { from: "/" } });
+      navigate("/login", {state: { from: "/" } });
       return;
     }
 

@@ -1,5 +1,5 @@
 import styles from "./profile.module.css";
-import { NavLink, Redirect, Switch, useRouteMatch } from "react-router-dom";
+import { NavLink, Navigate, Routes, Route } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
 import { logout } from "../../services/authSlice";
@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from "../../services";
 import React from "react";
 
 const ProfilePage = () => {
-  const { url } = useRouteMatch();
-
   const dispatch = useAppDispatch();
 
   const { isLoggedOut } = useAppSelector((state) => state.auth);
@@ -19,7 +17,7 @@ const ProfilePage = () => {
   };
 
   if (isLoggedOut) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/login" replace/>;
   }
 
   return (
@@ -27,18 +25,16 @@ const ProfilePage = () => {
       <div className={styles.left}>
         <ul className={styles.menu}>
           <NavLink
-            to={url}
-            exact
-            className={styles.menu_item}
-            activeClassName={styles.active_menu_item}
-          >
+            to=""
+            end
+            className={({ isActive }) => styles.menu_item + (isActive ? ` ${styles.active_menu_item}` : "")}
+           >
             <span>Профиль</span>
           </NavLink>
           <NavLink
-            to={`${url}/orders`}
-            exact
-            className={styles.menu_item}
-            activeClassName={styles.active_menu_item}
+            to="orders"
+            end
+            className={({ isActive }) => styles.menu_item + (isActive ? ` ${styles.active_menu_item}` : "")}
           >
             <span>История заказов</span>
           </NavLink>
@@ -55,16 +51,20 @@ const ProfilePage = () => {
         </p>
       </div>
       <div className={styles.right}>
-        <Switch>
-          <ProtectedRoute path={url} exact={true}>
-            <Profile />
-          </ProtectedRoute>
-          <ProtectedRoute path={`${url}/orders`} exact={true}>
-            <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
-              <Orders />
-            </div>
-          </ProtectedRoute>
-        </Switch>
+        <Routes>
+          <Route path="" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }/>
+          <Route path="orders" element={
+            <ProtectedRoute>
+              <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
+                <Orders />
+              </div>
+            </ProtectedRoute>
+          }/>
+        </Routes>
       </div>
     </div>
   );

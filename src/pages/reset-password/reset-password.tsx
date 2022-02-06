@@ -5,7 +5,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { resetPassword } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TResetPasswordArgs } from "../../utils/types";
@@ -18,7 +18,7 @@ const ResetPasswordPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
+  const state  = useLocation().state as IProtectedRouteLocationProps;
 
   const [form, setValue] = useState<TResetPasswordArgs>({
     token: "",
@@ -39,17 +39,15 @@ const ResetPasswordPage: React.FC = () => {
 
   if (isPasswordWasReset) {
     return (
-      <Redirect
-        to={{
-          pathname: "/login",
-          state: state ? { from: state.from } : {},
-        }}
+      <Navigate
+        to="/login"
+        state={state ? { from: state.from } : {}}
       />
     );
   }
 
   if (accessToken || !isResetPassword) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace/>;
   }
 
   return (
@@ -73,10 +71,8 @@ const ResetPasswordPage: React.FC = () => {
           Вспомнили пароль?
         </span>
         <Link
-          to={{
-            pathname: "/login",
-            state: state ? { from: state.from } : {},
-          }}
+          to="/login"
+          state={state ? { from: state.from } : {}}
           className={styles.link}
         >
           Войти

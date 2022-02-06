@@ -4,7 +4,7 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { checkResetPassword } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
@@ -20,7 +20,7 @@ const ForgotPasswordPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
+  const state  = useLocation().state as IProtectedRouteLocationProps;
 
   const [form, setValue] = useState<IForgotPasswordState>({ email: "" });
 
@@ -38,16 +38,14 @@ const ForgotPasswordPage: React.FC = () => {
 
   if (accessToken) {
     console.log("fp rd home");
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace/>;
   }
 
   if (isResetPassword) {
     return (
-      <Redirect
-        to={{
-          pathname: "/reset-password",
-          state: state ? { from: state.from } : {},
-        }}
+      <Navigate
+        to="/reset-password"
+        state={state ? { from: state.from } : {}}
       />
     );
   }
@@ -62,10 +60,8 @@ const ForgotPasswordPage: React.FC = () => {
           Вспомнили пароль?
         </span>
         <Link
-          to={{
-            pathname: "/login",
-            state: state ? { from: state.from } : {},
-          }}
+          to="/login"
+          state={state ? { from: state.from } : {}}
           className={styles.link}
         >
           Войти

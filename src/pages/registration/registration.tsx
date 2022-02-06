@@ -6,7 +6,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { register } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
@@ -17,7 +17,7 @@ const RegistrationPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { state } = useLocation<IProtectedRouteLocationProps | undefined>();
+  const state  = useLocation().state as IProtectedRouteLocationProps;
 
   const [form, setValue] = useState<TUser>({
     email: "",
@@ -38,7 +38,7 @@ const RegistrationPage: React.FC = () => {
   );
 
   if (accessToken) {
-    return <Redirect to={{ pathname: state?.from?.pathname || "/" }} />;
+    return <Navigate to={{pathname: state?.from || "/" }} replace/>;
   }
 
   return (
@@ -63,10 +63,8 @@ const RegistrationPage: React.FC = () => {
           Уже зарегистрированы?
         </span>
         <Link
-          to={{
-            pathname: "/login",
-            state: state ? { from: state.from } : {},
-          }}
+          to="/login"
+          state={state ? { from: state.from } : {}}
           className={styles.link}
         >
           Войти

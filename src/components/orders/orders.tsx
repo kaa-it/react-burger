@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import styles from "./orders.module.css";
 import OrderCard from "../order-card/order-card";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useNavigate, useLocation, useMatch} from "react-router-dom";
 import { connect, disconnect } from "../../services/orders/actions";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TOrderInfo } from "../../utils/types";
@@ -11,17 +11,19 @@ const MY_ORDERS_URL = "wss:/norma.nomoreparties.space/orders";
 const Orders: React.FC = () => {
   const { orders } = useAppSelector((state) => state.orders);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const { url } = useRouteMatch();
+  const url  = useLocation().pathname;
 
   const dispatch = useAppDispatch();
 
-  const match = useRouteMatch({
-    path: "/profile/orders",
-    strict: true,
-    sensitive: true,
-  });
+  const match = useMatch({
+     path: "/profile/orders",
+     end: true,
+     caseSensitive: true,
+   });
+
+  //const match = url === "/profile/orders";
 
   useEffect(() => {
     if (match) {
@@ -38,10 +40,8 @@ const Orders: React.FC = () => {
   }, []);
 
   const showOrderInfo = useCallback((number: number) => {
-    history.push({
-      pathname: `${url}/${number}`,
-      state: { modal: true },
-    });
+    navigate(`${url}/${number}`,
+      {state: { modal: true }});
   }, []);
 
   if (!orders) {
