@@ -35,12 +35,15 @@ const OrderDetails: React.FC = () => {
       {!isLoading && !hasError && (
         <>
           <p
+            data-test="order_number"
             className="text text_type_digits-large mb-8"
             style={{ textShadow: "0px 4px 32px #3333FF" }}
           >
             {number}
           </p>
-          <p className="text_type_main-medium mb-15">{name}</p>
+          <p data-test="order_name" className="text_type_main-medium mb-15">
+            {name}
+          </p>
           <img className={styles.image} alt="Принят" src={done} />
           <p className="text_type_main-default mb-2">
             Ваш заказ начали готовить
