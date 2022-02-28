@@ -77,10 +77,10 @@ const BurgerIngredients: React.FC = () => {
   };
 
   const showIngredientDetails = useCallback((item: TIngredient) => {
-    navigate(
-      `/ingredients/${item._id}`,
-      {state: { modal: true }},
-    );
+     navigate(
+       `ingredients/${item._id}`,
+       { state: { modal: true } }
+     );
   }, []);
 
   return (

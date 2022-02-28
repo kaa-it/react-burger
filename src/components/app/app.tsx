@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, useLocation, useNavigationType, useNavigate} from "react-router-dom";
 import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
@@ -18,6 +18,8 @@ import IngredientDetails from "../burger-ingredients/ingredient-details/ingredie
 import { fetchIngredients } from "../../services/ingredientsSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import OrderInfo from "../order-info/order-info";
+import {IModalLocationState} from "../../utils/types";
+import Modal from "../modal/modal";
 
 const App: React.FC = () => {
   const { ingredients, isLoading, hasError } = useAppSelector(
@@ -25,12 +27,24 @@ const App: React.FC = () => {
   );
   const dispatch = useAppDispatch();
 
+  const state = useLocation().state as IModalLocationState;
+
+  const { modal } = state ? state : { modal: undefined };
+
+  console.log(state);
+
+  const navigationType = useNavigationType();
+
+  console.log(navigationType);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchIngredients());
   }, []);
 
   return (
-    <Router>
+      //<Router>
       <div className={styles.app}>
         <AppHeader />
         <main className={styles.main}>
@@ -61,13 +75,23 @@ const App: React.FC = () => {
               }/>
               <Route path="/feed" element={<OrderFeedPage />}/>
               <Route path="/feed/:id" element={<OrderInfo/>}/>
-              <Route path="/ingredients/:id" element={<IngredientDetails />}/>
+              {modal && navigationType === "PUSH" && (
+                  <Route path="/ingredients/:id" element={
+                    <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
+                               <IngredientDetails/>
+                             </Modal>
+                  }/>
+              )}
+
+                  <Route path="/ingredients/:id" element={<IngredientDetails />}/>
+
+
               <Route element={<NotFound404/>}/>
             </Routes>
           )}
         </main>
       </div>
-    </Router>
+    //</Router>
   );
 };
 

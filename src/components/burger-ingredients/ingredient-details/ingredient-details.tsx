@@ -55,20 +55,22 @@ const IngredientDetails: React.FC = () => {
       </div>
     </div>
   ) : (
-    "Нет такого ингредиента"
+    <>"Нет такого ингредиента"</>
   );
 
-  return (
-    <>
-      {modal && navigationType === "PUSH" ? (
-        <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
-          {content}
-        </Modal>
-      ) : (
-        content
-      )}
-    </>
-  );
+  // return (
+  //   <>
+  //     {modal && navigationType === "PUSH" ? (
+  //       <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
+  //         {content}
+  //       </Modal>
+  //     ) : (
+  //       content
+  //     )}
+  //   </>
+  // );
+
+  return content;
 };
 
 export default IngredientDetails;
