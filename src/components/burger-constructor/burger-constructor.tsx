@@ -10,6 +10,12 @@ import ConstructorArea from "./constructor-area";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
 const BurgerConstructor: React.FC = () => {
   const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state) => state.burgerConstructor

@@ -11,6 +11,12 @@ import { getUser, updateUser } from "../../services/authSlice";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TUser } from "../../utils/types";
 
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
 const Profile = () => {
   const { user } = useAppSelector((state) => state.auth);
 

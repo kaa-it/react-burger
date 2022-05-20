@@ -12,6 +12,12 @@ import { useAppDispatch, useAppSelector } from "../../services";
 import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
 import { TUser } from "../../utils/types";
 
+declare module 'react' {
+    interface FunctionComponent<P = {}> {
+        (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    }
+}
+
 const RegistrationPage: React.FC = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
 

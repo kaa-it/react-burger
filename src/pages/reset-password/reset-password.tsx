@@ -11,6 +11,12 @@ import { useAppDispatch, useAppSelector } from "../../services";
 import { TResetPasswordArgs } from "../../utils/types";
 import { IProtectedRouteLocationProps } from "../../components/protected-route/protected-route";
 
+declare module 'react' {
+    interface FunctionComponent<P = {}> {
+        (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    }
+}
+
 const ResetPasswordPage: React.FC = () => {
   const { accessToken, isResetPassword, isPasswordWasReset } = useAppSelector(
     (state) => state.auth

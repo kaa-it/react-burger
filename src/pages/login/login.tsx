@@ -17,6 +17,12 @@ import { useAppDispatch, useAppSelector } from "../../services";
 import { TCredentials } from "../../utils/types";
 import { IProtectedRouteLocationProps} from "../../components/protected-route/protected-route";
 
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
 const LoginPage: React.FC = () => {
   const { accessToken, isLoggedIn, isPasswordWasReset } = useAppSelector(
     (state) => state.auth

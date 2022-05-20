@@ -8,6 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { IModalLocationState, TIngredient } from "../../utils/types";
 
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
 const BurgerIngredients: React.FC = () => {
   const bunsRef = useRef<HTMLLIElement>(null);
   const saucesRef = useRef<HTMLLIElement>(null);
