@@ -42,14 +42,14 @@ const LoginPage: React.FC = () => {
     if (isPasswordWasReset) {
       dispatch(clearPasswordReset());
     }
-  }, [isPasswordWasReset]);
+  }, [isPasswordWasReset, dispatch]);
 
   const handleLogin = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
       dispatch(login(form));
     },
-    [form]
+    [form, dispatch]
   );
 
   if (isLoggedIn) {
@@ -64,12 +64,11 @@ const LoginPage: React.FC = () => {
     <form className={styles.login} onSubmit={handleLogin}>
       <span className="text_type_main-medium">Вход</span>
       <EmailInput onChange={handleChange} value={form.email} name="email" />
-      <PasswordInput
-        onChange={handleChange}
+      <PasswordInput        onChange={handleChange}
         value={form.password}
         name="password"
       />
-      <Button>Войти</Button>
+      <Button htmlType="submit">Войти</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вы - новый пользователь?

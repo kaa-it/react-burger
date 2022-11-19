@@ -39,7 +39,7 @@ const ForgotPasswordPage: React.FC = () => {
       e.preventDefault();
       dispatch(checkResetPassword(form.email));
     },
-    [form]
+    [form, dispatch]
   );
 
   if (accessToken) {
@@ -60,7 +60,7 @@ const ForgotPasswordPage: React.FC = () => {
     <form className={styles.forgot_password} onSubmit={handleResetPassword}>
       <span className="text_type_main-medium">Восстановление пароля</span>
       <EmailInput onChange={handleChange} value={form.email} name="email" />
-      <Button>Восстановить</Button>
+      <Button htmlType="button">Восстановить</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?

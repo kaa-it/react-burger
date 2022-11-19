@@ -16,7 +16,7 @@ const OrderFeedPage: React.FC = () => {
     return () => {
       dispatch(disconnect());
     };
-  }, []);
+  }, [dispatch]);
 
   if (orders === null) {
     return (

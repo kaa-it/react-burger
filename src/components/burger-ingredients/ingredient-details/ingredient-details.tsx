@@ -1,16 +1,13 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
-import { useNavigate, useLocation, useParams, useNavigationType } from "react-router-dom";
-import Modal from "../../modal/modal";
+import { useLocation, useParams, useNavigationType } from "react-router-dom";
 import { useAppSelector } from "../../../services";
-import { IIDParams, IModalLocationState } from "../../../utils/types";
+import { IModalLocationState } from "../../../utils/types";
 
 const IngredientDetails: React.FC = () => {
   const state = useLocation().state as IModalLocationState;
 
   const { modal } = state ? state : { modal: undefined };
-
-  const navigate = useNavigate();
 
   const navigationType = useNavigationType();
 

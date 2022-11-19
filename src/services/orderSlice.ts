@@ -18,7 +18,7 @@ export const createOrder = createAsyncThunk<TCreatedOrder, TOrder, ThunkAPI>(
     });
 
     if (json.success) {
-      thunkAPI.dispatch(clearConstructor());
+      //thunkAPI.dispatch(clearConstructor());
       return { name: json.name, number: json.order.number } as TCreatedOrder;
     } else {
       return thunkAPI.rejectWithValue("");
@@ -48,6 +48,7 @@ const orderSlice = createSlice({
   reducers: {
     showOrderDetails: (state) => {
       state.isShown = true;
+      state.isLoading = true;
     },
     closeOrderDetails: (state) => {
       state.isShown = false;

@@ -22,7 +22,7 @@ const OrderDetails: React.FC = () => {
     let order = { ingredients: [bun!._id, ...ingredients, bun!._id] };
 
     dispatch(createOrder(order));
-  }, []);
+  }, [bun, constructorIngredients, dispatch]);
 
   return (
     <div className={styles.order_details}>

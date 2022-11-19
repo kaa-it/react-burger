@@ -9,6 +9,7 @@ import { showOrderDetails, closeOrderDetails } from "../../services/orderSlice";
 import ConstructorArea from "./constructor-area";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
+import { clearConstructor } from "../../services/constructorSlice";
 
 declare module 'react' {
   interface FunctionComponent<P = {}> {
@@ -58,6 +59,7 @@ const BurgerConstructor: React.FC = () => {
 
   const closeOrder = () => {
     dispatch(closeOrderDetails());
+    dispatch(clearConstructor());
   };
 
   return (
@@ -73,6 +75,7 @@ const BurgerConstructor: React.FC = () => {
           type="primary"
           onClick={createOrder}
           size="large"
+          htmlType="button"
         >
           Оформить заказ
         </Button>

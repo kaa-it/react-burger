@@ -37,12 +37,12 @@ const Orders: React.FC = () => {
         dispatch(disconnect());
       }
     };
-  }, []);
+  }, [dispatch]);
 
   const showOrderInfo = useCallback((number: number) => {
     navigate(`${url}/${number}`,
       {state: { modal: true }});
-  }, []);
+  }, [navigate, url]);
 
   if (!orders) {
     return (

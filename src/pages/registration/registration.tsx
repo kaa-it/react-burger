@@ -40,7 +40,7 @@ const RegistrationPage: React.FC = () => {
       e.preventDefault();
       dispatch(register(form));
     },
-    [form]
+    [form, dispatch]
   );
 
   if (accessToken) {
@@ -63,7 +63,7 @@ const RegistrationPage: React.FC = () => {
         value={form.password || ""}
         name="password"
       />
-      <Button>Зарегистрироваться</Button>
+      <Button htmlType="submit">Зарегистрироваться</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Уже зарегистрированы?

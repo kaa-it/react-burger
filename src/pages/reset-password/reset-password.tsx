@@ -40,7 +40,7 @@ const ResetPasswordPage: React.FC = () => {
       e.preventDefault();
       dispatch(resetPassword(form));
     },
-    [form]
+    [form,dispatch]
   );
 
   if (isPasswordWasReset) {
@@ -71,7 +71,7 @@ const ResetPasswordPage: React.FC = () => {
         placeholder="Введите код из письма"
         name="token"
       />
-      <Button>Сохранить</Button>
+      <Button htmlType="submit">Сохранить</Button>
       <div className={`${styles.line} mt-9`}>
         <span className="text_type_main-default text_color_inactive mr-2">
           Вспомнили пароль?

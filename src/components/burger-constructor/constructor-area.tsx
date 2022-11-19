@@ -46,7 +46,7 @@ const ConstructorArea: React.FC = () => {
     (dragIndex: number, hoverIndex: number) => {
       dispatch(moveIngredient({ fromIndex: dragIndex, toIndex: hoverIndex }));
     },
-    [constructorIngredients]
+    [dispatch]
   );
 
   return (

@@ -34,6 +34,14 @@
     color: var(--text-primary-color);
 }
 
+.menu_item svg {
+    fill: #8585AD;
+}
+
+.active_menu_item svg {
+    fill: #F2F2F3;
+}
+
 /*.menu_item:active {*/
 /*    color: var(--text-primary-color);*/
 /*}*/

@@ -25,7 +25,7 @@ const Modal: React.FC<IModalProps> = ({ title, onClose, children }) => {
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [onClose]);
 
   return ReactDOM.createPortal(
     <ModalOverlay onClose={onClose}>

@@ -6,7 +6,7 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { switchTab } from "../../services/ingredientsSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
-import { IModalLocationState, TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types";
 
 declare module 'react' {
   interface FunctionComponent<P = {}> {
@@ -87,7 +87,7 @@ const BurgerIngredients: React.FC = () => {
        `ingredients/${item._id}`,
        { state: { modal: true } }
      );
-  }, []);
+  }, [navigate]);
 
   return (
     <div className={`${styles.burger_ingredients} pt-10`}>

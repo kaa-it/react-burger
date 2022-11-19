@@ -48,7 +48,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [user?.name, user?.email]);
+  }, [user?.name, user?.email, dispatch]);
 
   useEffect(() => {
     if (user) {
@@ -75,7 +75,7 @@ const Profile = () => {
         <span className={styles.link} onClick={handleReset}>
           Отменить
         </span>
-        <Button>Сохранить</Button>
+        <Button htmlType="button">Сохранить</Button>
       </div>
     </form>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {BrowserRouter as Router, Routes, Route, useLocation, useNavigationType, useNavigate} from "react-router-dom";
+import {Routes, Route, useLocation, useNavigationType, useNavigate} from "react-router-dom";
 import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
@@ -41,7 +41,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []);
+  }, [dispatch]);
 
   return (
       //<Router>

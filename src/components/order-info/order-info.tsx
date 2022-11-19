@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./order-info.module.css";
 import { useNavigate, useLocation, useParams, useNavigationType } from "react-router-dom";
-import { IIDParams, IModalLocationState } from "../../utils/types";
+import { IModalLocationState } from "../../utils/types";
 import Modal from "../modal/modal";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/currency-icon";
 import Ingredients from "../ingredients/ingredients";
@@ -28,7 +28,7 @@ const OrderInfo: React.FC = () => {
     if (!orders && id) {
       dispatch(getOrder(id));
     }
-  }, [orders]);
+  }, [orders, dispatch, id]);
 
   if (orders === null) {
     return (
