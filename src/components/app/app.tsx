@@ -20,6 +20,8 @@ import { useAppDispatch, useAppSelector } from "../../services";
 import OrderInfo from "../order-info/order-info";
 import {IModalLocationState} from "../../utils/types";
 import Modal from "../modal/modal";
+import Profile from "../profile/profile";
+import Orders from "../orders/orders";
 
 const App: React.FC = () => {
   const { ingredients, isLoading, hasError } = useAppSelector(
@@ -72,7 +74,14 @@ const App: React.FC = () => {
                 <ProtectedRoute>
                   <ProfilePage />
                 </ProtectedRoute>
-              }/>
+              }>
+                  <Route index element={<Profile/>}/>
+                  <Route path="orders" element={
+                    <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
+                      <Orders />
+                    </div>
+                  }/>
+                </Route>
               <Route path="/feed" element={<OrderFeedPage />}/>
               <Route path="/feed/:id" element={<OrderInfo/>}/>
               {modal && navigationType === "PUSH" && (

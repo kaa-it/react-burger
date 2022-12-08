@@ -1,5 +1,5 @@
 import styles from "./profile.module.css";
-import { NavLink, Navigate, Routes, Route } from "react-router-dom";
+import { NavLink, Navigate, Routes, Route, Outlet } from "react-router-dom";
 import Profile from "../../components/profile/profile";
 import ProtectedRoute from "../../components/protected-route/protected-route";
 import { logout } from "../../services/authSlice";
@@ -51,20 +51,7 @@ const ProfilePage = () => {
         </p>
       </div>
       <div className={styles.right}>
-        <Routes>
-          <Route path="" element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }/>
-          <Route path="orders" element={
-            <ProtectedRoute>
-              <div style={{ width: "100%", height: "100%", paddingTop: "20px" }}>
-                <Orders />
-              </div>
-            </ProtectedRoute>
-          }/>
-        </Routes>
+        <Outlet/>
       </div>
     </div>
   );
