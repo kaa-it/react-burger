@@ -1,3 +1,5 @@
+import * as H from "history";
+
 export type TIngredient = {
   _id: string;
   name: string;
@@ -51,7 +53,7 @@ export type TResetPasswordArgs = {
 };
 
 export interface IModalLocationState {
-  modal?: boolean;
+  background?: H.Location;
 }
 
 export interface IIDParams {

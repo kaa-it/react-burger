@@ -5,9 +5,9 @@ import { useAppSelector } from "../../../services";
 import { IModalLocationState } from "../../../utils/types";
 
 const IngredientDetails: React.FC = () => {
-  const state = useLocation().state as IModalLocationState;
+  const location = useLocation();
 
-  const { modal } = state ? state : { modal: undefined };
+  const state = location.state as IModalLocationState;
 
   const navigationType = useNavigationType();
 
@@ -19,7 +19,7 @@ const IngredientDetails: React.FC = () => {
 
   const content = ingredient ? (
     <div className={styles.ingredient_details}>
-      {(!modal || navigationType !== "PUSH") && (
+      {!state?.background && (
         <p className="text_type_main-large mt-30">Детали ингредиента</p>
       )}
       <img

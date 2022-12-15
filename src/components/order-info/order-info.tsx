@@ -10,9 +10,9 @@ import { getOrder } from "../../services/orders/reducer";
 import { statusInfo } from "../../utils/utils";
 
 const OrderInfo: React.FC = () => {
-  const state = useLocation().state as IModalLocationState;
+  const location = useLocation();
 
-  const { modal } = state ? state : { modal: undefined };
+  const state = location.state as IModalLocationState;
 
   const navigate = useNavigate();
   const navigationType = useNavigationType();
@@ -69,7 +69,7 @@ const OrderInfo: React.FC = () => {
 
   return (
     <>
-      {modal && navigationType === "PUSH" ? (
+      {state?.background ? (
         <Modal onClose={() => navigate(-1)} title={`#${order.number}`}>
           <div className={styles.order_info}>{content}</div>
         </Modal>

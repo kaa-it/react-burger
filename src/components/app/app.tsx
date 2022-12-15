@@ -27,9 +27,9 @@ const App: React.FC = () => {
   );
   const dispatch = useAppDispatch();
 
-  const state = useLocation().state as IModalLocationState;
+  const location = useLocation();
 
-  const { modal } = state ? state : { modal: undefined };
+  const state = location.state as IModalLocationState;
 
   console.log(state);
 
@@ -57,7 +57,8 @@ const App: React.FC = () => {
             </p>
           )}
           {!isLoading && !hasError && ingredients.length && (
-            <Routes>
+            <>
+            <Routes location={state?.background || location}>
               <Route path="/" element={<HomePage/>}/>
               <Route path="/login" element={<LoginPage/>}/>
               <Route path="/register" element={<RegistrationPage />}/>
@@ -75,19 +76,20 @@ const App: React.FC = () => {
               }/>
               <Route path="/feed" element={<OrderFeedPage />}/>
               <Route path="/feed/:id" element={<OrderInfo/>}/>
-              {modal && navigationType === "PUSH" && (
-                  <Route path="/ingredients/:id" element={
-                    <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
-                               <IngredientDetails/>
-                             </Modal>
-                  }/>
-              )}
-
-                  <Route path="/ingredients/:id" element={<IngredientDetails />}/>
-
-
+              <Route path="/ingredients/:id" element={<IngredientDetails />}/>
               <Route element={<NotFound404/>}/>
             </Routes>
+
+            {state?.background && (
+              <Routes>
+                <Route path="/ingredients/:id" element={
+                    <Modal onClose={() => navigate(-1)} title="Детали ингредиента">
+                      <IngredientDetails/>
+                    </Modal>
+                }/>
+              </Routes>
+            )}
+            </>
           )}
         </main>
       </div>
