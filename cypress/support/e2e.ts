@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/index.ts is processed and
+// This example support/e2e.ts is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -13,8 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.ts using ES2015 syntax:
+// Import commands.js using ES2015 syntax:
 import "./commands";
+
+// Alternatively you can use CommonJS syntax:
+// require('./commands')
 
 declare global {
   namespace Cypress {
@@ -23,6 +26,3 @@ declare global {
     }
   }
 }
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')

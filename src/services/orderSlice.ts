@@ -48,7 +48,6 @@ const orderSlice = createSlice({
   reducers: {
     showOrderDetails: (state) => {
       state.isShown = true;
-      state.isLoading = true;
     },
     closeOrderDetails: (state) => {
       state.isShown = false;

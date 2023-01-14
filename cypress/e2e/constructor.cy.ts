@@ -1,5 +1,5 @@
 describe("Constructor", () => {
-  before(() => {
+  beforeEach(() => {
     cy.setLocalStorage("accessToken", "Bearer mock");
     cy.seedAndVisit();
   });
@@ -25,7 +25,7 @@ describe("Constructor", () => {
     cy.get("[data-test='Флюоресцентная булка R2-D3']").trigger("dragstart");
     cy.get("[data-test='constructor_area'").trigger("drop");
     cy.get(
-      "[data-test='Флюоресцентная булка R2-D3'] [class^='counter_counter__num']"
+      "[data-test='Флюоресцентная булка R2-D3'] [class^='counter__num']"
     ).should("have.text", "2");
     cy.get("[data-test='top_bun'] .constructor-element__text").should(
       "have.text",
@@ -38,7 +38,7 @@ describe("Constructor", () => {
     cy.get("[data-test='Соус фирменный Space Sauce']").trigger("dragstart");
     cy.get("[data-test='constructor_area'").trigger("drop");
     cy.get(
-      "[data-test='Соус фирменный Space Sauce'] [class^='counter_counter__num']"
+      "[data-test='Соус фирменный Space Sauce'] [class^='counter__num']"
     ).should("have.text", "1");
     cy.get("[data-test='constructor_ingredients'] > div").should(
       "have.length",
