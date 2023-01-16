@@ -41,7 +41,9 @@ const Modal: React.FC<IModalProps> = ({ title, onClose, children }) => {
               {title}
             </p>
           )}
-          <CloseIcon onClick={onClose} type="primary" />
+          <div data-test="close_button">
+            <CloseIcon onClick={onClose} type="primary" />
+          </div>
         </div>
         {children}
       </div>

@@ -4,11 +4,11 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { switchTab } from "../../services/ingredientsSlice";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { TIngredient } from "../../utils/types";
 
-declare module 'react' {
+declare module "react" {
   interface FunctionComponent<P = {}> {
     (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
   }
@@ -84,15 +84,18 @@ const BurgerIngredients: React.FC = () => {
     }
   };
 
-  const showIngredientDetails = useCallback((item: TIngredient) => {
-     navigate(
-       `ingredients/${item._id}`,
-       { state: { background:  location} }
-     );
-  }, [navigate]);
+  const showIngredientDetails = useCallback(
+    (item: TIngredient) => {
+      navigate(`ingredients/${item._id}`, { state: { background: location } });
+    },
+    [navigate]
+  );
 
   return (
-    <div className={`${styles.burger_ingredients} pt-10`}>
+    <div
+      className={`${styles.burger_ingredients} pt-10`}
+      data-test="ingredients"
+    >
       <p data-test="ingredients_catalog_title" className={styles.title}>
         Соберите бургер
       </p>

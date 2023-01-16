@@ -14,7 +14,11 @@ const ModalOverlay: React.FC<IModalOverlayProps> = ({ onClose, children }) => {
   };
 
   return (
-    <div onClick={handleOverlay} className={styles.overlay}>
+    <div
+      onClick={handleOverlay}
+      className={styles.overlay}
+      data-test="modal_overlay"
+    >
       {children}
     </div>
   );
