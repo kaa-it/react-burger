@@ -5,17 +5,16 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./services";
 import { enableMapSet } from "immer";
-import {BrowserRouter as Route} from "react-router-dom";
+import { HashRouter as Route } from "react-router-dom";
 
 enableMapSet();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <Route>
-            <App />
-        </Route>
-
+      <Route>
+        <App />
+      </Route>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

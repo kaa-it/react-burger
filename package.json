@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://kaa-it.github.io/react-burger",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
@@ -31,7 +32,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress": "cypress open cache clear"
+    "cypress": "cypress open cache clear",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +60,7 @@
     "@types/uuid": "^8.3.1",
     "cypress": "^12.3.0",
     "cypress-localstorage-commands": "^2.2.2",
+    "gh-pages": "^4.0.0",
     "jest-localstorage-mock": "^2.4.18"
   },
   "jest": {
