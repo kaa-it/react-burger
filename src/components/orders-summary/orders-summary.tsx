@@ -11,10 +11,10 @@ const OrderStatusWall: React.FC<IOrderStatusWallProps> = ({
   numbers,
   isDone,
 }) => {
-  const cols = Math.floor(numbers.length / 10) + 1;
-  const array = Array.from(Array(cols).keys());
+  const cols = Math.floor(numbers.length / 5) + 1;
+  const array = Array.from(Array(cols > 2 ? 2 : cols).keys());
   const chunks = numbers.reduce((all: string[][], one, i) => {
-    const ch = Math.floor(i / 10);
+    const ch = Math.floor(i / 5);
     const s: string[] = [];
     all[ch] = s.concat(all[ch] || [], `${one}`);
     return all;
